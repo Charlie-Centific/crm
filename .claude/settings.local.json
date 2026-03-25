@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote:*)",
+      "Bash(git fetch:*)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git)",
+      "Bash(npm --version)",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//Users/carlos.gonzalez/**)",
+      "Bash(echo $PATH)",
+      "Read(//usr/bin/**)",
+      "Bash(brew install:*)",
+      "Bash(/opt/homebrew/bin/node --version)",
+      "Bash(/opt/homebrew/bin/npm --version)",
+      "Bash(/opt/homebrew/bin/npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git)",
+      "Read(//private/tmp/**)",
+      "Bash(/opt/homebrew/bin/npx create-next-app@latest vai-crm --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git)",
+      "Bash(/opt/homebrew/bin/npx create-next-app@latest vai-crm --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --no-turbopack 2)",
+      "Bash(1:*)",
+      "Bash(/opt/homebrew/bin/npx create-next-app@latest vai-crm --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --no-turbopack)",
+      "Bash(/opt/homebrew/bin/npm install:*)",
+      "Bash(/opt/homebrew/bin/npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)"
+    ]
+  }
+}
