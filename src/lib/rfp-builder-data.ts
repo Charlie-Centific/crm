@@ -16,6 +16,7 @@ export interface RFPSection {
   title: string;
   prompt: string;          // The RFP ask this section answers
   mode: SelectionMode;
+  required?: boolean;      // Must have ≥1 selection before BUILD is allowed
   blocks: RFPBlock[];
 }
 
@@ -29,6 +30,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Understanding of Scope & Objectives",
     prompt: "Demonstrate that your team understands the agency's goals, current operational gaps, and what a successful outcome looks like.",
     mode: "single",
+    required: true,
     blocks: [
       {
         id: "scope-standard",
@@ -54,6 +56,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Solution Architecture",
     prompt: "Describe the technical architecture of the proposed solution, how components interact, and how it scales.",
     mode: "single",
+    required: true,
     blocks: [
       {
         id: "arch-overview",
@@ -79,6 +82,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "AI & Decision Support Capabilities",
     prompt: "Describe your AI capabilities, how they reduce operator burden, and how explainability and human oversight are maintained.",
     mode: "single",
+    required: true,
     blocks: [
       {
         id: "ai-overview",
@@ -210,6 +214,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Security & Compliance Posture",
     prompt: "Describe your platform's security certifications, architecture, and approach to protecting sensitive agency data.",
     mode: "single",
+    required: true,
     blocks: [
       {
         id: "security-standard",
@@ -235,6 +240,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Implementation Methodology",
     prompt: "Describe your phased implementation approach, coordination cadence, and how you manage risk during deployment.",
     mode: "single",
+    required: true,
     blocks: [
       {
         id: "impl-overview",
