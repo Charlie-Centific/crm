@@ -26,7 +26,9 @@
       "Bash(/opt/homebrew/bin/npm uninstall:*)",
       "Bash(/opt/homebrew/bin/node -e \":*)",
       "Bash(/opt/homebrew/bin/node scripts/seed-from-excel.mjs)",
-      "Bash(/opt/homebrew/bin/node scripts/migrate-add-owners.mjs)"
+      "Bash(/opt/homebrew/bin/node scripts/migrate-add-owners.mjs)",
+      "Bash(/opt/homebrew/bin/npm list:*)",
+      "Bash(/opt/homebrew/bin/node scripts/seed-from-excel.mjs --file \"data/raw/jordan opps.xlsx\" --owner \"Jordan Ripoll\")"
     ]
   }
 }
