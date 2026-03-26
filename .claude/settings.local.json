@@ -21,7 +21,11 @@
       "Bash(/opt/homebrew/bin/npm install:*)",
       "Bash(/opt/homebrew/bin/npm run:*)",
       "Bash(git add:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(/opt/homebrew/bin/npm uninstall:*)",
+      "Bash(/opt/homebrew/bin/node -e \":*)",
+      "Bash(/opt/homebrew/bin/node scripts/seed-from-excel.mjs)"
     ]
   }
 }

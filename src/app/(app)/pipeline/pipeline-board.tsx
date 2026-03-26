@@ -7,13 +7,13 @@ type Opp = {
   oppId: string;
   oppName: string;
   stage: string | null;
-  value: string | null;
-  closeDate: Date | null;
+  value: number | null;
+  closeDate: string | null;
   leadSource: string | null;
   leadSourceDetail: string | null;
   ownerName: string | null;
   nextAction: string | null;
-  stageChangedAt: Date | null;
+  stageChangedAt: string | null;
   accountId: string;
   accountName: string;
   vertical: string | null;
@@ -23,7 +23,7 @@ type Opp = {
 
 type Stage = { key: string; label: string };
 
-function DaysInStageBadge({ changedAt }: { changedAt: Date | null }) {
+function DaysInStageBadge({ changedAt }: { changedAt: string | null }) {
   const days = daysInStage(changedAt);
   const isStale = days >= 14;
   const isWarning = days >= 7 && days < 14;

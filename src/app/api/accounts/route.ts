@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
         city: accounts.city,
         state: accounts.state,
         website: accounts.website,
-        lastSyncedAt: accounts.lastSyncedAt,
+        lastImportedAt: accounts.lastImportedAt,
         updatedAt: accounts.updatedAt,
       })
       .from(accounts)

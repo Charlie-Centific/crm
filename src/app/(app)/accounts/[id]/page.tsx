@@ -264,9 +264,9 @@ export default async function AccountDetailPage({
                 </div>
               )}
               <div>
-                <dt className="text-gray-400 text-xs">Last synced</dt>
+                <dt className="text-gray-400 text-xs">Last imported</dt>
                 <dd className="text-gray-700 text-xs">
-                  {account.lastSyncedAt ? relativeTime(account.lastSyncedAt) : "Never"}
+                  {account.lastImportedAt ? relativeTime(account.lastImportedAt) : "Never"}
                 </dd>
               </div>
             </dl>

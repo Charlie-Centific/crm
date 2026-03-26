@@ -15,7 +15,7 @@ async function getAccounts() {
       vertical: accounts.vertical,
       city: accounts.city,
       state: accounts.state,
-      lastSyncedAt: accounts.lastSyncedAt,
+      lastImportedAt: accounts.lastImportedAt,
     })
     .from(accounts)
     .orderBy(accounts.name);
@@ -87,8 +87,8 @@ export default async function AccountsPage() {
                     {[account.city, account.state].filter(Boolean).join(", ") || "—"}
                   </td>
                   <td className="px-4 py-3 text-gray-400 text-xs">
-                    {account.lastSyncedAt
-                      ? new Date(account.lastSyncedAt).toLocaleDateString()
+                    {account.lastImportedAt
+                      ? new Date(account.lastImportedAt).toLocaleDateString()
                       : "Never"}
                   </td>
                   <td className="px-4 py-3 text-right">

@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: "/accounts", label: "Accounts" },
   { href: "/workshops", label: "Workshops" },
   { href: "/pilots", label: "Pilots" },
+  { href: "/import", label: "Import" },
 ];
 
 export function Nav() {
