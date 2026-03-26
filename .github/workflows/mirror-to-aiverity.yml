@@ -1,0 +1,24 @@
+name: Mirror → ai-verity/vaisalesUI
+
+on:
+  push:
+    branches:
+      - charlie
+
+jobs:
+  mirror:
+    name: Push to ai-verity/vaisalesUI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # full history so force-push preserves commits
+
+      - name: Push to mirror
+        run: |
+          git remote add mirror https://x-access-token:${{ secrets.AIVERITY_PAT }}@github.com/ai-verity/vaisalesUI.git
+          git push mirror HEAD:main --force
+        env:
+          GIT_TERMINAL_PROMPT: "0"
