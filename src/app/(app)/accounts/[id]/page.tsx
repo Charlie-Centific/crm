@@ -14,6 +14,7 @@ import {
   daysInStage,
 } from "@/lib/utils";
 import { OwnerAvatar } from "@/components/owner-avatar";
+import { getPlaybookByVertical } from "@/lib/playbooks";
 
 async function getAccountDetail(id: string) {
   const [account] = await db
@@ -45,9 +46,10 @@ export default async function AccountDetailPage({
   const data = await getAccountDetail(id);
   if (!data) notFound();
 
-  const { account, contacts: accountContacts, opportunities: accountOpps, activities: recentActivities, workshops: accountWorkshops } = data;
+  const { account, contacts: accountContacts, opportunities: accountOpps, activities: recentActivities, workshops: accountWorkshops, briefs: recentBriefs } = data;
 
   const activeOpp = accountOpps[0];
+  const playbook = getPlaybookByVertical(account.vertical ?? "");
 
   const verticalColors: Record<string, string> = {
     transit: "bg-blue-50 text-blue-700",
@@ -83,13 +85,21 @@ export default async function AccountDetailPage({
               )}
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Link
               href={`/accounts/${account.id}/brief`}
               className="px-3 py-2 bg-brand-600 text-white text-sm rounded-lg hover:bg-brand-700"
             >
               Generate Brief
             </Link>
+            {playbook && (
+              <Link
+                href={`/playbooks/${playbook.slug}`}
+                className="px-3 py-2 bg-white border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50"
+              >
+                {playbook.label} Playbook
+              </Link>
+            )}
             <Link
               href={`/workshops/new?accountId=${account.id}`}
               className="px-3 py-2 bg-white border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50"
@@ -239,6 +249,41 @@ export default async function AccountDetailPage({
                         {new Date(w.scheduledAt).toLocaleDateString()}
                       </p>
                     )}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Pre-call briefs */}
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+              Pre-Call Briefs
+            </h2>
+            {recentBriefs.length === 0 ? (
+              <div>
+                <p className="text-sm text-gray-400 mb-3">No briefs generated yet.</p>
+                <Link
+                  href={`/accounts/${account.id}/brief`}
+                  className="text-xs text-brand-600 hover:underline"
+                >
+                  + Generate a brief
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {recentBriefs.map((b) => (
+                  <Link
+                    key={b.id}
+                    href={`/accounts/${account.id}/brief`}
+                    className="block p-2 rounded-lg border border-gray-100 hover:border-brand-200 hover:bg-brand-50 transition-all"
+                  >
+                    <p className="text-xs font-medium text-gray-700">
+                      {b.generatedAt ? new Date(b.generatedAt).toLocaleDateString() : "Brief"}
+                    </p>
+                    <p className="text-xs text-gray-400 truncate">
+                      {b.content.split("\n").find(l => l.startsWith("##")) ?? "Pre-call brief"}
+                    </p>
                   </Link>
                 ))}
               </div>

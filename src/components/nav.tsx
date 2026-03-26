@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { href: "/pipeline", label: "Pipeline" },
   { href: "/accounts", label: "Accounts" },
+  { href: "/playbooks", label: "Playbooks" },
+  { href: "/demo-scripts", label: "Demo" },
   { href: "/workshops", label: "Workshops" },
   { href: "/pilots", label: "Pilots" },
   { href: "/import", label: "Import" },

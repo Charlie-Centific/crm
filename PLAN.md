@@ -82,29 +82,29 @@
 
 ## Phase 2 — Content & Demo Engine 🔜 NEXT
 
-### Task 2.3 — Pre-Call Brief Generator ← **START HERE**
+### Content Library ✅ (new — built from PDF source docs)
+- [x] `src/content/playbooks/smart-city.md` — discovery questions, demo scenarios, objections, proof points
+- [x] `src/content/playbooks/transit.md` — VerityAI™ SLiM for Transit, 4 pilot focus areas, proven metrics
+- [x] `src/content/playbooks/emergency.md` — Law enforcement + DA personas, pain points, capabilities
+- [x] `src/content/agents/verityai.md` — Full VerityAI platform profile, value shifts, engagement model
+- [x] `src/content/agents/slim.md` — SLiM product profile, demo script, hardware, deployment model
+- [x] `data/raw/` cleared — all source files processed and removed
 
-**Goal:** One click before any call → Claude reads the account and generates a structured brief. No manual prep.
+---
 
-**What's already done:**
-- [x] `pre_call_briefs` table in DB
-- [x] "Generate Brief" button on account detail page (links to `/accounts/[id]/brief`)
+### Task 2.3 — Pre-Call Brief Generator ✅ COMPLETE (template mode, no API key)
 
-**Still to build:**
-- [ ] 2.3.1 `/accounts/[id]/brief` page with "Generate" button
-- [ ] 2.3.2 Prompt template: pulls account name, vertical, stage, contacts, last activity, opp value, close date → Claude
-- [ ] 2.3.3 Streaming response via Claude API (Server-Sent Events)
-- [ ] 2.3.4 Inline edit of generated brief
-- [ ] 2.3.5 Save brief to DB with timestamp
-- [ ] 2.3.6 Brief history on account page (last 5, clickable to re-open)
-- [ ] 2.3.7 Graceful error if `ANTHROPIC_API_KEY` not set
+**Goal:** One click before any call → structured brief assembled from CRM data.
 
-**Acceptance criteria:**
-- Generates in <15s for any account with data
-- Sections: account snapshot, key contacts, current stage + days in stage, open questions, suggested agenda
-- Streams — text appears progressively
-- Edit + save persists
-- Brief history visible on account page
+- [x] 2.3.1 `/accounts/[id]/brief` page
+- [x] 2.3.2 Template engine: account snapshot, contacts, recent activity, stage-aware agenda, vertical-specific discovery questions
+- [x] 2.3.3 No API key required — instant generation from CRM data
+- [x] 2.3.4 Inline edit of generated brief (textarea toggle)
+- [x] 2.3.5 Save brief to DB with timestamp + editedAt tracking
+- [x] 2.3.6 Brief history on account detail page (last 5)
+- [x] 2.3.7 "Copy prompt for Claude.ai" button — generates expanded prompt for manual AI use
+
+**Sections generated:** Account Snapshot · Key Contacts · Recent Activity · Open Questions (vertical-aware) · Suggested Agenda (stage-aware)
 
 ---
 
@@ -118,7 +118,7 @@
 - [ ] 2.1.4 Auto-surface from account page based on vertical
 - [ ] 2.1.5 Manual vertical override on account page
 
-**⚠️ Blocker:** Need content for the 4 playbooks before we can build this. See questions below.
+Content now available in `src/content/playbooks/`. Ready to build.
 
 ---
 
@@ -132,7 +132,7 @@
 - [ ] 2.2.4 Script viewer with step-by-step navigation
 - [ ] 2.2.5 Mark steps complete during live demo (session state, resets on reload)
 
-**⚠️ Blocker:** Need agent type inventory + script content. See questions below.
+Agent profiles now in `src/content/agents/`. VerityAI (platform) + SLiM (entry product). Ready to build.
 
 ---
 
@@ -213,14 +213,9 @@
 
 ## Open questions before we proceed
 
-**For 2.3 (Pre-Call Brief — ready to build now):**
-1. Do you have `ANTHROPIC_API_KEY` ready to add to `.env.local`? That's the only thing blocking this.
+**For 2.3 (Pre-Call Brief):**
+1. **Anthropic API key**: The key lets the app call Claude directly so briefs stream inside the app. Without it, we can build a "template mode" that auto-assembles the account data into a clean structured brief (no AI) — plus a "Copy prompt to Claude.ai" button as the AI path. Both modes work. Do you want to: (a) add the API key and get streaming AI, or (b) build template mode now + API upgrade later?
 
-**For 2.1 (Vertical Playbooks):**
-2. Do you have existing playbook content (slide decks, docs, one-pagers) for any of the 4 verticals, or are we writing from scratch? Even rough bullet points work.
-
-**For 2.2 (Demo Scripts):**
-3. What are the current VAI agent types? From the data I can see VerityAI and SLiM — are there others? And do you have demo script notes or do we structure from scratch?
-
-**Scope question:**
-4. Should we skip 2.1 and 2.2 for now and jump straight to 2.3 → Phase 3 Workshop Builder? The workshop + 90-Day Report is the highest-value piece and doesn't depend on the playbooks.
+**Resolved:**
+- ✅ Playbook content — extracted from PDFs into `src/content/playbooks/`
+- ✅ Agent types — VerityAI (platform) + SLiM (entry product), profiled in `src/content/agents/`
