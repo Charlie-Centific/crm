@@ -19,5 +19,9 @@ tsconfig.tsbuildinfo
 
 # Drizzle
 drizzle/
-data/*.db*
 data/raw/
+
+# SQLite DB is intentionally tracked in version control
+# data/*.db  ← NOT ignored
+data/*.db-shm
+data/*.db-wal
