@@ -21,32 +21,37 @@
   },
   "home": {
     "tagline": "What are you working on?",
-    "subtitle": "Choose a task to get started",
+    "subtitle": "Choose a task — let's get it done",
     "moreTools": "More Tools",
     "footer": "Centific Global Services · Internal Tool",
     "actions": {
       "demo": {
         "label": "Run a Demo",
+        "tagline": "Live guide · talking points · timer",
         "description": "Step-by-step live guide with talking points, presenter notes, and a progress timer.",
         "cta": "Open Demo Script"
       },
       "workshop": {
         "label": "Build a Workshop",
+        "tagline": "Attendees · use cases · export PDF",
         "description": "Capture attendees, prioritize use cases, and export a branded workshop PDF in minutes.",
         "cta": "Start Workshop"
       },
       "rfp": {
         "label": "Draft an RFP",
+        "tagline": "Respond · customize · publish",
         "description": "Select response blocks, customize content, and publish a Centific-branded RFP response.",
         "cta": "Build RFP"
       },
       "assets": {
         "label": "Build an Asset",
+        "tagline": "One-pager · deck · print to PDF",
         "description": "Create client-ready one-pagers, two-pagers, and exec decks as branded HTML — print to PDF in one click.",
         "cta": "Create Asset"
       },
       "intelligence": {
-        "label": "Account Intelligence",
+        "label": "Account Intel",
+        "tagline": "Brief · contacts · activity · LinkedIn",
         "description": "Daily brief, account firmographics, contact profiles, LinkedIn signals, and activity summaries — all in one hub.",
         "cta": "Open Intel Hub"
       }

@@ -14,6 +14,7 @@ import {
   LayoutTemplate,
   Newspaper,
   Calculator,
+  ArrowRight,
 } from "lucide-react";
 
 export default async function Home() {
@@ -23,142 +24,132 @@ export default async function Home() {
     {
       href: "/demo-scripts",
       label: t("actions.demo.label"),
-      description: t("actions.demo.description"),
+      tagline: t("actions.demo.tagline"),
       Icon: MonitorPlay,
-      iconColor: "text-emerald-600",
-      iconBg: "bg-emerald-50 border-emerald-200",
-      cta: t("actions.demo.cta"),
-      ctaColor: "bg-emerald-600 hover:bg-emerald-700",
+      accent: "emerald",
+      accentBar:   "before:bg-emerald-500",
+      iconColor:   "text-emerald-500",
+      hoverBg:     "hover:bg-emerald-50",
+      hoverBorder: "hover:border-emerald-300",
     },
     {
       href: "/workshops",
       label: t("actions.workshop.label"),
-      description: t("actions.workshop.description"),
+      tagline: t("actions.workshop.tagline"),
       Icon: Users,
-      iconColor: "text-brand-600",
-      iconBg: "bg-brand-50 border-brand-200",
-      cta: t("actions.workshop.cta"),
-      ctaColor: "bg-brand-600 hover:bg-brand-700",
+      accent: "brand",
+      accentBar:   "before:bg-brand-500",
+      iconColor:   "text-brand-500",
+      hoverBg:     "hover:bg-brand-50",
+      hoverBorder: "hover:border-brand-300",
     },
     {
       href: "/rfp",
       label: t("actions.rfp.label"),
-      description: t("actions.rfp.description"),
+      tagline: t("actions.rfp.tagline"),
       Icon: FileText,
-      iconColor: "text-indigo-600",
-      iconBg: "bg-indigo-50 border-indigo-200",
-      cta: t("actions.rfp.cta"),
-      ctaColor: "bg-indigo-600 hover:bg-indigo-700",
+      accent: "indigo",
+      accentBar:   "before:bg-indigo-500",
+      iconColor:   "text-indigo-500",
+      hoverBg:     "hover:bg-indigo-50",
+      hoverBorder: "hover:border-indigo-300",
     },
     {
       href: "/assets",
       label: t("actions.assets.label"),
-      description: t("actions.assets.description"),
+      tagline: t("actions.assets.tagline"),
       Icon: LayoutTemplate,
-      iconColor: "text-rose-600",
-      iconBg: "bg-rose-50 border-rose-200",
-      cta: t("actions.assets.cta"),
-      ctaColor: "bg-rose-600 hover:bg-rose-700",
+      accent: "rose",
+      accentBar:   "before:bg-rose-500",
+      iconColor:   "text-rose-500",
+      hoverBg:     "hover:bg-rose-50",
+      hoverBorder: "hover:border-rose-300",
     },
     {
       href: "/intelligence",
       label: t("actions.intelligence.label"),
-      description: t("actions.intelligence.description"),
+      tagline: t("actions.intelligence.tagline"),
       Icon: Newspaper,
-      iconColor: "text-gray-700",
-      iconBg: "bg-gray-100 border-gray-200",
-      cta: t("actions.intelligence.cta"),
-      ctaColor: "bg-gray-800 hover:bg-gray-900",
+      accent: "gray",
+      accentBar:   "before:bg-gray-700",
+      iconColor:   "text-gray-700",
+      hoverBg:     "hover:bg-gray-100",
+      hoverBorder: "hover:border-gray-400",
     },
   ];
 
   const SECONDARY_TOOLS = [
-    { href: "/pipeline",  label: t("tools.pipeline"),  Icon: BarChart3   },
-    { href: "/accounts",  label: t("tools.accounts"),  Icon: Building2   },
-    { href: "/playbooks", label: t("tools.playbooks"), Icon: BookOpen    },
-    { href: "/workflows", label: t("tools.workflows"), Icon: Network     },
-    { href: "/pilots",    label: t("tools.pilots"),    Icon: Activity    },
-    { href: "/pricing",   label: t("tools.pricing"),   Icon: Calculator  },
-    { href: "/import",    label: t("tools.import"),    Icon: Upload      },
+    { href: "/pipeline",  label: t("tools.pipeline"),  Icon: BarChart3  },
+    { href: "/accounts",  label: t("tools.accounts"),  Icon: Building2  },
+    { href: "/playbooks", label: t("tools.playbooks"), Icon: BookOpen   },
+    { href: "/workflows", label: t("tools.workflows"), Icon: Network    },
+    { href: "/pilots",    label: t("tools.pilots"),    Icon: Activity   },
+    { href: "/pricing",   label: t("tools.pricing"),   Icon: Calculator },
+    { href: "/import",    label: t("tools.import"),    Icon: Upload     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-
+    <div className="min-h-screen bg-white flex flex-col">
       <Nav />
 
-      {/* ── Main ────────────────────────────────────────────────────────── */}
-      <main className="flex-1 max-w-4xl mx-auto px-8 py-16 w-full">
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <div className="bg-gradient-to-b from-gray-950 to-gray-900 pt-14 pb-16 px-8 text-center">
+        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4">
+          Centific · VisionAI Sales Platform
+        </p>
+        <h1 className="text-5xl font-black text-white tracking-tight mb-3 leading-none">
+          {t("tagline")}
+        </h1>
+        <p className="text-sm text-gray-400">{t("subtitle")}</p>
+      </div>
 
-        {/* Prompt */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("tagline")}</h1>
-          <p className="text-sm text-gray-400">{t("subtitle")}</p>
-        </div>
+      {/* ── Actions ──────────────────────────────────────────────────────── */}
+      <main className="flex-1 max-w-5xl mx-auto w-full px-8 -mt-6">
 
-        {/* Primary action cards — 3 top + 2 centered bottom */}
-        <div className="mb-14">
-          <div className="grid grid-cols-3 gap-5 mb-5">
-            {PRIMARY_ACTIONS.slice(0, 3).map(({ href, label, description, Icon, iconColor, iconBg, cta, ctaColor }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group flex flex-col bg-white border border-gray-200 rounded-2xl p-7 hover:border-gray-300 hover:shadow-md transition-all"
-              >
-                <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mb-5 flex-shrink-0 ${iconBg}`}>
-                  <Icon size={22} className={iconColor} />
-                </div>
-                <h2 className="text-base font-bold text-gray-900 mb-2 group-hover:text-brand-700 transition-colors">
-                  {label}
-                </h2>
-                <p className="text-sm text-gray-500 leading-relaxed flex-1 mb-6">
-                  {description}
-                </p>
-                <div className={`${ctaColor} text-white text-sm font-semibold px-4 py-2.5 rounded-xl text-center transition-colors`}>
-                  {cta}
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="grid grid-cols-2 gap-5 max-w-[calc(66.666%+10px)] mx-auto">
-            {PRIMARY_ACTIONS.slice(3).map(({ href, label, description, Icon, iconColor, iconBg, cta, ctaColor }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group flex flex-col bg-white border border-gray-200 rounded-2xl p-7 hover:border-gray-300 hover:shadow-md transition-all"
-              >
-              <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mb-5 flex-shrink-0 ${iconBg}`}>
-                <Icon size={22} className={iconColor} />
-              </div>
+        {/* Primary — 5 tiles */}
+        <div className="grid grid-cols-5 gap-3 mb-10">
+          {PRIMARY_ACTIONS.map(({ href, label, tagline, Icon, accentBar, iconColor, hoverBg, hoverBorder }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`group relative flex flex-col bg-white border border-gray-200 rounded-2xl p-5 pt-6 overflow-hidden transition-all duration-150 hover:shadow-lg hover:-translate-y-0.5 ${hoverBg} ${hoverBorder}
+                before:absolute before:top-0 before:left-0 before:right-0 before:h-[3px] before:opacity-0 group-hover:before:opacity-100 before:transition-opacity before:duration-150 ${accentBar}`}
+            >
+              {/* Color bar always visible on hover via before: */}
+              <div className={`absolute top-0 left-0 right-0 h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-150 ${accentBar.replace("before:","")}`} />
 
-              <h2 className="text-base font-bold text-gray-900 mb-2 group-hover:text-brand-700 transition-colors">
+              <Icon size={32} className={`${iconColor} mb-4 flex-shrink-0`} />
+
+              <p className="text-sm font-bold text-gray-900 leading-tight mb-1.5">
                 {label}
-              </h2>
-              <p className="text-sm text-gray-500 leading-relaxed flex-1 mb-6">
-                {description}
+              </p>
+              <p className="text-[11px] text-gray-400 leading-snug flex-1">
+                {tagline}
               </p>
 
-              <div className={`${ctaColor} text-white text-sm font-semibold px-4 py-2.5 rounded-xl text-center transition-colors`}>
-                {cta}
+              <div className="flex items-center justify-end mt-4">
+                <ArrowRight
+                  size={14}
+                  className="text-gray-300 group-hover:text-gray-600 group-hover:translate-x-0.5 transition-all duration-150"
+                />
               </div>
             </Link>
           ))}
-          </div>
         </div>
 
         {/* Secondary tools */}
-        <div>
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center mb-4">
+        <div className="pb-12">
+          <p className="text-[9px] font-bold text-gray-300 uppercase tracking-[0.18em] text-center mb-3">
             {t("moreTools")}
           </p>
-          <div className="flex justify-center gap-2 flex-wrap">
+          <div className="flex justify-center gap-1.5 flex-wrap">
             {SECONDARY_TOOLS.map(({ href, label, Icon }) => (
               <Link
                 key={href}
                 href={href}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm text-gray-500 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:border-gray-300 hover:shadow-sm transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-gray-500 hover:text-gray-900 bg-gray-50 hover:bg-white border border-gray-200 hover:border-gray-300 rounded-lg hover:shadow-sm transition-all"
               >
-                <Icon size={14} className="text-gray-400" />
+                <Icon size={12} className="text-gray-400" />
                 {label}
               </Link>
             ))}
@@ -168,14 +159,13 @@ export default async function Home() {
       </main>
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
-      <footer className="border-t border-gray-200">
-        <div className="max-w-4xl mx-auto px-8 py-5 text-right">
-          <p className="text-xs text-gray-400">
+      <footer className="border-t border-gray-100">
+        <div className="max-w-5xl mx-auto px-8 py-4 text-right">
+          <p className="text-[10px] text-gray-300">
             {t("footer")} · {new Date().getFullYear()}
           </p>
         </div>
       </footer>
-
     </div>
   );
 }

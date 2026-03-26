@@ -27,26 +27,31 @@
     "actions": {
       "demo": {
         "label": "Lancer une Démo",
+        "tagline": "Guide en direct · points clés · minuteur",
         "description": "Guide en direct étape par étape avec points clés, notes du présentateur et minuteur.",
         "cta": "Ouvrir le Script"
       },
       "workshop": {
         "label": "Créer un Atelier",
+        "tagline": "Participants · cas d'usage · export",
         "description": "Enregistrez les participants, priorisez les cas d'usage et exportez un document d'atelier en quelques minutes.",
         "cta": "Démarrer l'Atelier"
       },
       "rfp": {
         "label": "Rédiger un Appel d'Offres",
+        "tagline": "Répondre · personnaliser · publier",
         "description": "Sélectionnez des blocs de réponse, personnalisez le contenu et publiez une réponse à l'appel d'offres aux couleurs de Centific.",
         "cta": "Créer l'Appel d'Offres"
       },
       "assets": {
         "label": "Créer une Ressource",
+        "tagline": "Fiche · deck · exporter en PDF",
         "description": "Créez des supports clients prêts à l'emploi — fiches, présentations et decks dirigeants en HTML, exportables en PDF en un clic.",
         "cta": "Créer la Ressource"
       },
       "intelligence": {
-        "label": "Intelligence Comptes",
+        "label": "Intel Comptes",
+        "tagline": "Briefing · contacts · activité",
         "description": "Briefing quotidien, données firmographiques, profils contacts, signaux LinkedIn et résumés d'activité réunis en un seul hub.",
         "cta": "Ouvrir le Hub"
       }

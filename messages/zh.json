@@ -27,26 +27,31 @@
     "actions": {
       "demo": {
         "label": "运行演示",
+        "tagline": "现场指南 · 要点 · 计时器",
         "description": "逐步现场演示指南，包含演讲要点、演示者备注和计时器。",
         "cta": "打开演示脚本"
       },
       "workshop": {
         "label": "创建研讨会",
+        "tagline": "参与者 · 用例 · 导出",
         "description": "记录参与者、确定用例优先级，并在几分钟内导出品牌研讨会文档。",
         "cta": "开始研讨会"
       },
       "rfp": {
         "label": "起草提案",
+        "tagline": "响应 · 自定义 · 发布",
         "description": "选择响应模块，自定义内容，并发布 Centific 品牌的提案响应。",
         "cta": "创建提案"
       },
       "assets": {
         "label": "创建资产",
+        "tagline": "单页 · 报告 · 导出 PDF",
         "description": "创建客户专属的单页简介、双页文档和高管报告，以 HTML 格式呈现，一键导出为 PDF。",
         "cta": "创建资产"
       },
       "intelligence": {
         "label": "账户情报",
+        "tagline": "简报 · 联系人 · 活动",
         "description": "每日简报、企业信息、联系人档案、LinkedIn 动态及活动摘要，集中于一个情报中心。",
         "cta": "打开情报中心"
       }

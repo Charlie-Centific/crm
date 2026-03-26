@@ -27,26 +27,31 @@
     "actions": {
       "demo": {
         "label": "Ver Demo",
+        "tagline": "Guía en vivo · puntos clave · temporizador",
         "description": "Guía en vivo paso a paso con puntos clave, notas para el presentador y temporizador.",
         "cta": "Abrir Guía de Demo"
       },
       "workshop": {
         "label": "Crear Taller",
+        "tagline": "Asistentes · casos de uso · exportar",
         "description": "Registra asistentes, prioriza casos de uso y exporta un documento de taller en minutos.",
         "cta": "Iniciar Taller"
       },
       "rfp": {
         "label": "Redactar RFP",
+        "tagline": "Responder · personalizar · publicar",
         "description": "Selecciona bloques de respuesta, personaliza el contenido y publica una propuesta con la marca Centific.",
         "cta": "Crear RFP"
       },
       "assets": {
         "label": "Crear Activo",
+        "tagline": "Dossier · deck · exportar PDF",
         "description": "Crea materiales listos para el cliente: dossiers, presentaciones y decks ejecutivos en HTML con exportación a PDF.",
         "cta": "Crear Activo"
       },
       "intelligence": {
-        "label": "Inteligencia de Cuentas",
+        "label": "Intel de Cuentas",
+        "tagline": "Briefing · contactos · actividad",
         "description": "Briefing diario, datos de empresa, perfiles de contacto, señales de LinkedIn y resumen de actividad en un solo hub.",
         "cta": "Abrir Hub"
       }
