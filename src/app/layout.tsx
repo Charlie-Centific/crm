@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VAI CRM",
+  title: "VAI Sales Buddy",
   description: "Centific VAI sales command center",
 };
 

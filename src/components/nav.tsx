@@ -27,7 +27,7 @@ export function Nav() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/vai-icon-64.webp" alt="VAI" className="w-full h-full object-contain" style={{ filter: "brightness(0) invert(1)" }} />
           </div>
-          <span className="font-bold text-gray-900 text-sm tracking-tight">VAI CRM</span>
+          <span className="font-bold text-gray-900 text-sm tracking-tight">VAI Sales Buddy</span>
         </Link>
 
         {NAV_ITEMS.map((item) => (
