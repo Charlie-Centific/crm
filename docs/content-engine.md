@@ -1,6 +1,6 @@
 # Content Engine
 
-The content engine is the collection of modules that power the sales-enablement content in VAI Sales Buddy: playbooks, demo scripts, and pre-call brief generation.
+The content engine is the collection of modules that power the sales-enablement content in VAI Buddy: playbooks, demo scripts, and pre-call brief generation.
 
 ---
 

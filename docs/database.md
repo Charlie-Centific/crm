@@ -1,6 +1,6 @@
 # Database
 
-VAI Sales Buddy uses **SQLite** via [`better-sqlite3`](https://github.com/WiseLibs/better-sqlite3) with **Drizzle ORM** for type-safe queries. The database file lives at `data/vai-crm.db` and is auto-created on first run.
+VAI Buddy uses **SQLite** via [`better-sqlite3`](https://github.com/WiseLibs/better-sqlite3) with **Drizzle ORM** for type-safe queries. The database file lives at `data/vai-crm.db` and is auto-created on first run.
 
 - Schema definition: [src/db/schema.ts](../src/db/schema.ts)
 - ORM client + initialization: [src/db/client.ts](../src/db/client.ts)

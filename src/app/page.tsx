@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { Nav } from "@/components/nav";
 import {
   MonitorPlay,
   Users,
@@ -60,18 +61,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
 
-      {/* ── Header ──────────────────────────────────────────────────────── */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-8 py-4 flex items-center gap-3">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center p-1 flex-shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/vai-icon-64.webp" alt="VAI" className="w-full h-full object-contain" style={{ filter: "brightness(0) invert(1)" }} />
-          </div>
-          <span className="font-bold text-gray-900 text-sm">VAI Sales Buddy</span>
-          <span className="text-gray-300 text-sm">·</span>
-          <span className="text-sm text-gray-400">Centific</span>
-        </div>
-      </header>
+      <Nav />
 
       {/* ── Main ────────────────────────────────────────────────────────── */}
       <main className="flex-1 max-w-4xl mx-auto px-8 py-16 w-full">
@@ -131,14 +121,7 @@ export default async function Home() {
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
       <footer className="border-t border-gray-200">
-        <div className="max-w-4xl mx-auto px-8 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-md bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center p-0.5 flex-shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/vai-icon-64.webp" alt="VAI" className="w-full h-full object-contain" style={{ filter: "brightness(0) invert(1)" }} />
-            </div>
-            <span className="text-sm font-bold text-gray-700">VAI Sales Buddy</span>
-          </div>
+        <div className="max-w-4xl mx-auto px-8 py-5 text-right">
           <p className="text-xs text-gray-400">
             {t("footer")} · {new Date().getFullYear()}
           </p>

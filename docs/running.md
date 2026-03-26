@@ -1,6 +1,6 @@
 # Running the App
 
-Everything needed to develop, test, and deploy VAI Sales Buddy.
+Everything needed to develop, test, and deploy VAI Buddy.
 
 ---
 
