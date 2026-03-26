@@ -64,10 +64,10 @@ function generateRFPHtml(
       return `
       <section id="${s.id}" class="rfp-section">
         <div class="section-header">
-          ${s.ref ? `<span class="section-ref">${s.ref}</span>` : ""}
-          <h2 class="section-title">${s.title}</h2>
+          ${s.ref ? `<span class="section-ref" contenteditable="true">${s.ref}</span>` : ""}
+          <h2 class="section-title" contenteditable="true">${s.title}</h2>
         </div>
-        <div class="section-body">${bodyHtml}</div>
+        <div class="section-body" contenteditable="true">${bodyHtml}</div>
       </section>`;
     })
     .join("\n");
@@ -313,7 +313,76 @@ function generateRFPHtml(
   .doc-footer-logo { font-weight: 800; color: var(--brand); font-size: 13px; }
   .doc-footer-meta { font-size: 11px; color: var(--gray-500); text-align: right; }
 
+  /* ── Editor toolbar ── */
+  .editor-bar {
+    position: sticky; top: 0; z-index: 9999;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-200);
+    box-shadow: 0 1px 10px rgba(0,0,0,0.07);
+  }
+  .editor-bar-inner {
+    max-width: 960px; margin: 0 auto;
+    padding: 10px 80px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .editor-bar-left {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .editor-bar-logo {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: linear-gradient(135deg, #7C3AED, #5B21B6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 900; color: white;
+    flex-shrink: 0;
+  }
+  .editor-bar-brand {
+    font-size: 12px; font-weight: 800; color: var(--brand);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .editor-bar-sep { color: var(--gray-200); margin: 0 2px; }
+  .editor-bar-label {
+    font-size: 12px; color: var(--gray-500); font-weight: 500;
+  }
+  .editor-bar-hint {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #EDE9FE; color: #6D28D9;
+    font-size: 10px; font-weight: 600;
+    padding: 3px 10px; border-radius: 100px;
+    letter-spacing: 0.02em;
+  }
+  .editor-bar-hint::before {
+    content: "✎"; font-size: 11px;
+  }
+  .publish-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: linear-gradient(135deg, #7C3AED, #5B21B6);
+    color: white; font-size: 12px; font-weight: 700;
+    padding: 8px 18px; border-radius: 10px; border: none;
+    cursor: pointer; letter-spacing: 0.02em;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.35);
+    transition: opacity 0.15s, box-shadow 0.15s;
+  }
+  .publish-btn:hover { opacity: 0.92; box-shadow: 0 4px 14px rgba(124,58,237,0.4); }
+  .publish-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ── Editable areas ── */
+  [contenteditable]:hover {
+    outline: 2px dashed #C4B5FD;
+    outline-offset: 4px;
+    border-radius: 4px;
+    cursor: text;
+  }
+  [contenteditable]:focus {
+    outline: 2px solid var(--brand);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
   @media print {
+    .editor-bar { display: none !important; }
+    [contenteditable] { outline: none !important; }
     .cover { page-break-after: always; }
     .toc { page-break-after: always; }
     .rfp-section { page-break-inside: avoid; }
@@ -321,6 +390,27 @@ function generateRFPHtml(
 </style>
 </head>
 <body>
+
+<!-- Editor toolbar -->
+<div class="editor-bar">
+  <div class="editor-bar-inner">
+    <div class="editor-bar-left">
+      <div class="editor-bar-logo">C</div>
+      <div>
+        <span class="editor-bar-brand">Centific</span>
+        <span class="editor-bar-sep">·</span>
+        <span class="editor-bar-label">RFP Editor</span>
+      </div>
+      <span class="editor-bar-hint">Click any text to edit</span>
+    </div>
+    <button class="publish-btn" onclick="window.print()">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
+      </svg>
+      Publish · Save as PDF
+    </button>
+  </div>
+</div>
 
 <!-- Cover -->
 <div class="cover">
@@ -330,17 +420,17 @@ function generateRFPHtml(
   </div>
 
   <div class="cover-body">
-    <div class="cover-badge">Technical Proposal · Confidential</div>
-    <h1 class="cover-title">RFP Response:<br>VAI™ Platform</h1>
-    <p class="cover-subtitle">
+    <div class="cover-badge" contenteditable="true">Technical Proposal · Confidential</div>
+    <h1 class="cover-title" contenteditable="true">RFP Response:<br>VAI™ Platform</h1>
+    <p class="cover-subtitle" contenteditable="true">
       Prepared by Centific — AI-powered transportation and public safety intelligence,
       from detection to decision.
     </p>
     <div class="cover-meta">
-      <div><strong>Prepared by</strong>Centific Global Services</div>
-      <div><strong>Date</strong>${date}</div>
+      <div><strong>Prepared by</strong><span contenteditable="true">Centific Global Services</span></div>
+      <div><strong>Date</strong><span contenteditable="true">${date}</span></div>
       <div><strong>Sections</strong>${chosen.length} included</div>
-      <div><strong>Classification</strong>Confidential &amp; Proprietary</div>
+      <div><strong>Classification</strong><span contenteditable="true">Confidential &amp; Proprietary</span></div>
     </div>
   </div>
 
@@ -434,13 +524,9 @@ export function RFPBuilder() {
       const html = generateRFPHtml(RFP_SECTIONS, selections);
       const blob = new Blob([html], { type: "text/html;charset=utf-8" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `Centific_RFP_Response_${new Date().toISOString().slice(0, 10)}.html`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      window.open(url, "_blank");
+      // Revoke after a delay to allow the new tab to load
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
       setBuilding(false);
     }, 400);
   }
@@ -558,7 +644,7 @@ export function RFPBuilder() {
 
             {canBuild && (
               <p className="text-[10px] text-gray-400 text-center mt-2">
-                Downloads a styled HTML file
+                Opens in a new tab — edit, then publish as PDF
               </p>
             )}
           </div>
