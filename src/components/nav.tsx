@@ -89,9 +89,61 @@ export function Nav() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const PRIMARY_NAV = [
-    { href: "/demo-scripts", label: t("runDemo"),       Icon: MonitorPlay, activeColor: "bg-emerald-50 text-emerald-700", hoverColor: "hover:bg-emerald-50 hover:text-emerald-700" },
-    { href: "/workshops",    label: t("buildWorkshop"), Icon: Users,       activeColor: "bg-brand-50 text-brand-700",     hoverColor: "hover:bg-brand-50 hover:text-brand-700"     },
-    { href: "/rfp",          label: t("draftRfp"),      Icon: FileText,    activeColor: "bg-indigo-50 text-indigo-700",   hoverColor: "hover:bg-indigo-50 hover:text-indigo-700"   },
+    {
+      href: "/demo-scripts",
+      label: t("runDemo"),
+      Icon: MonitorPlay,
+      activeBg:     "bg-emerald-50",
+      activeText:   "text-emerald-700",
+      activeBorder: "border-emerald-300",
+      activeIcon:   "text-emerald-500",
+      hoverBg:      "hover:bg-emerald-50",
+      hoverText:    "hover:text-emerald-700",
+    },
+    {
+      href: "/workshops",
+      label: t("buildWorkshop"),
+      Icon: Users,
+      activeBg:     "bg-brand-50",
+      activeText:   "text-brand-700",
+      activeBorder: "border-brand-300",
+      activeIcon:   "text-brand-500",
+      hoverBg:      "hover:bg-brand-50",
+      hoverText:    "hover:text-brand-700",
+    },
+    {
+      href: "/rfp",
+      label: t("draftRfp"),
+      Icon: FileText,
+      activeBg:     "bg-indigo-50",
+      activeText:   "text-indigo-700",
+      activeBorder: "border-indigo-300",
+      activeIcon:   "text-indigo-500",
+      hoverBg:      "hover:bg-indigo-50",
+      hoverText:    "hover:text-indigo-700",
+    },
+    {
+      href: "/assets",
+      label: t("assets"),
+      Icon: LayoutTemplate,
+      activeBg:     "bg-rose-50",
+      activeText:   "text-rose-700",
+      activeBorder: "border-rose-300",
+      activeIcon:   "text-rose-500",
+      hoverBg:      "hover:bg-rose-50",
+      hoverText:    "hover:text-rose-700",
+    },
+    {
+      href: "/intelligence",
+      label: t("intelligence"),
+      Icon: Newspaper,
+      activeBg:     "bg-gray-100",
+      activeText:   "text-gray-800",
+      activeBorder: "border-gray-400",
+      activeIcon:   "text-gray-600",
+      hoverBg:      "hover:bg-gray-100",
+      hoverText:    "hover:text-gray-800",
+    },
   ];
 
   function switchLocale(value: string) {
@@ -105,7 +157,7 @@ export function Nav() {
     <>
       {/* ── Top bar ─────────────────────────────────────────────────────── */}
       <nav className="border-b border-gray-200 bg-white sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 flex items-center h-14 gap-1">
+        <div className="max-w-7xl mx-auto px-4 flex items-center h-14 gap-0.5">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 mr-4 flex-shrink-0">
@@ -117,18 +169,26 @@ export function Nav() {
           </Link>
 
           {/* Primary actions */}
-          {PRIMARY_NAV.map(({ href, label, Icon, activeColor, hoverColor }) => {
+          {PRIMARY_NAV.map(({ href, label, Icon, activeBg, activeText, activeBorder, activeIcon, hoverBg, hoverText }) => {
             const active = pathname.startsWith(href);
             return (
               <Link
                 key={href}
                 href={href}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all",
-                  active ? activeColor : `text-gray-500 ${hoverColor}`
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-all duration-150",
+                  active
+                    ? `${activeBg} ${activeText} ${activeBorder} shadow-sm`
+                    : `border-transparent text-gray-400 ${hoverBg} ${hoverText} hover:border-gray-200`
                 )}
               >
-                <Icon size={14} />
+                <Icon
+                  size={14}
+                  className={cn(
+                    "transition-colors duration-150",
+                    active ? activeIcon : "text-gray-300"
+                  )}
+                />
                 {label}
               </Link>
             );
