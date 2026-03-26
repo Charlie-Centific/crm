@@ -17,7 +17,7 @@ export interface DemoScript {
 export const DEMO_SCRIPTS: Record<string, DemoScript> = {
   slim: {
     slug: "slim",
-    name: "Verity™ SLiM",
+    name: "VAI SLiM",
     tagline: "Start Small, Scale Smart",
     description:
       "The fastest path to AI-powered city intelligence. One box, 10 data streams, up and running in hours. Use this script for any prospect who hasn't seen SLiM live — leads, discovery, and early demo stages.",
@@ -77,9 +77,9 @@ export const DEMO_SCRIPTS: Record<string, DemoScript> = {
       "\"Your clients already have cameras. They already have sensors. They already collect data. The gap is intelligence — knowing what it means, in real time, and being able to prove it after. SLiM closes that gap.\"",
   },
 
-  verityai: {
-    slug: "verityai",
-    name: "VerityAI™",
+  vai: {
+    slug: "vai",
+    name: "VAI™",
     tagline: "See everything. Investigate anything. Prove it all.",
     description:
       "The full enterprise platform for city and campus intelligence. Use this script for prospects in demo or workshop stage who have already seen SLiM and are evaluating the full platform, or for senior leadership presentations.",
@@ -88,28 +88,28 @@ export const DEMO_SCRIPTS: Record<string, DemoScript> = {
         title: "The confidence statement",
         duration: "2 min",
         talking:
-          "For an operator, the value isn't the technology — it's the confidence. Confidence that nothing slipped through undetected. That every decision is backed by evidence. That when something goes wrong, you already know what happened — and can prove it. That's what VerityAI is for.",
+          "For an operator, the value isn't the technology — it's the confidence. Confidence that nothing slipped through undetected. That every decision is backed by evidence. That when something goes wrong, you already know what happened — and can prove it. That's what VAI is for.",
         notes: "Deliver this slowly. It's the thesis. Every section of the demo connects back to it.",
       },
       {
         title: "Real-time monitoring — always watching",
         duration: "3 min",
         talking:
-          "VerityAI monitors every connected feed around the clock. When something significant happens — anywhere across your infrastructure, transit network, or public safety system — the right person is notified immediately with the footage, sensor data, and context attached. No screen-watching required. Let me show you what that looks like live. [Show real-time feed with active alert.]",
+          "VAI monitors every connected feed around the clock. When something significant happens — anywhere across your infrastructure, transit network, or public safety system — the right person is notified immediately with the footage, sensor data, and context attached. No screen-watching required. Let me show you what that looks like live. [Show real-time feed with active alert.]",
         notes: "Emphasize 'the right person' — routing intelligence matters as much as detection.",
       },
       {
         title: "Investigation — ask anything, search everything",
         duration: "5 min",
         talking:
-          "This is where VerityAI is genuinely different. After an event, investigators ask plain-language questions. VerityAI searches every camera, sensor log, and data source at once. Watch: [Type question relevant to their vertical — 'What happened at [location] between 10pm and midnight last Tuesday?']. No manual footage scrubbing. No cross-referencing spreadsheets. The full picture, assembled automatically, timestamped to the second.",
+          "This is where VAI is genuinely different. After an event, investigators ask plain-language questions. VAI searches every camera, sensor log, and data source at once. Watch: [Type question relevant to their vertical — 'What happened at [location] between 10pm and midnight last Tuesday?']. No manual footage scrubbing. No cross-referencing spreadsheets. The full picture, assembled automatically, timestamped to the second.",
         notes: "Use a real scenario from their vertical or one of the Guidehouse scenarios: hit-and-run, crowd buildup, road closure cascade, utility spike.",
       },
       {
         title: "Accountability — a record that speaks for itself",
         duration: "2 min",
         talking:
-          "When leadership, the public, or a legal team asks what happened, operators need more than memory. VerityAI automatically documents what was detected, what action was taken, and by whom — a structured record that proves your team did the right thing. That audit trail is there from day one, without anyone having to maintain it.",
+          "When leadership, the public, or a legal team asks what happened, operators need more than memory. VAI automatically documents what was detected, what action was taken, and by whom — a structured record that proves your team did the right thing. That audit trail is there from day one, without anyone having to maintain it.",
         notes: "Hit this hard with emergency services and DA prospects. Also lands well with transit agencies under public scrutiny.",
       },
       {
@@ -130,7 +130,7 @@ export const DEMO_SCRIPTS: Record<string, DemoScript> = {
         title: "The path forward",
         duration: "3 min",
         talking:
-          "Here's how we engage. First, a live demo tailored to your environment — that's what you're seeing today. Next, a priorities workshop: a half-day with your operational leaders to align on the highest-value use cases and define what a pilot looks like for your specific data sources. Then a 90-day pilot: connect VerityAI to one department's live feeds, run your actual operations on it, see real outcomes. Guidehouse leads the engagement. We power the platform.",
+          "Here's how we engage. First, a live demo tailored to your environment — that's what you're seeing today. Next, a priorities workshop: a half-day with your operational leaders to align on the highest-value use cases and define what a pilot looks like for your specific data sources. Then a 90-day pilot: connect VAI to one department's live feeds, run your actual operations on it, see real outcomes. Guidehouse leads the engagement. We power the platform.",
         notes: "Close by offering to schedule the priorities workshop, not another demo. Advance the motion.",
       },
     ],

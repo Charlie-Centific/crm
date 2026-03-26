@@ -1,17 +1,17 @@
 import { describe, it, expect } from "vitest";
 import { getDemoScript, ALL_DEMO_SCRIPTS, DEMO_SCRIPTS } from "../demo-scripts";
 
-const EXPECTED_SLUGS = ["slim", "verityai"];
+const EXPECTED_SLUGS = ["slim", "vai"];
 
 describe("ALL_DEMO_SCRIPTS", () => {
   it("has exactly 2 scripts", () => {
     expect(ALL_DEMO_SCRIPTS).toHaveLength(2);
   });
 
-  it("contains slim and verityai", () => {
+  it("contains slim and vai", () => {
     const slugs = ALL_DEMO_SCRIPTS.map((s) => s.slug);
     expect(slugs).toContain("slim");
-    expect(slugs).toContain("verityai");
+    expect(slugs).toContain("vai");
   });
 });
 
@@ -22,10 +22,10 @@ describe("getDemoScript", () => {
     expect(s?.name).toContain("SLiM");
   });
 
-  it("returns the VerityAI script by slug", () => {
-    const s = getDemoScript("verityai");
+  it("returns the VAI script by slug", () => {
+    const s = getDemoScript("vai");
     expect(s).not.toBeNull();
-    expect(s?.name).toContain("VerityAI");
+    expect(s?.name).toContain("VAI");
   });
 
   it("returns null for unknown slug", () => {

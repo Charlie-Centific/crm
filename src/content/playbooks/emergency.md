@@ -1,7 +1,7 @@
 # Emergency Services Playbook
 
 ## Vertical Overview
-VerityAI™ SLiM for Law Enforcement and District Attorneys — multimodal AI that turns fragmented evidence and live feeds into unified, actionable intelligence. Covers: police departments, sheriff's offices, DA offices, emergency coordination.
+VAI™ SLiM for Law Enforcement and District Attorneys — multimodal AI that turns fragmented evidence and live feeds into unified, actionable intelligence. Covers: police departments, sheriff's offices, DA offices, emergency coordination.
 
 ## The Core Problem
 Public safety teams are stretched thin: officers buried in paperwork (nearly half their shift), dispatchers missing critical cues after just 20 minutes of nonstop monitoring, investigators waiting weeks for phone analysis, DA offices buried under evidence they can't process fast enough.

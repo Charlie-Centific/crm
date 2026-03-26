@@ -1,13 +1,13 @@
-# Verity™ SLiM — Agent Profile
+# VAI SLiM — Agent Profile
 
 ## Full Name
-Verity™ SLiM (Start Small, Launch Immediately — or "Start Small, Scale Smart")
+VAI SLiM (Start Small, Launch Immediately — or "Start Small, Scale Smart")
 
 ## Tagline
 "Start Small, Scale Smart" / "Turning urban complexity into decisive action in hours, not months"
 
 ## What It Is
-SLiM is the fastest path to VerityAI™ for any city, agency, or transit operator. It is the entry product built on the full VerityAI™ enterprise platform. Designed to eliminate the barriers that slow down AI adoption: infrastructure overhaul, long procurement cycles, and months-long deployments.
+SLiM is the fastest path to VAI™ for any city, agency, or transit operator. It is the entry product built on the full VAI™ enterprise platform. Designed to eliminate the barriers that slow down AI adoption: infrastructure overhaul, long procurement cycles, and months-long deployments.
 
 One box. Ten data streams. Insights in hours.
 
@@ -29,7 +29,7 @@ Connect any combination of:
 | Phase | Description |
 |---|---|
 | Phase 1 — Quick Start | 3-month pilot. Deploy NVIDIA DGX Spark + up to 10 data streams. Choose ONE focus area. Up and running in hours. |
-| Phase 2 — Convert and Grow | Add data sources and capabilities. Scale from pilot to city-wide / agency-wide on the same VerityAI™ foundation. |
+| Phase 2 — Convert and Grow | Add data sources and capabilities. Scale from pilot to city-wide / agency-wide on the same VAI™ foundation. |
 
 ## Pick ONE Focus Area for Phase 1
 Choosing a narrow pilot focus is the key to a fast win. Suggested focus areas by vertical:
@@ -66,7 +66,7 @@ Choosing a narrow pilot focus is the key to a fast win. Suggested focus areas by
 | Officer admin work | -40% |
 | Case prep time (DA) | -60% |
 
-## Why SLiM Over Full VerityAI™ Enterprise
+## Why SLiM Over Full VAI™ Enterprise
 - No massive infrastructure overhaul
 - No endless procurement cycles
 - Deployment in hours, insights in days

@@ -475,7 +475,7 @@ const transit: Playbook = {
       bridge:
         "VAI correlates sensor, telematics, and video data to forecast failures before service is impacted.",
       capability: "Predictive maintenance",
-      stat: "30% reduction in unplanned maintenance disruptions for agencies using VerityAI.",
+      stat: "30% reduction in unplanned maintenance disruptions for agencies using VAI.",
     },
     {
       id: "platform-incidents",
@@ -584,7 +584,7 @@ const transit: Playbook = {
       category: "Technical",
       question: "Describe your platform's capabilities for real-time video analysis and object detection across transit infrastructure.",
       response:
-        "The VAI VerityAI platform processes live video from transit cameras in real time using computer vision models trained on transit-specific scenarios — platform crowding, fare evasion, unattended objects, and edge risk events. The platform ingests feeds from existing camera infrastructure without requiring hardware replacement, typically integrating within 2–4 weeks. Detection events are surfaced with AI confidence scores and video clips attached, enabling operators to verify and act within seconds of an incident. Processing latency is under 2 seconds per detection event.",
+        "The VAI VAI platform processes live video from transit cameras in real time using computer vision models trained on transit-specific scenarios — platform crowding, fare evasion, unattended objects, and edge risk events. The platform ingests feeds from existing camera infrastructure without requiring hardware replacement, typically integrating within 2–4 weeks. Detection events are surfaced with AI confidence scores and video clips attached, enabling operators to verify and act within seconds of an incident. Processing latency is under 2 seconds per detection event.",
       tips: "Lead with no-hardware-replacement — transit agencies are capital-constrained and can't afford infrastructure overhaul.",
     },
     {
@@ -851,7 +851,7 @@ const emergency: Playbook = {
       category: "Technical",
       question: "Describe your AI capabilities for real-time threat detection and behavioral analysis across multiple simultaneous camera feeds.",
       response:
-        "VAI's VerityAI platform monitors multiple simultaneous video feeds using computer vision models trained specifically on public safety scenarios — behavioral escalation, perimeter intrusion, crowd density thresholds, and prohibited item detection. The platform processes feeds continuously without operator attention gaps and surfaces prioritized alerts with AI confidence scores, video clips, and contextual reasoning within 2 seconds of detection. Alerting is configurable by location, time of day, and detection type, enabling agencies to tune the system to their specific risk profile. All alerts and associated AI reasoning are automatically logged for audit and legal discovery purposes.",
+        "VAI's VAI platform monitors multiple simultaneous video feeds using computer vision models trained specifically on public safety scenarios — behavioral escalation, perimeter intrusion, crowd density thresholds, and prohibited item detection. The platform processes feeds continuously without operator attention gaps and surfaces prioritized alerts with AI confidence scores, video clips, and contextual reasoning within 2 seconds of detection. Alerting is configurable by location, time of day, and detection type, enabling agencies to tune the system to their specific risk profile. All alerts and associated AI reasoning are automatically logged for audit and legal discovery purposes.",
       tips: "Emphasize explainability of every alert — this is critical for DA admissibility and community oversight conversations.",
     },
     {

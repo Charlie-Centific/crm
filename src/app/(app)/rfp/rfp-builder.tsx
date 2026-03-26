@@ -331,7 +331,7 @@ function generateRFPHtml(
 
   <div class="cover-body">
     <div class="cover-badge">Technical Proposal · Confidential</div>
-    <h1 class="cover-title">RFP Response:<br>VerityAI™ Platform</h1>
+    <h1 class="cover-title">RFP Response:<br>VAI™ Platform</h1>
     <p class="cover-subtitle">
       Prepared by Centific — AI-powered transportation and public safety intelligence,
       from detection to decision.
@@ -365,7 +365,7 @@ ${sectionHtml}
   <div class="doc-footer-logo">CENTIFIC</div>
   <div class="doc-footer-meta">
     Confidential and Proprietary · ${date}<br>
-    VerityAI™ is a trademark of Centific Global Services
+    VAI™ is a trademark of Centific Global Services
   </div>
 </div>
 

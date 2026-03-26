@@ -1,13 +1,13 @@
-# VerityAI — Product Profile
+# VAI — Product Profile
 
 ## Full Name
-VerityAI™ (also referred to as VAI or VisionAI)
+VAI™ (also referred to as VAI or VisionAI)
 
 ## Tagline
 "What changes when your city can see everything in real time and investigate anything after."
 
 ## What It Is
-VerityAI is an AI-powered city and campus intelligence platform built by Centific. It connects existing cameras, sensors, and data feeds — giving operators instant awareness of what's happening now, and investigators the ability to reconstruct any event after the fact.
+VAI is an AI-powered city and campus intelligence platform built by Centific. It connects existing cameras, sensors, and data feeds — giving operators instant awareness of what's happening now, and investigators the ability to reconstruct any event after the fact.
 
 It is the enterprise platform. SLiM is the entry product built on top of it.
 

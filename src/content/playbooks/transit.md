@@ -1,7 +1,7 @@
 # Transit Playbook
 
 ## Vertical Overview
-VerityAI™ SLiM for Transit — predictive intelligence for urban mobility: rail, bus, subway, light rail, and airport connectors. Turns the data transit agencies already generate into real-time operational advantage.
+VAI™ SLiM for Transit — predictive intelligence for urban mobility: rail, bus, subway, light rail, and airport connectors. Turns the data transit agencies already generate into real-time operational advantage.
 
 ## The Core Problem
 Transit agencies capture millions of data points daily (platform cameras, IoT sensors, ticket scans, crowd movement, operations logs) but still struggle to anticipate disruptions, prevent breakdowns, and deliver seamless journeys.
@@ -62,7 +62,7 @@ Every AI recommendation includes confidence scores, reasoning, and audit trails 
 - **Deployment**: Hours to actionable intelligence, not months
 - **Compliance**: SOC 2 Type II
 - **Phase 1**: 3-month pilot, one station or one line
-- **Phase 2**: Scale system-wide on same VerityAI™ foundation
+- **Phase 2**: Scale system-wide on same VAI™ foundation
 
 ## What to Connect in a Pilot
 - Platform cameras

@@ -84,9 +84,9 @@
 
 ### Content Library ✅ (new — built from PDF source docs)
 - [x] `src/content/playbooks/smart-city.md` — discovery questions, demo scenarios, objections, proof points
-- [x] `src/content/playbooks/transit.md` — VerityAI™ SLiM for Transit, 4 pilot focus areas, proven metrics
+- [x] `src/content/playbooks/transit.md` — VAI™ SLiM for Transit, 4 pilot focus areas, proven metrics
 - [x] `src/content/playbooks/emergency.md` — Law enforcement + DA personas, pain points, capabilities
-- [x] `src/content/agents/verityai.md` — Full VerityAI platform profile, value shifts, engagement model
+- [x] `src/content/agents/vai.md` — Full VAI platform profile, value shifts, engagement model
 - [x] `src/content/agents/slim.md` — SLiM product profile, demo script, hardware, deployment model
 - [x] `data/raw/` cleared — all source files processed and removed
 
@@ -126,13 +126,13 @@ Content now available in `src/content/playbooks/`. Ready to build.
 
 **Goal:** Step-by-step demo scripts tied to the specific VAI agent being shown.
 
-- [ ] 2.2.1 Inventory agent types (VerityAI, SLiM, others?)
+- [ ] 2.2.1 Inventory agent types (VAI, SLiM, others?)
 - [ ] 2.2.2 Script schema: agent type, steps, talking points, expected questions
 - [ ] 2.2.3 Author scripts per agent type
 - [ ] 2.2.4 Script viewer with step-by-step navigation
 - [ ] 2.2.5 Mark steps complete during live demo (session state, resets on reload)
 
-Agent profiles now in `src/content/agents/`. VerityAI (platform) + SLiM (entry product). Ready to build.
+Agent profiles now in `src/content/agents/`. VAI (platform) + SLiM (entry product). Ready to build.
 
 ---
 
@@ -218,4 +218,4 @@ Agent profiles now in `src/content/agents/`. VerityAI (platform) + SLiM (entry p
 
 **Resolved:**
 - ✅ Playbook content — extracted from PDFs into `src/content/playbooks/`
-- ✅ Agent types — VerityAI (platform) + SLiM (entry product), profiled in `src/content/agents/`
+- ✅ Agent types — VAI (platform) + SLiM (entry product), profiled in `src/content/agents/`
