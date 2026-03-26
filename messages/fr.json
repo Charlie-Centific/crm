@@ -3,6 +3,8 @@
     "runDemo": "Lancer une Démo",
     "buildWorkshop": "Créer un Atelier",
     "draftRfp": "Rédiger un Appel d'Offres",
+    "assets": "Ressources",
+    "intelligence": "Intelligence",
     "moreTools": "Plus d'Outils",
     "backHome": "← Accueil",
     "pipeline": "Pipeline",
@@ -37,6 +39,16 @@
         "label": "Rédiger un Appel d'Offres",
         "description": "Sélectionnez des blocs de réponse, personnalisez le contenu et publiez une réponse à l'appel d'offres aux couleurs de Centific.",
         "cta": "Créer l'Appel d'Offres"
+      },
+      "assets": {
+        "label": "Créer une Ressource",
+        "description": "Créez des supports clients prêts à l'emploi — fiches, présentations et decks dirigeants en HTML, exportables en PDF en un clic.",
+        "cta": "Créer la Ressource"
+      },
+      "intelligence": {
+        "label": "Intelligence Comptes",
+        "description": "Briefing quotidien, données firmographiques, profils contacts, signaux LinkedIn et résumés d'activité réunis en un seul hub.",
+        "cta": "Ouvrir le Hub"
       }
     },
     "tools": {
@@ -45,6 +57,7 @@
       "playbooks": "Playbooks",
       "workflows": "Flux",
       "pilots": "Pilotes",
+      "pricing": "Tarifs",
       "import": "Importer"
     }
   },

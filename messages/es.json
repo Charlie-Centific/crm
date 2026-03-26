@@ -3,6 +3,8 @@
     "runDemo": "Ver Demo",
     "buildWorkshop": "Crear Taller",
     "draftRfp": "Redactar RFP",
+    "assets": "Activos",
+    "intelligence": "Inteligencia",
     "moreTools": "Más Herramientas",
     "backHome": "← Inicio",
     "pipeline": "Pipeline",
@@ -37,6 +39,16 @@
         "label": "Redactar RFP",
         "description": "Selecciona bloques de respuesta, personaliza el contenido y publica una propuesta con la marca Centific.",
         "cta": "Crear RFP"
+      },
+      "assets": {
+        "label": "Crear Activo",
+        "description": "Crea materiales listos para el cliente: dossiers, presentaciones y decks ejecutivos en HTML con exportación a PDF.",
+        "cta": "Crear Activo"
+      },
+      "intelligence": {
+        "label": "Inteligencia de Cuentas",
+        "description": "Briefing diario, datos de empresa, perfiles de contacto, señales de LinkedIn y resumen de actividad en un solo hub.",
+        "cta": "Abrir Hub"
       }
     },
     "tools": {
@@ -45,6 +57,7 @@
       "playbooks": "Playbooks",
       "workflows": "Flujos",
       "pilots": "Pilotos",
+      "pricing": "Precios",
       "import": "Importar"
     }
   },
