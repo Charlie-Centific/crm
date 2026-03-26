@@ -123,6 +123,34 @@ describe("playbook data integrity", () => {
         const ids = p.objections.map((o) => o.id);
         expect(new Set(ids).size).toBe(ids.length);
       });
+
+      it("has exactly 5 RFP items", () => {
+        expect(p.rfp.length).toBe(5);
+      });
+
+      it("every RFP item has required fields and a valid category", () => {
+        const validCategories = ["Technical", "Integration", "Security", "Experience", "Support"];
+        for (const item of p.rfp) {
+          expect(item.id).toBeTruthy();
+          expect(validCategories).toContain(item.category);
+          expect(item.question.length).toBeGreaterThan(20);
+          expect(item.response.length).toBeGreaterThan(100);
+        }
+      });
+
+      it("covers all 5 RFP categories", () => {
+        const cats = new Set(p.rfp.map((i) => i.category));
+        expect(cats.has("Technical")).toBe(true);
+        expect(cats.has("Integration")).toBe(true);
+        expect(cats.has("Security")).toBe(true);
+        expect(cats.has("Experience")).toBe(true);
+        expect(cats.has("Support")).toBe(true);
+      });
+
+      it("all RFP item IDs are unique", () => {
+        const ids = p.rfp.map((i) => i.id);
+        expect(new Set(ids).size).toBe(ids.length);
+      });
     });
   }
 });

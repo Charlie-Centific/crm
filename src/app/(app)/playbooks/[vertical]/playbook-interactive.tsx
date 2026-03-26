@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import type { Playbook, DiscoveryQuestion, PainPoint, Objection, Scenario } from "@/lib/playbook-data";
+import type { Playbook, DiscoveryQuestion, PainPoint, Objection, Scenario, RFPItem } from "@/lib/playbook-data";
 
-type Tab = "discovery" | "pain-points" | "objections" | "scenarios";
+type Tab = "discovery" | "pain-points" | "objections" | "scenarios" | "rfp";
 
 // ─── Branch state for a discovery question ────────────────────────────────────
 type Branch = "hit" | "miss" | null;
@@ -17,6 +17,7 @@ export function PlaybookInteractive({ playbook }: { playbook: Playbook }) {
     { id: "pain-points", label: "Pain Points",  count: playbook.painPoints.length },
     { id: "objections",  label: "Objections",   count: playbook.objections.length },
     { id: "scenarios",   label: "Scenarios",    count: playbook.scenarios.length },
+    { id: "rfp",         label: "RFP",          count: playbook.rfp.length },
   ];
 
   return (
@@ -48,6 +49,7 @@ export function PlaybookInteractive({ playbook }: { playbook: Playbook }) {
       {tab === "pain-points" && <PainPointsTab points={playbook.painPoints} />}
       {tab === "objections"  && <ObjectionsTab objections={playbook.objections} />}
       {tab === "scenarios"   && <ScenariosTab scenarios={playbook.scenarios} />}
+      {tab === "rfp"         && <RFPTab items={playbook.rfp} />}
     </div>
   );
 }
@@ -363,6 +365,104 @@ function ScenariosTab({ scenarios }: { scenarios: Scenario[] }) {
           )}
         </div>
       ))}
+    </div>
+  );
+}
+
+// ─── RFP Tab ──────────────────────────────────────────────────────────────────
+const CATEGORY_STYLES: Record<string, { bg: string; text: string }> = {
+  Technical:   { bg: "bg-blue-100",   text: "text-blue-700" },
+  Integration: { bg: "bg-violet-100", text: "text-violet-700" },
+  Security:    { bg: "bg-red-100",    text: "text-red-700" },
+  Experience:  { bg: "bg-emerald-100",text: "text-emerald-700" },
+  Support:     { bg: "bg-amber-100",  text: "text-amber-700" },
+};
+
+function RFPTab({ items }: { items: RFPItem[] }) {
+  const [open, setOpen] = useState<string | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  function copy(id: string, text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(id);
+      setTimeout(() => setCopied(null), 2000);
+    });
+  }
+
+  return (
+    <div className="space-y-3">
+      <p className="text-xs text-gray-400 px-1">
+        Pre-written responses for common RFP questions. Expand to review, then copy and paste.
+      </p>
+
+      {items.map((item) => {
+        const catStyle = CATEGORY_STYLES[item.category] ?? CATEGORY_STYLES["Technical"];
+        const isOpen = open === item.id;
+        return (
+          <div
+            key={item.id}
+            className={`bg-white border rounded-xl overflow-hidden transition-all ${
+              isOpen ? "border-brand-300 shadow-sm" : "border-gray-200 hover:border-gray-300"
+            }`}
+          >
+            <button
+              className="w-full text-left p-4 flex items-start gap-3"
+              onClick={() => setOpen(isOpen ? null : item.id)}
+            >
+              <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5 ${catStyle.bg} ${catStyle.text}`}>
+                {item.category}
+              </span>
+              <p className="text-sm font-medium text-gray-800 flex-1 leading-snug">{item.question}</p>
+              <svg
+                viewBox="0 0 20 20"
+                className={`w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                fill="currentColor"
+              >
+                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+              </svg>
+            </button>
+
+            {isOpen && (
+              <div className="border-t border-gray-100 px-4 pb-4 pt-3 space-y-3">
+                {/* Response */}
+                <div className="bg-brand-50 border border-brand-200 rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-[10px] font-bold text-brand-600 uppercase tracking-widest">Suggested Response</p>
+                    <button
+                      onClick={() => copy(item.id, item.response)}
+                      className="flex items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-800 transition-colors"
+                    >
+                      {copied === item.id ? (
+                        <>
+                          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 text-emerald-500"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" /></svg>
+                          <span className="text-emerald-600">Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5"><path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z" /><path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z" /></svg>
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-sm text-brand-900 leading-relaxed">{item.response}</p>
+                </div>
+
+                {/* Internal tip */}
+                {item.tips && (
+                  <div className="flex gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                    <span className="text-amber-500 text-xs mt-0.5 flex-shrink-0">⚡</span>
+                    <div>
+                      <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest mb-1">Before sending</p>
+                      <p className="text-xs text-amber-800 leading-relaxed">{item.tips}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

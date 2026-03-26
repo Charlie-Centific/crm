@@ -43,6 +43,14 @@ export interface Scenario {
   punchline: string;        // The so-what
 }
 
+export interface RFPItem {
+  id: string;
+  category: "Technical" | "Integration" | "Security" | "Experience" | "Support";
+  question: string;         // The RFP question as written
+  response: string;         // Ready-to-paste response
+  tips?: string;            // Internal tip for customizing before sending
+}
+
 export interface Playbook {
   slug: string;
   vertical: string;
@@ -54,6 +62,7 @@ export interface Playbook {
   painPoints: PainPoint[];
   objections: Objection[];
   scenarios: Scenario[];
+  rfp: RFPItem[];
 }
 
 // ─── Smart City ───────────────────────────────────────────────────────────────
@@ -307,8 +316,51 @@ const smartCity: Playbook = {
       setup:
         "A significant service outage affected downtown for 3 hours last Tuesday. The director needs a complete account for the city council.",
       walkthrough:
+
         "Without VAI: staff spend two days pulling logs, reviewing footage, interviewing supervisors, and writing a narrative. With VAI: the director types the question. VAI generates a complete incident timeline — every affected camera, every sensor reading, every action taken — automatically. Ready for the briefing, the council meeting, or a legal team.",
       punchline: "From two days of staff time to a complete account in minutes.",
+    },
+  ],
+  rfp: [
+    {
+      id: "sc-technical",
+      category: "Technical",
+      question: "Describe your platform's ability to ingest, correlate, and analyze data from multiple heterogeneous city data sources simultaneously.",
+      response:
+        "The VAI platform is designed as a city-wide intelligence layer that ingests structured and unstructured data from cameras, IoT sensors, 911 systems, traffic management platforms, utility monitoring, and open data feeds simultaneously. Data is normalized, correlated, and surfaced through a unified operational dashboard accessible by authorized personnel across departments. AI models trained on public-sector scenarios detect anomalies, surface trends, and generate automated alerts — reducing the manual effort required to synthesize data across systems that were never designed to talk to each other. All data ingestion is managed through configurable API connectors with no changes required to source systems.",
+      tips: "Ask which specific city systems are in scope before responding — confirm connector availability for their stack.",
+    },
+    {
+      id: "sc-integration",
+      category: "Integration",
+      question: "How does your solution integrate across city departments — public works, transportation, utilities, and public safety — that may have separate technology stacks and different procurement vehicles?",
+      response:
+        "VAI is architected for multi-department deployment. Each department maintains access to its own operational data through existing tools while gaining a unified intelligence view of cross-department data relevant to their function. Role-based access controls ensure departments see only what they are authorized to access, with full audit logging. Integration is additive and department-by-department — cities can start with one or two departments and expand scope incrementally, reducing procurement complexity and allowing each department to validate value before broader rollout. Centific has designed multi-department deployment playbooks specifically for cities beginning with a public safety and operations pairing.",
+      tips: "Multi-department deployments often require separate MOUs or data-sharing agreements between departments — flag this for city IT and legal early in the process.",
+    },
+    {
+      id: "sc-security",
+      category: "Security",
+      question: "How does your platform handle resident data privacy, comply with applicable state and local data protection regulations, and manage consent for data use?",
+      response:
+        "Resident data protection is a core design principle of the VAI platform. The system does not link camera or sensor data to individual resident identities unless explicitly configured and legally authorized under the agency's specific use policy. All data processing is governed by configurable retention policies and deletion schedules aligned to the agency's legal requirements. The platform is SOC 2 Type II certified and compliant with applicable federal and state data privacy frameworks, including CCPA where applicable. Privacy impact assessments are conducted as part of every deployment. For cities subject to algorithmic accountability ordinances, VAI provides full transparency reporting on alert volumes and model performance on request.",
+      tips: "For California cities, confirm whether they are subject to CCPA or any municipal AI-use restrictions before finalizing the security section.",
+    },
+    {
+      id: "sc-experience",
+      category: "Experience",
+      question: "Provide references from municipal deployments of comparable scale, including city size, department scope, and integration complexity.",
+      response:
+        "Centific has deployed VAI solutions in municipal environments ranging from mid-size cities (population 100,000–300,000) to larger metro areas managing multiple districts. Relevant outcomes include: (1) City-wide situational awareness deployment reducing emergency response time by 22% through real-time incident detection across 150+ connected cameras; (2) Cross-department data integration connecting public works, traffic, and public safety into a single intelligence platform — enabling coordinated response to shared infrastructure events; (3) Automated reporting deployment reducing city council and executive report preparation time by 65%. Reference contacts are available for qualified evaluators under NDA.",
+      tips: "Match the reference to the prospect's city size and department scope. Check with Sales Ops for which references are cleared.",
+    },
+    {
+      id: "sc-support",
+      category: "Support",
+      question: "Describe your approach to training and change management for city staff across multiple departments with varying levels of technical sophistication.",
+      response:
+        "Centific's implementation methodology includes a dedicated change management and training phase for every deployment. Training is role-based: operational staff receive hands-on, scenario-based training in workflows specific to their function; department heads receive executive dashboard and KPI reporting setup; IT staff receive technical administration, integration, and support protocol training. All training materials are provided in digital and printable formats and maintained in an agency-specific knowledge base. A Customer Success Manager is assigned for the first 12 months post-deployment, conducting monthly check-ins and quarterly business reviews. Ongoing training for new staff is included in enterprise agreements.",
+      tips: "Cities with high staff turnover value the ongoing new-hire training inclusion — emphasize this when talking to city HR or IT leadership.",
     },
   ],
 };
@@ -524,6 +576,48 @@ const transit: Playbook = {
         "VAI detects the crowd density building at the downtown stations 20 minutes before the rush hits. It surfaces an alert to the dispatch supervisor with a demand forecast: Route 12 and 14 are projected to be over capacity at 6:05pm. The supervisor adds capacity on both routes. Riders experience a busier-than-normal commute — but no crush loads and no delays.",
       punchline:
         "Proactive capacity management before riders feel the impact.",
+    },
+  ],
+  rfp: [
+    {
+      id: "tr-technical",
+      category: "Technical",
+      question: "Describe your platform's capabilities for real-time video analysis and object detection across transit infrastructure.",
+      response:
+        "The VAI VerityAI platform processes live video from transit cameras in real time using computer vision models trained on transit-specific scenarios — platform crowding, fare evasion, unattended objects, and edge risk events. The platform ingests feeds from existing camera infrastructure without requiring hardware replacement, typically integrating within 2–4 weeks. Detection events are surfaced with AI confidence scores and video clips attached, enabling operators to verify and act within seconds of an incident. Processing latency is under 2 seconds per detection event.",
+      tips: "Lead with no-hardware-replacement — transit agencies are capital-constrained and can't afford infrastructure overhaul.",
+    },
+    {
+      id: "tr-integration",
+      category: "Integration",
+      question: "How does your solution integrate with existing transit management and CAD systems, including AVL, ticketing, and scheduling platforms?",
+      response:
+        "VAI integrates via REST APIs and pre-built connectors with leading transit management systems including Trapeze, Clever Devices, Tyler Technologies, and Orbital. Events and alerts generated by the platform can be surfaced directly in existing dispatch consoles, injected into CAD workflows, or pushed to third-party incident management tools via webhook or API. The integration layer is fully configurable — no proprietary hardware or infrastructure replacement is required. Centific has completed transit integrations across heterogeneous environments including agencies with mixed CCTV vendors, multiple CAD generations, and legacy ticketing infrastructure.",
+      tips: "Ask which specific systems they use before submitting — confirm connector availability for the exact stack.",
+    },
+    {
+      id: "tr-security",
+      category: "Security",
+      question: "What security certifications does your platform hold, and how is transit video data — including footage of passengers — handled, stored, and protected?",
+      response:
+        "The VAI platform is SOC 2 Type II certified and supports both SaaS and on-premises deployment for agencies with strict data residency requirements. Video data is encrypted at rest (AES-256) and in transit (TLS 1.2+). Role-based access controls limit who can view, export, or share footage, with full audit logging of all access events. Retention policies are fully configurable per the agency's legal and operational requirements. No passenger biometric data is stored or linked to individual identities unless explicitly configured and authorized by the agency.",
+      tips: "If they flag biometric concerns related to state AI regulations, clarify the default no-biometric-linking posture upfront.",
+    },
+    {
+      id: "tr-experience",
+      category: "Experience",
+      question: "Provide references from transit agencies of comparable scale and describe case studies relevant to this scope.",
+      response:
+        "Centific has deployed the VAI platform with transit authorities ranging from mid-size metro systems to regional multi-modal networks serving populations of 100,000 to over 2 million daily riders. Case studies available upon request include: (1) Platform crowding detection reducing dwell time by 18% at three high-volume stations; (2) Automated fare evasion analytics recovering $1.2M annually in lost revenue and reducing enforcement deployment cost by 35%; (3) Predictive maintenance integration reducing unplanned vehicle outages by 30% in the first six months. Reference contacts are available for qualified evaluators under NDA.",
+      tips: "Request NDA before sharing reference contacts. Check with Sales Ops which references are cleared and available for this prospect.",
+    },
+    {
+      id: "tr-support",
+      category: "Support",
+      question: "Describe your implementation methodology, go-live timeline, and ongoing support and maintenance model.",
+      response:
+        "Implementation follows a four-phase methodology: (1) Discovery & Site Survey (2 weeks) — infrastructure assessment, integration mapping, use case prioritization; (2) Configuration & Integration (4–6 weeks) — platform deployment, API connections, alert threshold configuration; (3) Pilot Validation (4 weeks) — controlled deployment with agency stakeholders, alert tuning, and staff training; (4) Full Go-Live & Handoff — monitored rollout with dedicated customer success support. Ongoing support includes a named Customer Success Manager, 24/7 platform monitoring with 99.9% uptime SLA, quarterly business reviews, and a dedicated support channel with a 4-hour SLA for critical issues.",
+      tips: "Timeline can compress to 8 weeks total for smaller-scope pilots — useful for phased procurement strategies.",
     },
   ],
 };
@@ -749,6 +843,48 @@ const emergency: Playbook = {
       walkthrough:
         "VAI generates draft reports from the body-cam footage for all three incidents automatically — event description, timestamps, persons involved, officer actions. The officer reviews each draft, makes minor edits, and submits. Total time: 12 minutes.",
       punchline: "45 minutes of report writing becomes 12 minutes of review.",
+    },
+  ],
+  rfp: [
+    {
+      id: "em-technical",
+      category: "Technical",
+      question: "Describe your AI capabilities for real-time threat detection and behavioral analysis across multiple simultaneous camera feeds.",
+      response:
+        "VAI's VerityAI platform monitors multiple simultaneous video feeds using computer vision models trained specifically on public safety scenarios — behavioral escalation, perimeter intrusion, crowd density thresholds, and prohibited item detection. The platform processes feeds continuously without operator attention gaps and surfaces prioritized alerts with AI confidence scores, video clips, and contextual reasoning within 2 seconds of detection. Alerting is configurable by location, time of day, and detection type, enabling agencies to tune the system to their specific risk profile. All alerts and associated AI reasoning are automatically logged for audit and legal discovery purposes.",
+      tips: "Emphasize explainability of every alert — this is critical for DA admissibility and community oversight conversations.",
+    },
+    {
+      id: "em-security",
+      category: "Security",
+      question: "How does your platform ensure CJIS compliance and maintain chain of custody for digital evidence used in prosecution?",
+      response:
+        "The VAI platform is built for law enforcement data environments and is SOC 2 Type II certified and compliant with CJIS Security Policy requirements — including access control, audit logging, data encryption, and incident response. Evidence chain of custody is maintained through immutable audit logs that record every evidence access event: who accessed it, when, what action was taken, and from which system. Digital evidence files include cryptographic hash verification to certify integrity from collection through court submission. The platform supports on-premises and private-cloud deployment with no data leaving the agency's environment unless explicitly exported.",
+      tips: "For a detailed CJIS compliance walkthrough, refer the prospect's compliance officer to Centific's technical team — don't try to field specific control questions in the RFP narrative.",
+    },
+    {
+      id: "em-integration",
+      category: "Integration",
+      question: "How does your platform integrate with existing Records Management Systems (RMS), Computer-Aided Dispatch (CAD), and body-worn camera systems?",
+      response:
+        "VAI connects to existing RMS, CAD, and body-worn camera systems via API integrations and pre-built connectors. Supported systems include Axon Evidence, Motorola PremierOne, Tyler New World, Hexagon CAD, and CentralSquare. The platform does not replace existing systems — it adds an intelligence layer: AI-generated report drafts from body camera footage, correlated evidence linking across video, CAD records, and RMS case files, and unified search across all connected data sources. Integration is completed without disruption to existing workflows. Officers continue using the same RMS; VAI reduces the work required to populate it.",
+      tips: "Ask which specific RMS/CAD they use and confirm connector availability before the RFP response goes in.",
+    },
+    {
+      id: "em-experience",
+      category: "Experience",
+      question: "Provide references from law enforcement agencies using your platform for investigations and describe relevant deployment outcomes.",
+      response:
+        "Centific has deployed VAI solutions with law enforcement agencies including police departments, sheriff's offices, and DA offices. Relevant outcomes include: (1) AI-assisted report drafting reducing officer admin time by an average of 40% — returning 2–3 hours per shift to patrol; (2) Digital forensics analysis reducing case evidence review from a 3–4 week lab backlog to same-day turnaround for priority cases; (3) Cross-agency evidence workspace enabling DA offices to reduce case prep time by up to 60%. Reference contacts are available for qualified evaluators under NDA. Centific partners with Guidehouse for public safety implementations requiring federal compliance frameworks.",
+      tips: "Mention the Guidehouse partnership when responding to agencies with federal funding or DOJ oversight requirements.",
+    },
+    {
+      id: "em-support",
+      category: "Support",
+      question: "What is your platform uptime SLA, and describe your business continuity and disaster recovery approach for mission-critical deployments?",
+      response:
+        "Centific provides a 99.9% uptime SLA for mission-critical law enforcement deployments, with a 4-hour response SLA for P1 incidents. The platform supports active-active high-availability configurations with automatic failover, ensuring no single point of failure. Data replication is continuous with an RPO of 15 minutes and RTO of 30 minutes for cloud-hosted deployments. On-premises deployments include local redundancy configurations designed to maintain alerting capability during WAN outages. All incident response actions are logged and provided in post-incident reports. A named Customer Success Manager and 24/7 support line are included in enterprise agreements.",
+      tips: "For agencies requiring sub-15-minute RTO, escalate to Centific engineering for a custom infrastructure design before committing to this in writing.",
     },
   ],
 };
