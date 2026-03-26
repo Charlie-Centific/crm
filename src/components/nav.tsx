@@ -23,8 +23,9 @@ export function Nav() {
       <div className="max-w-7xl mx-auto px-4 flex items-center gap-1 h-14">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 mr-5 flex-shrink-0">
-          <div className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center">
-            <span className="text-white text-[10px] font-black">V</span>
+          <div className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center p-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/vai-icon-64.webp" alt="VAI" className="w-full h-full object-contain" style={{ filter: "brightness(0) invert(1)" }} />
           </div>
           <span className="font-bold text-gray-900 text-sm tracking-tight">VAI CRM</span>
         </Link>

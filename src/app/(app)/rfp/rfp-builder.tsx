@@ -38,7 +38,8 @@ function mdToHtml(text: string): string {
 
 function generateRFPHtml(
   sections: RFPSection[],
-  selections: Selections
+  selections: Selections,
+  iconDataUrl: string
 ): string {
   const date = new Date().toLocaleDateString("en-US", {
     year: "numeric",
@@ -395,7 +396,7 @@ function generateRFPHtml(
 <div class="editor-bar">
   <div class="editor-bar-inner">
     <div class="editor-bar-left">
-      <div class="editor-bar-logo">C</div>
+      <div class="editor-bar-logo"><img src="${iconDataUrl}" alt="VAI" style="width:16px;height:16px;display:block;filter:brightness(0) invert(1);" /></div>
       <div>
         <span class="editor-bar-brand">Centific</span>
         <span class="editor-bar-sep">·</span>
@@ -415,7 +416,7 @@ function generateRFPHtml(
 <!-- Cover -->
 <div class="cover">
   <div class="cover-logo">
-    <div class="cover-logo-mark">C</div>
+    <div class="cover-logo-mark"><img src="${iconDataUrl}" alt="VAI" style="width:28px;height:28px;display:block;filter:brightness(0) invert(1);" /></div>
     <div class="cover-logo-name">Centific</div>
   </div>
 
@@ -517,18 +518,26 @@ export function RFPBuilder() {
     });
   }
 
-  function buildDocument() {
+  async function buildDocument() {
     if (!canBuild) return;
     setBuilding(true);
-    setTimeout(() => {
-      const html = generateRFPHtml(RFP_SECTIONS, selections);
+    try {
+      // Fetch the VAI icon and embed as base64 so the blob HTML is self-contained
+      const resp = await fetch("/brand/vai-icon-512.webp");
+      const buf = await resp.arrayBuffer();
+      const bytes = new Uint8Array(buf);
+      let binary = "";
+      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+      const iconDataUrl = `data:image/webp;base64,${btoa(binary)}`;
+
+      const html = generateRFPHtml(RFP_SECTIONS, selections, iconDataUrl);
       const blob = new Blob([html], { type: "text/html;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       window.open(url, "_blank");
-      // Revoke after a delay to allow the new tab to load
       setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } finally {
       setBuilding(false);
-    }, 400);
+    }
   }
 
   return (
