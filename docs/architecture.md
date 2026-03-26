@@ -1,6 +1,6 @@
 # Architecture Overview
 
-VAI Sales Buddy is a **Next.js 16 App Router** application built as an internal CRM tool for the Centific sales team selling the VAI™ platform. The system is designed for fast iteration with zero infrastructure overhead: SQLite on the server, no auth service, no external APIs required for core functionality.
+VAI Buddy is a **Next.js 16 App Router** application built as an internal CRM tool for the Centific sales team selling the VAI™ platform. The system is designed for fast iteration with zero infrastructure overhead: SQLite on the server, no auth service, no external APIs required for core functionality.
 
 ---
 

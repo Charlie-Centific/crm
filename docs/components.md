@@ -12,7 +12,7 @@ The app uses the **React Server Components** pattern throughout. Server componen
 **File:** [src/components/nav.tsx](../src/components/nav.tsx)
 
 Top sticky navigation bar rendered by the `(app)` layout. Contains:
-- VAI Sales Buddy logo + wordmark
+- VAI Buddy logo + wordmark
 - Links to all 8 app modules: Pipeline, Accounts, Playbooks, Demo, RFP, Workshops, Pilots, Import
 - Active link highlighting (uses `usePathname` from Next.js)
 

@@ -23,6 +23,7 @@ const ROLE_CATEGORY_LABELS: Record<string, string> = {
   "compliance":        "Compliance & Enforcement",
   "records-intel":     "Records & Intelligence",
   "operations":        "Operations Support",
+  "external":          "External & Public",
 };
 
 const CJIS_DESCRIPTIONS: Record<string, string> = {
@@ -103,7 +104,7 @@ export async function GET() {
   const payload = {
     meta: {
       generated:   new Date().toISOString(),
-      source:      "VAI™ Sales Buddy",
+      source:      "VAI™ Buddy",
       version:     "1.0",
       description: "Canonical reference for all VAI™ roles, personas, access levels, and workflows.",
       counts: {

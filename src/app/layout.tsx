@@ -5,7 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 
 export const metadata: Metadata = {
-  title: "VAI Sales Buddy",
+  title: "VAI Buddy",
   description: "Centific VAI sales command center",
 };
 

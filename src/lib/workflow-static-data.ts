@@ -1840,7 +1840,8 @@ export type RoleCategory =
   | "emergency-mgmt"
   | "compliance"
   | "records-intel"
-  | "operations";
+  | "operations"
+  | "external";          // External stakeholders, partners & public
 
 /** Granular access level — replaces the 4-value RBACLevel for canonical roles. */
 export type AccessLevel =
@@ -2474,3 +2475,231 @@ export const ROLES: Role[] = [
 export function getRoleById(id: string): Role | null {
   return ROLES.find((r) => r.id === id) ?? null;
 }
+
+// ── Public Works & Transit Persona Set ────────────────────────────────────────
+// These 11 roles reflect the full stakeholder universe for any
+// DOT / TMC / Traffic Management deployment. All titles are agency-agnostic.
+
+ROLES.push(
+
+  // ── TMC / DOT Internal Staff ───────────────────────────────────────────────
+
+  {
+    id: "its-system-administrator",
+    title: "ITS System Administrator",
+    initials: "IS",
+    category: "traffic-transport",
+    department: "DOT — Information Technology Services",
+    description: "System administrator responsible for the agency's entire Intelligent Transportation Systems infrastructure. Owns platform provisioning, integration configuration (ATMS, ATIS, 511, DMS network), security policy, and system-level access governance across all TMC and field systems.",
+    accessLevel: "command",
+    cjis: "none",
+    responsibilities: [
+      "Provision and manage all system user accounts, roles, and access permissions across ITS platforms",
+      "Configure and maintain integrations between VAI™ and ATMS, ATIS, 511, DMS, and field sensor networks",
+      "Enforce ITS data governance, security policies, and compliance requirements",
+      "Coordinate major platform upgrades and maintenance windows with TMC operations",
+      "Maintain system backup, disaster recovery, and business continuity procedures",
+    ],
+    systemAccess: ["Full System Administration", "User Management Console", "ATMS Configuration", "Integration Management", "Audit Logs", "All Modules"],
+    activatedIn: ["WF-13-WTHR", "WF-14-TRAFQ", "WF-15-PLNCLS", "WF-19-TRAFINC"],
+  },
+
+  {
+    id: "tmc-administrator",
+    title: "TMC Administrator",
+    initials: "TA",
+    category: "traffic-transport",
+    department: "Traffic Management Center — Administration",
+    description: "Operations administrator for the Traffic Management Center who manages platform configuration, user access, DMS message library, and operational policy within the TMC. Acts as the system owner for day-to-day TMC platform settings and workflow configurations.",
+    accessLevel: "supervisor",
+    cjis: "none",
+    responsibilities: [
+      "Manage TMC user accounts, role assignments, and shift access permissions",
+      "Maintain the DMS message library, approval workflows, and pre-approved message templates",
+      "Configure incident response thresholds, alert routing rules, and escalation paths",
+      "Generate operational performance reports for agency leadership and FHWA reporting",
+      "Coordinate platform configuration changes with the ITS System Administrator",
+    ],
+    systemAccess: ["TMC Admin Console", "DMS Management", "User Management", "Analytics & Reports", "Alert Configuration", "Audit Logs"],
+    activatedIn: ["WF-13-WTHR", "WF-14-TRAFQ", "WF-15-PLNCLS", "WF-19-TRAFINC"],
+  },
+
+  {
+    id: "tmc-supervisor",
+    title: "TMC Supervisor / Operations Manager",
+    initials: "TS",
+    category: "traffic-transport",
+    department: "Traffic Management Center — Operations",
+    description: "Operations supervisor or manager overseeing a TMC shift. Approves DMS messages above operator authority, coordinates multi-agency incident response, and serves as the senior operational point of contact during active incidents and emergencies.",
+    accessLevel: "supervisor",
+    cjis: "none",
+    responsibilities: [
+      "Approve DMS messages and diversions requiring supervisor-level authorization",
+      "Coordinate multi-agency incident response between highway patrol, EMS, and transit agencies",
+      "Manage TMC operator staffing, shift coverage, and real-time workload distribution",
+      "Provide situation reports to district office and emergency management during major events",
+      "Authorize lane closures, contraflow activations, and alternate-route diversion plans",
+    ],
+    systemAccess: ["VAI Dashboard", "DMS Control Panel", "Incident Management", "Unit Tracking", "Analytics & Reports", "Alert Management"],
+    activatedIn: ["WF-13-WTHR", "WF-14-TRAFQ", "WF-15-PLNCLS", "WF-16-CRITINC", "WF-19-TRAFINC"],
+  },
+
+  {
+    id: "tmc-senior-operator",
+    title: "TMC Senior Operator",
+    initials: "SO",
+    category: "traffic-transport",
+    department: "Traffic Management Center — Operations",
+    description: "Experienced TMC operator with expanded publishing authority and peer-mentorship responsibilities. Manages complex multi-incident scenarios, publishes DMS messages within elevated authority limits, and supports junior operators during high-demand periods.",
+    accessLevel: "operator",
+    cjis: "none",
+    responsibilities: [
+      "Monitor and manage multiple concurrent traffic incidents with full situational awareness",
+      "Publish DMS messages within senior-operator authority limits without supervisor pre-approval",
+      "Mentor and support TMC Operators on incident procedures and platform use",
+      "Coordinate directly with highway patrol dispatchers on freeway incidents and diversions",
+      "Escalate to supervisor when incidents exceed defined authority thresholds",
+    ],
+    systemAccess: ["VAI Dashboard", "DMS Control Panel", "Incident Management", "ATMS Feed", "Unit Tracking", "Analytics & Reports"],
+    activatedIn: ["WF-13-WTHR", "WF-14-TRAFQ", "WF-15-PLNCLS", "WF-19-TRAFINC"],
+  },
+
+  {
+    id: "tmc-operator",
+    title: "TMC Operator",
+    initials: "TO",
+    category: "traffic-transport",
+    department: "Traffic Management Center — Operations",
+    description: "Front-line TMC operator monitoring real-time traffic conditions, processing AI-generated alerts, and publishing DMS advisories within defined authority. The primary day-to-day user of the VAI™ traffic intelligence platform on shift.",
+    accessLevel: "operator",
+    cjis: "none",
+    responsibilities: [
+      "Monitor real-time traffic feeds and respond to AI-generated incident and anomaly alerts",
+      "Publish DMS messages within operator authority, escalating to Senior Operator when required",
+      "Log all incidents and DMS activations accurately for shift reporting and FHWA compliance",
+      "Coordinate with highway patrol dispatch on incident verification and initial response",
+      "Notify TMC Senior Operator or Supervisor when an incident exceeds standard protocols",
+    ],
+    systemAccess: ["VAI Dashboard", "DMS Control Panel", "Incident Management", "ATMS Feed", "Alert Management"],
+    activatedIn: ["WF-13-WTHR", "WF-14-TRAFQ", "WF-15-PLNCLS", "WF-19-TRAFINC"],
+  },
+
+  {
+    id: "dot-non-tmc-staff",
+    title: "Transportation Agency Staff (Non-TMC)",
+    initials: "NS",
+    category: "traffic-transport",
+    department: "DOT — District / Planning / Maintenance",
+    description: "DOT staff outside the TMC — including district engineers, maintenance crews, planning analysts, and administrative staff — who have read-only visibility into traffic conditions, incident history, and operational reports relevant to their work.",
+    accessLevel: "viewer",
+    cjis: "none",
+    responsibilities: [
+      "Review traffic incident reports and planned closure notifications for project planning",
+      "Access analytics dashboards for safety studies, grant reporting, and performance metrics",
+      "Receive DMS activation summaries to coordinate maintenance crew schedules and work zones",
+      "Monitor active work zone safety conditions and incident proximity during construction",
+    ],
+    systemAccess: ["VAI Dashboard (read)", "Analytics & Reports", "Incident History", "DMS Status (read)", "Planned Closures (read)"],
+    activatedIn: ["WF-15-PLNCLS", "WF-20-CMPRPT"],
+  },
+
+  {
+    id: "ots-administrator",
+    title: "OTS Administrator",
+    initials: "OA",
+    category: "compliance",
+    department: "Office of Transportation Safety",
+    description: "System administrator for the Office of Transportation Safety managing OTS platform access, safety data integrations, and compliance reporting workflows. Coordinates with the DOT ITS team on data sharing agreements and safety performance reporting.",
+    accessLevel: "supervisor",
+    cjis: "none",
+    responsibilities: [
+      "Manage OTS staff access permissions within the safety reporting and analytics module",
+      "Configure safety data integrations between VAI™ and OTS reporting systems",
+      "Generate crash reduction and safety performance reports for federal compliance and HSIP",
+      "Coordinate safety camera access and incident data sharing with the TMC",
+      "Maintain data governance documentation for safety data sharing agreements",
+    ],
+    systemAccess: ["OTS Admin Console", "Safety Reports", "Analytics & Reports", "Audit Logs", "Data Integration Settings"],
+    activatedIn: ["WF-19-TRAFINC", "WF-20-CMPRPT"],
+  },
+
+  // ── External Stakeholders ──────────────────────────────────────────────────
+
+  {
+    id: "governmental-agency-partners",
+    title: "Governmental Agency Partners",
+    initials: "GA",
+    category: "external",
+    department: "External Government Agencies",
+    description: "Representatives from partner government agencies — including federal (FHWA, FTA), state police, municipal transportation departments, transit authorities, and port authorities — with controlled read access to traffic conditions and incident data relevant to their jurisdiction or operations.",
+    accessLevel: "viewer",
+    cjis: "none",
+    responsibilities: [
+      "Monitor real-time traffic and incident conditions affecting their jurisdiction",
+      "Receive incident notifications for events requiring multi-agency coordination or response",
+      "Access the shared situational awareness dashboard during declared emergencies",
+      "Provide agency-specific field updates to the TMC during joint operations",
+    ],
+    systemAccess: ["Shared Situational Awareness Dashboard (read)", "Incident Feed (read)", "Alert Notifications", "Analytics & Reports (read)"],
+    activatedIn: ["WF-13-WTHR", "WF-16-CRITINC", "WF-17-MLTCOM"],
+  },
+
+  {
+    id: "first-responders",
+    title: "First Responders",
+    initials: "FR",
+    category: "field-ops",
+    department: "Law Enforcement / Fire / EMS",
+    description: "Law enforcement officers, firefighters, and EMS personnel responding to traffic incidents, crashes, and roadway emergencies. Receive AI-generated incident alerts from the TMC and provide real-time scene updates that feed back into the traffic management picture.",
+    accessLevel: "responder",
+    cjis: "full",
+    responsibilities: [
+      "Respond to TMC-issued incident alerts and AI-confirmed crash or hazard notifications",
+      "Provide live scene assessment and lane-status updates to TMC operators via radio or MDT",
+      "Coordinate traffic control, scene management, and clearance timeline with the TMC",
+      "Request DMS diversion route activation or update from TMC based on scene conditions",
+      "Confirm scene clearance to TMC to trigger all-clear DMS and normal operations restoration",
+    ],
+    systemAccess: ["VAI Mobile App", "Incident Management (write)", "Unit Tracking", "Alert Notifications"],
+    activatedIn: ["WF-13-WTHR", "WF-16-CRITINC", "WF-19-TRAFINC"],
+  },
+
+  {
+    id: "media-partners",
+    title: "Media Partners",
+    initials: "MP",
+    category: "external",
+    department: "News Media & Public Broadcasting",
+    description: "Credentialed media organizations — TV, radio, and digital news outlets — with authorized access to structured traffic incident data feeds and DMS content for public broadcast. Extend the TMC's public communication reach, especially during major incidents and emergencies.",
+    accessLevel: "viewer",
+    cjis: "none",
+    responsibilities: [
+      "Receive authorized traffic incident summaries and DMS activation data for on-air broadcast",
+      "Access non-sensitive public incident feeds to support traffic reporting segments",
+      "Coordinate with the TMC Public Information Officer on joint messaging during major events",
+      "Broadcast TMC-approved emergency alerts to amplify public notification reach and compliance",
+    ],
+    systemAccess: ["Public Data Feed (read)", "DMS Content Feed (read)", "Public Incident Summary (read)"],
+    activatedIn: ["WF-13-WTHR", "WF-16-CRITINC", "WF-17-MLTCOM"],
+  },
+
+  {
+    id: "general-public",
+    title: "General Public",
+    initials: "GP",
+    category: "external",
+    department: "Citizens & Travelers",
+    description: "Members of the public who interact with VAI™ outputs through public-facing channels: 511 traveler information, dynamic message signs, navigation app integrations, and Wireless Emergency Alerts. Not direct platform users — the ultimate beneficiaries of the entire system.",
+    accessLevel: "viewer",
+    cjis: "none",
+    responsibilities: [
+      "Receive real-time travel advisories via 511, DMS, and navigation app integrations",
+      "Act on DMS diversion instructions during incident, closure, and weather events",
+      "Access VAI-powered public traffic camera feeds and travel time estimates via traveler portal",
+      "Receive Wireless Emergency Alerts during critical incidents or major weather events",
+    ],
+    systemAccess: ["511 Traveler Information (public)", "DMS Network (public display)", "Public Traffic Camera Portal", "Wireless Emergency Alerts"],
+    activatedIn: ["WF-13-WTHR", "WF-14-TRAFQ", "WF-15-PLNCLS", "WF-16-CRITINC", "WF-19-TRAFINC"],
+  },
+
+);

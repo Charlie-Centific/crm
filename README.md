@@ -1,6 +1,6 @@
-# VAI Sales Buddy
+# VAI Buddy
 
-An internal CRM and sales enablement tool for the Centific sales team selling the **VAI™** (Vision AI) platform — real-time AI intelligence for cities, transit agencies, utilities, and emergency services.
+An internal CRM and enablement tool for the Centific team selling the **VAI™** (Vision AI) platform — real-time AI intelligence for cities, transit agencies, utilities, and emergency services.
 
 Built with Next.js 16 + SQLite. No external database, no auth service, no infrastructure required. Just `npm install && npm run dev`.
 
