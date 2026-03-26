@@ -18,20 +18,25 @@ export function Nav() {
   const pathname = usePathname();
 
   return (
-    <nav className="border-b border-gray-200 bg-white">
-      <div className="max-w-7xl mx-auto px-4 flex items-center gap-6 h-14">
-        <Link href="/" className="font-bold text-gray-900 mr-4">
-          VAI CRM
+    <nav className="border-b border-gray-200 bg-white sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto px-4 flex items-center gap-1 h-14">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 mr-5 flex-shrink-0">
+          <div className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center">
+            <span className="text-white text-[10px] font-black">V</span>
+          </div>
+          <span className="font-bold text-gray-900 text-sm tracking-tight">VAI CRM</span>
         </Link>
+
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className={cn(
-              "text-sm font-medium transition-colors",
+              "px-3 py-1.5 rounded-lg text-sm font-medium transition-all",
               pathname.startsWith(item.href)
-                ? "text-brand-600 border-b-2 border-brand-600 pb-[1px]"
-                : "text-gray-500 hover:text-gray-900"
+                ? "bg-brand-50 text-brand-700"
+                : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
             )}
           >
             {item.label}

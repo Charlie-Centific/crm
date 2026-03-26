@@ -1,10 +1,16 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import { getPlaybookContent, getPlaybookByVertical, PLAYBOOK_META } from "@/lib/playbooks";
+import { getPlaybook, ALL_PLAYBOOKS } from "@/lib/playbook-data";
+import { PlaybookInteractive } from "./playbook-interactive";
+
+const VERTICAL_COLORS: Record<string, { gradient: string; badge: string }> = {
+  "smart-city": { gradient: "from-violet-700 via-purple-700 to-purple-900", badge: "bg-violet-500/30 text-violet-100" },
+  transit:      { gradient: "from-blue-700 via-indigo-700 to-indigo-900",   badge: "bg-blue-500/30 text-blue-100" },
+  emergency:    { gradient: "from-orange-600 via-red-700 to-red-900",       badge: "bg-orange-500/30 text-orange-100" },
+};
 
 export function generateStaticParams() {
-  return PLAYBOOK_META.map((p) => ({ vertical: p.slug }));
+  return ALL_PLAYBOOKS.map((p) => ({ vertical: p.slug }));
 }
 
 export default async function PlaybookDetailPage({
@@ -13,48 +19,45 @@ export default async function PlaybookDetailPage({
   params: Promise<{ vertical: string }>;
 }) {
   const { vertical } = await params;
-  const meta = PLAYBOOK_META.find((p) => p.slug === vertical);
-  if (!meta) notFound();
+  const playbook = getPlaybook(vertical);
+  if (!playbook) notFound();
 
-  const content = getPlaybookContent(vertical);
-  if (!content) notFound();
+  const colors = VERTICAL_COLORS[vertical] ?? VERTICAL_COLORS["smart-city"];
 
   return (
-    <div className="max-w-3xl">
-      <div className="mb-6">
-        <Link href="/playbooks" className="text-sm text-gray-400 hover:text-gray-600 mb-2 block">
-          ← Playbooks
-        </Link>
-        <h1 className="text-2xl font-bold text-gray-900">{meta.label} Playbook</h1>
-        <p className="text-sm text-gray-500 mt-1">{meta.description}</p>
-      </div>
+    <div className="max-w-2xl">
+      {/* Back */}
+      <Link href="/playbooks" className="text-sm text-gray-400 hover:text-gray-600 mb-4 block">
+        ← Playbooks
+      </Link>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6">
-        <div className="prose prose-sm prose-gray max-w-none
-          prose-headings:font-semibold
-          prose-h1:text-xl prose-h1:mb-4
-          prose-h2:text-base prose-h2:mt-6 prose-h2:mb-3
-          prose-h3:text-sm prose-h3:mt-4 prose-h3:mb-2
-          prose-p:text-gray-600 prose-p:leading-relaxed
-          prose-li:text-gray-600
-          prose-strong:text-gray-800
-          prose-table:text-sm
-          prose-th:bg-gray-50 prose-th:text-gray-700 prose-th:font-semibold
-          prose-td:text-gray-600
-          prose-blockquote:border-brand-300 prose-blockquote:text-gray-600
-        ">
-          <ReactMarkdown>{content}</ReactMarkdown>
+      {/* Hero card */}
+      <div className={`bg-gradient-to-br ${colors.gradient} rounded-2xl p-6 mb-5 text-white`}>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 mb-1">Vertical Playbook</p>
+            <h1 className="text-2xl font-bold leading-tight">{playbook.label}</h1>
+            <p className="text-white/70 text-sm mt-1 font-medium">{playbook.tagline}</p>
+          </div>
+        </div>
+        <p className="text-white/80 text-sm mt-4 leading-relaxed">{playbook.overview}</p>
+        <div className="mt-4 flex items-center gap-2">
+          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Buyers:</span>
+          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${colors.badge}`}>
+            {playbook.buyer}
+          </span>
         </div>
       </div>
 
-      {/* Quick link to matching demo script */}
-      <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-between">
-        <p className="text-sm text-gray-600">
-          Ready for the demo? Pull up the step-by-step demo script.
-        </p>
+      {/* Interactive playbook */}
+      <PlaybookInteractive playbook={playbook} />
+
+      {/* Footer CTA */}
+      <div className="mt-6 flex items-center justify-between px-1">
+        <p className="text-xs text-gray-400">Ready to show the platform?</p>
         <Link
           href="/demo-scripts"
-          className="text-sm font-medium text-brand-600 hover:text-brand-700 ml-4 flex-shrink-0"
+          className="text-sm font-semibold text-brand-600 hover:text-brand-700"
         >
           Demo Scripts →
         </Link>

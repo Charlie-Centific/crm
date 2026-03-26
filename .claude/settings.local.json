@@ -28,7 +28,15 @@
       "Bash(/opt/homebrew/bin/node scripts/seed-from-excel.mjs)",
       "Bash(/opt/homebrew/bin/node scripts/migrate-add-owners.mjs)",
       "Bash(/opt/homebrew/bin/npm list:*)",
-      "Bash(/opt/homebrew/bin/node scripts/seed-from-excel.mjs --file \"data/raw/jordan opps.xlsx\" --owner \"Jordan Ripoll\")"
+      "Bash(/opt/homebrew/bin/node scripts/seed-from-excel.mjs --file \"data/raw/jordan opps.xlsx\" --owner \"Jordan Ripoll\")",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(grep -r \"typography\" /Users/carlos.gonzalez/Desktop/Centific/sandbox/vscode/claude/vai/package.json /Users/carlos.gonzalez/Desktop/Centific/sandbox/vscode/claude/vai/tailwind.config.*)",
+      "Bash(ls /Users/carlos.gonzalez/Desktop/Centific/sandbox/vscode/claude/vai/tailwind.config*)",
+      "Bash(git push:*)",
+      "Bash(gh auth:*)",
+      "Bash(ssh -T git@github.com)",
+      "WebFetch(domain:centific.com)"
     ]
   }
 }
