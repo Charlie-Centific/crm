@@ -23,6 +23,9 @@ import {
   Plug,
   Settings,
   TrendingUp,
+  LayoutTemplate,
+  Newspaper,
+  Calculator,
 } from "lucide-react";
 
 // ─── Nav structure ────────────────────────────────────────────────────────────
@@ -31,9 +34,10 @@ const SECONDARY_GROUPS = [
   {
     label: "Intelligence",
     items: [
-      { href: "/kpi",          label: "KPI & Metrics", Icon: TrendingUp },
-      { href: "/pipeline",     label: "Pipeline",      Icon: BarChart3  },
-      { href: "/rfp/sources",  label: "RFP Sources",   Icon: Plug       },
+      { href: "/intelligence", label: "Account Intel",  Icon: Newspaper   },
+      { href: "/kpi",          label: "KPI & Metrics",  Icon: TrendingUp  },
+      { href: "/pipeline",     label: "Pipeline",       Icon: BarChart3   },
+      { href: "/rfp/sources",  label: "RFP Sources",    Icon: Plug        },
     ],
   },
   {
@@ -46,8 +50,10 @@ const SECONDARY_GROUPS = [
   {
     label: "Content",
     items: [
-      { href: "/playbooks", label: "Playbooks", Icon: BookOpen },
-      { href: "/workflows", label: "Workflows", Icon: Network  },
+      { href: "/assets",    label: "Assets",    Icon: LayoutTemplate },
+      { href: "/pricing",   label: "Pricing",   Icon: Calculator     },
+      { href: "/playbooks", label: "Playbooks", Icon: BookOpen       },
+      { href: "/workflows", label: "Workflows", Icon: Network        },
     ],
   },
   {

@@ -11,6 +11,9 @@ import {
   Network,
   Activity,
   Upload,
+  LayoutTemplate,
+  Newspaper,
+  Calculator,
 } from "lucide-react";
 
 export default async function Home() {
@@ -47,15 +50,36 @@ export default async function Home() {
       cta: t("actions.rfp.cta"),
       ctaColor: "bg-indigo-600 hover:bg-indigo-700",
     },
+    {
+      href: "/assets",
+      label: t("actions.assets.label"),
+      description: t("actions.assets.description"),
+      Icon: LayoutTemplate,
+      iconColor: "text-rose-600",
+      iconBg: "bg-rose-50 border-rose-200",
+      cta: t("actions.assets.cta"),
+      ctaColor: "bg-rose-600 hover:bg-rose-700",
+    },
+    {
+      href: "/intelligence",
+      label: t("actions.intelligence.label"),
+      description: t("actions.intelligence.description"),
+      Icon: Newspaper,
+      iconColor: "text-gray-700",
+      iconBg: "bg-gray-100 border-gray-200",
+      cta: t("actions.intelligence.cta"),
+      ctaColor: "bg-gray-800 hover:bg-gray-900",
+    },
   ];
 
   const SECONDARY_TOOLS = [
-    { href: "/pipeline",  label: t("tools.pipeline"),  Icon: BarChart3 },
-    { href: "/accounts",  label: t("tools.accounts"),  Icon: Building2 },
-    { href: "/playbooks", label: t("tools.playbooks"), Icon: BookOpen  },
-    { href: "/workflows", label: t("tools.workflows"), Icon: Network   },
-    { href: "/pilots",    label: t("tools.pilots"),    Icon: Activity  },
-    { href: "/import",    label: t("tools.import"),    Icon: Upload    },
+    { href: "/pipeline",  label: t("tools.pipeline"),  Icon: BarChart3   },
+    { href: "/accounts",  label: t("tools.accounts"),  Icon: Building2   },
+    { href: "/playbooks", label: t("tools.playbooks"), Icon: BookOpen    },
+    { href: "/workflows", label: t("tools.workflows"), Icon: Network     },
+    { href: "/pilots",    label: t("tools.pilots"),    Icon: Activity    },
+    { href: "/pricing",   label: t("tools.pricing"),   Icon: Calculator  },
+    { href: "/import",    label: t("tools.import"),    Icon: Upload      },
   ];
 
   return (
@@ -72,14 +96,37 @@ export default async function Home() {
           <p className="text-sm text-gray-400">{t("subtitle")}</p>
         </div>
 
-        {/* Primary action cards */}
-        <div className="grid grid-cols-3 gap-5 mb-14">
-          {PRIMARY_ACTIONS.map(({ href, label, description, Icon, iconColor, iconBg, cta, ctaColor }) => (
-            <Link
-              key={href}
-              href={href}
-              className="group flex flex-col bg-white border border-gray-200 rounded-2xl p-7 hover:border-gray-300 hover:shadow-md transition-all"
-            >
+        {/* Primary action cards — 3 top + 2 centered bottom */}
+        <div className="mb-14">
+          <div className="grid grid-cols-3 gap-5 mb-5">
+            {PRIMARY_ACTIONS.slice(0, 3).map(({ href, label, description, Icon, iconColor, iconBg, cta, ctaColor }) => (
+              <Link
+                key={href}
+                href={href}
+                className="group flex flex-col bg-white border border-gray-200 rounded-2xl p-7 hover:border-gray-300 hover:shadow-md transition-all"
+              >
+                <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mb-5 flex-shrink-0 ${iconBg}`}>
+                  <Icon size={22} className={iconColor} />
+                </div>
+                <h2 className="text-base font-bold text-gray-900 mb-2 group-hover:text-brand-700 transition-colors">
+                  {label}
+                </h2>
+                <p className="text-sm text-gray-500 leading-relaxed flex-1 mb-6">
+                  {description}
+                </p>
+                <div className={`${ctaColor} text-white text-sm font-semibold px-4 py-2.5 rounded-xl text-center transition-colors`}>
+                  {cta}
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-5 max-w-[calc(66.666%+10px)] mx-auto">
+            {PRIMARY_ACTIONS.slice(3).map(({ href, label, description, Icon, iconColor, iconBg, cta, ctaColor }) => (
+              <Link
+                key={href}
+                href={href}
+                className="group flex flex-col bg-white border border-gray-200 rounded-2xl p-7 hover:border-gray-300 hover:shadow-md transition-all"
+              >
               <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mb-5 flex-shrink-0 ${iconBg}`}>
                 <Icon size={22} className={iconColor} />
               </div>
@@ -96,6 +143,7 @@ export default async function Home() {
               </div>
             </Link>
           ))}
+          </div>
         </div>
 
         {/* Secondary tools */}
