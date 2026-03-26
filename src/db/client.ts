@@ -24,11 +24,21 @@ export const db = drizzle(sqlite, { schema });
 // Initialize tables on first run
 export function initDb() {
   sqlite.exec(`
+    CREATE TABLE IF NOT EXISTS team_members (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL UNIQUE,
+      email TEXT,
+      initials TEXT NOT NULL,
+      color TEXT NOT NULL DEFAULT 'blue',
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
     CREATE TABLE IF NOT EXISTS accounts (
       id TEXT PRIMARY KEY,
       dynamics_id TEXT UNIQUE,
       name TEXT NOT NULL,
       vertical TEXT,
+      owner_name TEXT,
       website TEXT,
       city TEXT,
       state TEXT,

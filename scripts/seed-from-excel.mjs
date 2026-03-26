@@ -1,6 +1,12 @@
 /**
- * One-time seed script: imports Vision AI pipeline Excel export into the SQLite DB.
- * Run with: node scripts/seed-from-excel.mjs
+ * Imports a Vision AI pipeline Excel export into the SQLite DB.
+ *
+ * Usage:
+ *   node scripts/seed-from-excel.mjs --file "data/raw/MyFile.xlsx" --owner "Jordan Ripoll"
+ *
+ * Defaults:
+ *   --file  data/raw/Vision AI- Charlie_2026 3-25-2026 5-06-14 PM.xlsx
+ *   --owner Charlie Gonzalez
  */
 
 import XLSX from "xlsx";
@@ -8,17 +14,25 @@ import Database from "better-sqlite3";
 import { randomUUID } from "crypto";
 import path from "path";
 import { fileURLToPath } from "url";
-import fs from "fs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
+
+// ─── Parse CLI args ───────────────────────────────────────────────────────────
+const args = process.argv.slice(2);
+function getArg(flag) {
+  const i = args.indexOf(flag);
+  return i !== -1 && args[i + 1] ? args[i + 1] : null;
+}
+
 const DB_PATH = path.join(ROOT, "data", "vai-crm.db");
-const EXCEL_PATH = path.join(
-  ROOT,
-  "data",
-  "raw",
-  "Vision AI- Charlie_2026 3-25-2026 5-06-14 PM.xlsx"
-);
+const EXCEL_PATH = getArg("--file")
+  ? path.resolve(ROOT, getArg("--file"))
+  : path.join(ROOT, "data", "raw", "Vision AI- Charlie_2026 3-25-2026 5-06-14 PM.xlsx");
+const OWNER_NAME = getArg("--owner") ?? "Charlie Gonzalez";
+
+console.log(`\nFile:  ${EXCEL_PATH}`);
+console.log(`Owner: ${OWNER_NAME}\n`);
 
 // ─── DB setup ─────────────────────────────────────────────────────────────────
 
@@ -90,7 +104,9 @@ function inferLeadSource(topic) {
 // ─── Import ───────────────────────────────────────────────────────────────────
 
 const wb = XLSX.readFile(EXCEL_PATH);
-const ws = wb.Sheets["Vision AI_ Charlie_2026"];
+// Use the first non-hidden sheet automatically
+const sheetName = wb.SheetNames.find((n) => !n.toLowerCase().includes("hidden")) ?? wb.SheetNames[0];
+const ws = wb.Sheets[sheetName];
 const rows = XLSX.utils.sheet_to_json(ws);
 
 console.log(`\nReading ${rows.length} opportunities from Excel...\n`);
@@ -99,11 +115,12 @@ console.log(`\nReading ${rows.length} opportunities from Excel...\n`);
 const accountNameToId = new Map();
 
 const upsertAccount = db.prepare(`
-  INSERT INTO accounts (id, dynamics_id, name, vertical, last_imported_at, updated_at)
-  VALUES (?, ?, ?, ?, datetime('now'), datetime('now'))
+  INSERT INTO accounts (id, dynamics_id, name, vertical, owner_name, last_imported_at, updated_at)
+  VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))
   ON CONFLICT(dynamics_id) DO UPDATE SET
     name = excluded.name,
     vertical = excluded.vertical,
+    owner_name = excluded.owner_name,
     last_imported_at = excluded.last_imported_at,
     updated_at = excluded.updated_at
 `);
@@ -111,9 +128,9 @@ const upsertAccount = db.prepare(`
 const upsertOpp = db.prepare(`
   INSERT INTO opportunities (
     id, dynamics_id, account_id, name, stage, value,
-    close_date, lead_source, last_imported_at, updated_at, stage_changed_at
+    close_date, lead_source, owner_name, last_imported_at, updated_at, stage_changed_at
   )
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'), datetime('now'))
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'), datetime('now'))
   ON CONFLICT(dynamics_id) DO UPDATE SET
     account_id = excluded.account_id,
     name = excluded.name,
@@ -121,6 +138,7 @@ const upsertOpp = db.prepare(`
     value = excluded.value,
     close_date = excluded.close_date,
     lead_source = excluded.lead_source,
+    owner_name = excluded.owner_name,
     last_imported_at = excluded.last_imported_at,
     updated_at = excluded.updated_at
 `);
@@ -135,9 +153,9 @@ const importAll = db.transaction(() => {
     const dynamicsAccountId = `acct-${accountName.toLowerCase().replace(/[^a-z0-9]/g, "-")}`;
     const vertical = inferVertical(accountName);
 
-    upsertAccount.run(id, dynamicsAccountId, accountName, vertical);
+    upsertAccount.run(id, dynamicsAccountId, accountName, vertical, OWNER_NAME);
     accountNameToId.set(accountName, id);
-    console.log(`  ✓ Account: ${accountName} [${vertical}]`);
+    console.log(`  ✓ Account: ${accountName} [${vertical}] → ${OWNER_NAME}`);
   }
 
   console.log(`\n  ${accountNameToId.size} accounts created/updated.\n`);
@@ -167,10 +185,11 @@ const importAll = db.transaction(() => {
       stage,
       tcv ?? null,
       closeDate,
-      leadSource
+      leadSource,
+      OWNER_NAME
     );
 
-    console.log(`  ✓ Opp: ${topic} → ${accountName} [${stage}] $${tcv?.toLocaleString() ?? "—"}`);
+    console.log(`  ✓ Opp: ${topic} → ${accountName} [${stage}] $${tcv?.toLocaleString() ?? "—"} → ${OWNER_NAME}`);
     oppCount++;
   }
 

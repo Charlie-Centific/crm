@@ -9,6 +9,17 @@ import { relations, sql } from "drizzle-orm";
 // SQLite has no native enums — we use text with CHECK constraints via application logic.
 // All IDs are text (UUIDs generated in app code).
 
+// ─── Team Members ─────────────────────────────────────────────────────────────
+
+export const teamMembers = sqliteTable("team_members", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  email: text("email"),
+  initials: text("initials").notNull(),
+  color: text("color").notNull().default("blue"), // blue|purple|green|orange
+  createdAt: text("created_at").default(sql`(datetime('now'))`),
+});
+
 // ─── Accounts ─────────────────────────────────────────────────────────────────
 
 export const accounts = sqliteTable("accounts", {
@@ -16,6 +27,7 @@ export const accounts = sqliteTable("accounts", {
   dynamicsId: text("dynamics_id").unique(),
   name: text("name").notNull(),
   vertical: text("vertical"), // transit | utilities | emergency | smart_city | other
+  ownerName: text("owner_name"),
   website: text("website"),
   city: text("city"),
   state: text("state"),

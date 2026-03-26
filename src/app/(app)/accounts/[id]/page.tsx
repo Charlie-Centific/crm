@@ -13,6 +13,7 @@ import {
   relativeTime,
   daysInStage,
 } from "@/lib/utils";
+import { OwnerAvatar } from "@/components/owner-avatar";
 
 async function getAccountDetail(id: string) {
   const [account] = await db
@@ -66,7 +67,7 @@ export default async function AccountDetailPage({
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{account.name}</h1>
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-2 mt-2 flex-wrap">
               {account.vertical && (
                 <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${verticalColors[account.vertical] ?? verticalColors.other}`}>
                   {VERTICAL_LABELS[account.vertical] ?? account.vertical}
@@ -76,6 +77,9 @@ export default async function AccountDetailPage({
                 <span className="text-sm text-gray-400">
                   {[account.city, account.state, account.country].filter(Boolean).join(", ")}
                 </span>
+              )}
+              {account.ownerName && (
+                <OwnerAvatar name={account.ownerName} size="md" showName />
               )}
             </div>
           </div>
