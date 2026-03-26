@@ -530,6 +530,12 @@ export function WorkshopBuilder() {
 
   const requiredDone = REQUIRED.length - missingRequired.length;
 
+  const sectionIds = SECTIONS.map((s) => s.id);
+  const currentIndex = sectionIds.indexOf(activeSection);
+  const prevSectionId = sectionIds[currentIndex - 1] ?? null;
+  const nextSectionId = sectionIds[currentIndex + 1] ?? null;
+  const currentSectionLabel = SECTIONS.find((s) => s.id === activeSection)?.label ?? "";
+
   return (
     <div className="flex gap-5 min-h-[640px]">
 
@@ -1024,6 +1030,42 @@ export function WorkshopBuilder() {
             </div>
           </div>
         )}
+
+        {/* ── Prev / Next navigation ── */}
+        <div className="flex items-center justify-between bg-white border border-gray-200 rounded-2xl px-5 py-3">
+          <button
+            onClick={() => prevSectionId && setActiveSection(prevSectionId as SectionId)}
+            disabled={!prevSectionId}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+              prevSectionId
+                ? "text-gray-700 hover:bg-gray-100 border border-gray-200"
+                : "text-gray-300 cursor-not-allowed"
+            }`}
+          >
+            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path fillRule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clipRule="evenodd" />
+            </svg>
+            Previous
+          </button>
+          <span className="text-xs text-gray-400 font-medium">
+            {currentIndex + 1} <span className="text-gray-300">of</span> {SECTIONS.length}
+            <span className="text-gray-400 ml-1.5">· {currentSectionLabel}</span>
+          </span>
+          <button
+            onClick={() => nextSectionId && setActiveSection(nextSectionId as SectionId)}
+            disabled={!nextSectionId}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+              nextSectionId
+                ? "bg-brand-600 text-white hover:bg-brand-700 shadow-sm"
+                : "text-gray-300 cursor-not-allowed"
+            }`}
+          >
+            Next
+            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

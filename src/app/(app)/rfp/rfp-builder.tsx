@@ -481,6 +481,10 @@ export function RFPBuilder() {
   const canBuild = missingRequired.length === 0;
   const requiredDone = REQUIRED_IDS.length - missingRequired.length;
 
+  const currentIndex = RFP_SECTIONS.findIndex((s) => s.id === activeSection);
+  const prevSection = RFP_SECTIONS[currentIndex - 1] ?? null;
+  const nextSection = RFP_SECTIONS[currentIndex + 1] ?? null;
+
   function toggle(sectionId: string, blockId: string, mode: "single" | "multi") {
     setSelections((prev) => {
       const current = prev[sectionId] ?? [];
@@ -745,6 +749,46 @@ export function RFPBuilder() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* ── Prev / Next navigation ── */}
+        {!showPreview && (
+          <div className="flex items-center justify-between bg-white border border-gray-200 rounded-2xl px-5 py-3">
+            <button
+              onClick={() => prevSection && setActiveSection(prevSection.id)}
+              disabled={!prevSection}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                prevSection
+                  ? "text-gray-700 hover:bg-gray-100 border border-gray-200"
+                  : "text-gray-300 cursor-not-allowed"
+              }`}
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clipRule="evenodd" />
+              </svg>
+              Previous
+            </button>
+            <span className="text-xs text-gray-400 font-medium">
+              {currentIndex + 1} <span className="text-gray-300">of</span> {RFP_SECTIONS.length}
+              {currentSection && (
+                <span className="text-gray-400 ml-1.5">· {currentSection.title}</span>
+              )}
+            </span>
+            <button
+              onClick={() => nextSection && setActiveSection(nextSection.id)}
+              disabled={!nextSection}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                nextSection
+                  ? "bg-brand-600 text-white hover:bg-brand-700 shadow-sm"
+                  : "text-gray-300 cursor-not-allowed"
+              }`}
+            >
+              Next
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+              </svg>
+            </button>
           </div>
         )}
       </div>
