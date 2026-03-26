@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "runDemo": "运行演示",
+    "buildWorkshop": "创建研讨会",
+    "draftRfp": "起草提案",
+    "moreTools": "更多工具",
+    "backHome": "← 返回主页",
+    "pipeline": "销售管道",
+    "accounts": "客户",
+    "playbooks": "手册",
+    "workflows": "工作流",
+    "pilots": "试点",
+    "import": "导入",
+    "appearance": "外观",
+    "language": "语言",
+    "seasonal": "节日主题",
+    "light": "浅色",
+    "dark": "深色"
+  },
+  "home": {
+    "tagline": "您今天需要做什么？",
+    "subtitle": "选择一项任务开始",
+    "moreTools": "更多工具",
+    "footer": "Centific Global Services · 内部工具",
+    "actions": {
+      "demo": {
+        "label": "运行演示",
+        "description": "逐步现场演示指南，包含演讲要点、演示者备注和计时器。",
+        "cta": "打开演示脚本"
+      },
+      "workshop": {
+        "label": "创建研讨会",
+        "description": "记录参与者、确定用例优先级，并在几分钟内导出品牌研讨会文档。",
+        "cta": "开始研讨会"
+      },
+      "rfp": {
+        "label": "起草提案",
+        "description": "选择响应模块，自定义内容，并发布 Centific 品牌的提案响应。",
+        "cta": "创建提案"
+      }
+    },
+    "tools": {
+      "pipeline": "销售管道",
+      "accounts": "客户",
+      "playbooks": "手册",
+      "workflows": "工作流",
+      "pilots": "试点",
+      "import": "导入"
+    }
+  },
+  "theme": {
+    "light": "浅色",
+    "dark": "深色",
+    "christmas": "圣诞节",
+    "valentine": "情人节",
+    "lunarNewYear": "农历新年",
+    "seasonal": "节日主题"
+  },
+  "locale": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "zh": "中文"
+  }
+}

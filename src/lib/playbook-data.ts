@@ -63,6 +63,7 @@ export interface Playbook {
   objections: Objection[];
   scenarios: Scenario[];
   rfp: RFPItem[];
+  workflowIds?: string[];   // Links to canonical workflows in DB
 }
 
 // ─── Smart City ───────────────────────────────────────────────────────────────
@@ -363,6 +364,21 @@ const smartCity: Playbook = {
       tips: "Cities with high staff turnover value the ongoing new-hire training inclusion — emphasize this when talking to city HR or IT leadership.",
     },
   ],
+  workflowIds: [
+    "WF-01-VIDEO",
+    "WF-02-VIDSRCH",
+    "WF-06-STSVL",
+    "WF-07-TOFWATCH",
+    "WF-08-MRNDIG",
+    "WF-11-PARKENF",
+    "WF-12-PRMCMP",
+    "WF-13-WTHR",
+    "WF-14-TRAFQ",
+    "WF-20-CMPRPT",
+    "WF-21-ILLDMP",
+    "WF-22-CROWD",
+    "WF-24-STVEH",
+  ],
 };
 
 // ─── Transit ──────────────────────────────────────────────────────────────────
@@ -619,6 +635,20 @@ const transit: Playbook = {
         "Implementation follows a four-phase methodology: (1) Discovery & Site Survey (2 weeks) — infrastructure assessment, integration mapping, use case prioritization; (2) Configuration & Integration (4–6 weeks) — platform deployment, API connections, alert threshold configuration; (3) Pilot Validation (4 weeks) — controlled deployment with agency stakeholders, alert tuning, and staff training; (4) Full Go-Live & Handoff — monitored rollout with dedicated customer success support. Ongoing support includes a named Customer Success Manager, 24/7 platform monitoring with 99.9% uptime SLA, quarterly business reviews, and a dedicated support channel with a 4-hour SLA for critical issues.",
       tips: "Timeline can compress to 8 weeks total for smaller-scope pilots — useful for phased procurement strategies.",
     },
+  ],
+  workflowIds: [
+    "WF-01-VIDEO",
+    "WF-07-TOFWATCH",
+    "WF-08-MRNDIG",
+    "WF-09-DSPAGT",
+    "WF-11-PARKENF",
+    "WF-13-WTHR",
+    "WF-14-TRAFQ",
+    "WF-15-PLNCLS",
+    "WF-18-FRRYFLD",
+    "WF-19-TRAFINC",
+    "WF-22-CROWD",
+    "WF-23-UNTLUG",
   ],
 };
 
@@ -886,6 +916,20 @@ const emergency: Playbook = {
         "Centific provides a 99.9% uptime SLA for mission-critical law enforcement deployments, with a 4-hour response SLA for P1 incidents. The platform supports active-active high-availability configurations with automatic failover, ensuring no single point of failure. Data replication is continuous with an RPO of 15 minutes and RTO of 30 minutes for cloud-hosted deployments. On-premises deployments include local redundancy configurations designed to maintain alerting capability during WAN outages. All incident response actions are logged and provided in post-incident reports. A named Customer Success Manager and 24/7 support line are included in enterprise agreements.",
       tips: "For agencies requiring sub-15-minute RTO, escalate to Centific engineering for a custom infrastructure design before committing to this in writing.",
     },
+  ],
+  workflowIds: [
+    "WF-02-VIDSRCH",
+    "WF-03-RTTHRT",
+    "WF-04-GUNSHOT",
+    "WF-08-MRNDIG",
+    "WF-09-DSPAGT",
+    "WF-10-CALLCOM",
+    "WF-16-CRITINC",
+    "WF-17-MLTCOM",
+    "WF-22-CROWD",
+    "WF-23-UNTLUG",
+    "WF-24-STVEH",
+    "WF-27-UNTVEH",
   ],
 };
 

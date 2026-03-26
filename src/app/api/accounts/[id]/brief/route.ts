@@ -42,9 +42,7 @@ export async function POST(
 // PUT /api/accounts/[id]/brief — save edits to the latest brief
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
   const { briefId, content } = await req.json() as { briefId: string; content: string };
 
   if (!briefId || !content) {

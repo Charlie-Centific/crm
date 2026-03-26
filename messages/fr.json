@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "runDemo": "Lancer une Démo",
+    "buildWorkshop": "Créer un Atelier",
+    "draftRfp": "Rédiger un Appel d'Offres",
+    "moreTools": "Plus d'Outils",
+    "backHome": "← Accueil",
+    "pipeline": "Pipeline",
+    "accounts": "Comptes",
+    "playbooks": "Playbooks",
+    "workflows": "Flux",
+    "pilots": "Pilotes",
+    "import": "Importer",
+    "appearance": "Apparence",
+    "language": "Langue",
+    "seasonal": "Saisonniers",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "home": {
+    "tagline": "Sur quoi travaillez-vous ?",
+    "subtitle": "Choisissez une tâche pour commencer",
+    "moreTools": "Plus d'Outils",
+    "footer": "Centific Global Services · Outil Interne",
+    "actions": {
+      "demo": {
+        "label": "Lancer une Démo",
+        "description": "Guide en direct étape par étape avec points clés, notes du présentateur et minuteur.",
+        "cta": "Ouvrir le Script"
+      },
+      "workshop": {
+        "label": "Créer un Atelier",
+        "description": "Enregistrez les participants, priorisez les cas d'usage et exportez un document d'atelier en quelques minutes.",
+        "cta": "Démarrer l'Atelier"
+      },
+      "rfp": {
+        "label": "Rédiger un Appel d'Offres",
+        "description": "Sélectionnez des blocs de réponse, personnalisez le contenu et publiez une réponse à l'appel d'offres aux couleurs de Centific.",
+        "cta": "Créer l'Appel d'Offres"
+      }
+    },
+    "tools": {
+      "pipeline": "Pipeline",
+      "accounts": "Comptes",
+      "playbooks": "Playbooks",
+      "workflows": "Flux",
+      "pilots": "Pilotes",
+      "import": "Importer"
+    }
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "christmas": "Noël",
+    "valentine": "Saint-Valentin",
+    "lunarNewYear": "Nouvel An Lunaire",
+    "seasonal": "Saisonniers"
+  },
+  "locale": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  }
+}

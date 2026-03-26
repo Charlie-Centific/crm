@@ -163,7 +163,6 @@ export default function PlaybooksPage() {
             <span className="text-gray-200">|</span>
             <div className="flex gap-1.5">
               {ALL_PLAYBOOKS.filter((p) => p.slug !== selected).map((p) => {
-                const s = STYLES[p.slug] ?? STYLES["smart-city"];
                 return (
                   <button
                     key={p.slug}

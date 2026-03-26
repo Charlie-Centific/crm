@@ -1,6 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import { Sparkles } from "lucide-react";
+import type { Workflow } from "@/lib/workflows";
+import { TEAM } from "@/lib/team";
+
+// ── Account data shape (passed from server) ───────────────────────────────────
+export interface AccountOption {
+  id: string;
+  name: string;
+  ownerName: string | null;
+  vertical: string | null;
+  city: string | null;
+  state: string | null;
+  contacts: {
+    id: string;
+    firstName: string | null;
+    lastName: string;
+    role: string | null;
+    email: string | null;
+    isPrimary: boolean;
+  }[];
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type SectionId = "details" | "attendees" | "usecases" | "deployment" | "timeline" | "blockers" | "signoff";
@@ -32,6 +53,7 @@ interface UseCase {
   owner: string;
   status: string;
   metric: string;
+  workflowId?: string;   // Links to canonical workflow dictionary
 }
 
 interface Blocker {
@@ -125,6 +147,7 @@ function generateWorkshopHtml(s: WState, iconDataUrl: string): string {
       <div class="uc-title">${esc(uc.title)}</div>
       ${uc.description ? `<div class="uc-desc">${esc(uc.description)}</div>` : ""}
       <div class="uc-meta-row">
+        ${uc.workflowId ? `<div class="uc-meta-chip"><span class="chip-lbl">Workflow</span><span class="chip-val">${esc(uc.workflowId)}</span></div>` : ""}
         ${uc.agent ? `<div class="uc-meta-chip"><span class="chip-lbl">Agent</span><span class="chip-val">${esc(uc.agent)}</span></div>` : ""}
         ${uc.owner ? `<div class="uc-meta-chip"><span class="chip-lbl">Owner</span><span class="chip-val">${esc(uc.owner)}</span></div>` : ""}
         ${uc.status ? `<div class="uc-meta-chip"><span class="chip-lbl">Status</span><span class="chip-val">${esc(uc.status)}</span></div>` : ""}
@@ -433,12 +456,170 @@ function Field({ label, value, onChange, placeholder, as: Tag = "input" }: {
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
-export function WorkshopBuilder() {
+// ── Demo / pre-fill state ─────────────────────────────────────────────────────
+const DEMO_STATE: WState = {
+  details: {
+    clientName:   "City of Louisville",
+    clientOrg:    "Louisville Metro Government",
+    partnerOrg:   "Guidehouse",
+    workshopDate: "2026-04-22",
+    location:     "Louisville City Hall — Board Room A",
+    preparedBy:   "Carlos Gonzalez, Centific",
+    objective:
+      "Align on the top 2–3 AI/CV use cases for a 90-day SLiM pilot. Prioritize by operational impact, data availability, and stakeholder urgency. Leave with an agreed pilot scope and a signed MOU.",
+  },
+  attendees: [
+    { id: "d-a1", org: "Client",     name: "Greg Fischer",     title: "Chief of Public Safety",         role: "Executive Sponsor", email: "gfischer@louisvilleky.gov"  },
+    { id: "d-a2", org: "Client",     name: "Jennifer Park",    title: "Director of Innovation & Tech",  role: "Technical Lead",    email: "jpark@louisvilleky.gov"     },
+    { id: "d-a3", org: "Client",     name: "Marcus Webb",      title: "Operations Manager, LMPD",       role: "End User Rep",      email: "mwebb@lmpd.org"             },
+    { id: "d-a4", org: "Centific",   name: "Carlos Gonzalez",  title: "Account Executive",              role: "Account Lead",      email: "cgonzalez@centific.com"     },
+    { id: "d-a5", org: "Centific",   name: "Amy Lin",          title: "Solutions Engineer",             role: "Technical Lead",    email: "alin@centific.com"          },
+    { id: "d-a6", org: "Guidehouse", name: "Sarah Whitfield",  title: "Senior Consultant",              role: "Engagement Lead",   email: "swhitfield@guidehouse.com"  },
+  ],
+  useCases: [
+    {
+      id: "d-uc1",
+      title: "Real-Time Crime & Threat Detection",
+      description:
+        "AI monitoring of 220+ city cameras to detect weapons, fights, and suspicious behavior. Automated alerts routed to the nearest officer with live footage and GPS coordinates.",
+      agent: "VAI SLiM",
+      owner: "Marcus Webb",
+      status: "Priority",
+      metric: "Reduce average incident response time from 9 min to under 4 min within 90 days",
+    },
+    {
+      id: "d-uc2",
+      title: "Traffic Incident & Congestion Detection",
+      description:
+        "Automated detection of accidents, stalled vehicles, and congestion on key corridors. Triggers dispatch notification and signal coordination in real time.",
+      agent: "VAI SLiM",
+      owner: "Jennifer Park",
+      status: "Priority",
+      metric: "Cut congestion clearance time by 25% and reduce secondary incidents by 15%",
+    },
+    {
+      id: "d-uc3",
+      title: "Automated Shift Briefings & Incident Reports",
+      description:
+        "Auto-generated shift summaries from overnight camera activity delivered to police command by 6am. Eliminates manual write-up for all non-emergency events.",
+      agent: "VAI SLiM",
+      owner: "Marcus Webb",
+      status: "Candidate",
+      metric: "Save 2+ hours per shift in report writing across all 3 district command centers",
+    },
+    {
+      id: "d-uc4",
+      title: "Crowd Density & Event Safety Monitoring",
+      description:
+        "Real-time crowd density tracking for Waterfront Park, KFC Yum Center, and Churchill Downs. Alerts ops when thresholds are exceeded; integrates with the event command channel.",
+      agent: "VAI SLiM",
+      owner: "Greg Fischer",
+      status: "Candidate",
+      metric: "Zero crowd-related safety incidents at top-10 annual city events during pilot",
+    },
+  ],
+  priorityOrder: ["d-uc1", "d-uc2", "d-uc3", "d-uc4"],
+  deployment: "SLiM — DGX Spark (On-Premises)",
+  deploymentNotes:
+    "Deploy one DGX Spark unit at the Louisville Metro Emergency Communications Center (911 hub). Initial feed set: 10 downtown camera feeds, I-64/I-65 interchange traffic sensors, and LMPD CAD event stream. Phase 2 expands to the full 220-camera network.",
+  pilotStart: "2026-05-12",
+  notes:
+    "Mayor's office confirmed Q2 budget approval. IT team validated all existing cameras are RTSP-compatible — no hardware replacement needed. Guidehouse is leading MOU and procurement. Target go-live: May 12.",
+  blockers: [
+    {
+      id: "d-b1",
+      description: "IT Security review required for camera feed network access — cross-department approval pending",
+      raisedBy: "Jennifer Park",
+      owner: "Jennifer Park",
+      dueDate: "2026-04-29",
+    },
+    {
+      id: "d-b2",
+      description: "DGX Spark hardware procurement — 3-week lead time after PO is issued",
+      raisedBy: "Sarah Whitfield",
+      owner: "Sarah Whitfield",
+      dueDate: "2026-04-22",
+    },
+  ],
+  signoff: {
+    client:        "Greg Fischer",
+    clientTitle:   "Chief of Public Safety, Louisville Metro",
+    centific:      "Carlos Gonzalez",
+    centificTitle: "Account Executive, Centific",
+    partner:       "Sarah Whitfield",
+    partnerTitle:  "Senior Consultant, Guidehouse",
+  },
+};
+
+// ── Main component ────────────────────────────────────────────────────────────
+export function WorkshopBuilder({
+  allWorkflows = [],
+  accountsData = [],
+}: {
+  allWorkflows?: Workflow[];
+  accountsData?: AccountOption[];
+}) {
   const [activeSection, setActiveSection] = useState<SectionId>("details");
   const [state, setState] = useState<WState>(INITIAL);
   const [dragId, setDragId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
   const [building, setBuilding] = useState(false);
+  const [selectedOwner, setSelectedOwner] = useState("");
+  const [selectedAccountId, setSelectedAccountId] = useState("");
+
+  // Accounts filtered by selected rep
+  const ownerAccounts = selectedOwner
+    ? accountsData.filter((a) => a.ownerName === selectedOwner)
+    : [];
+
+  function prefillFromAccount(accountId: string) {
+    const account = accountsData.find((a) => a.id === accountId);
+    if (!account) return;
+
+    const location = [account.city, account.state].filter(Boolean).join(", ");
+
+    // Map contacts → attendee rows (keep all; primary contact gets Decision Maker role)
+    const clientAttendees: Attendee[] = account.contacts.map((c) => ({
+      id: uid(),
+      org: "Client",
+      name: `${c.firstName ?? ""} ${c.lastName}`.trim(),
+      title: c.role ?? "",
+      role: c.isPrimary ? "Decision Maker" : "",
+      email: c.email ?? "",
+    }));
+
+    // Always add one blank client slot if no contacts exist
+    if (clientAttendees.length === 0) {
+      clientAttendees.push({ id: uid(), org: "Client", name: "", title: "", role: "Executive Sponsor", email: "" });
+    }
+
+    // Centific lead = the selected rep
+    const centificAttendee: Attendee = {
+      id: uid(),
+      org: "Centific",
+      name: account.ownerName ?? "",
+      title: "Account Executive",
+      role: "Account Lead",
+      email: "",
+    };
+
+    setState({
+      ...INITIAL,
+      details: {
+        clientName:   account.name,
+        clientOrg:    account.name,
+        partnerOrg:   "",           // leave for user
+        workshopDate: "",           // required — leave blank
+        location,
+        preparedBy:   account.ownerName ? `${account.ownerName}, Centific` : "",
+        objective:    "",           // required — leave blank
+      },
+      attendees: [...clientAttendees, centificAttendee],
+    });
+
+    setSelectedAccountId(accountId);
+    setActiveSection("details");
+  }
 
   // ── Validation
   const sectionValid: Record<SectionId, boolean> = {
@@ -541,6 +722,75 @@ export function WorkshopBuilder() {
 
       {/* ── Left nav ─────────────────────────────────────────────── */}
       <div className="w-56 flex-shrink-0 flex flex-col gap-3">
+
+        {/* Quick-fill panel */}
+        <div className="rounded-xl border border-gray-200 bg-white p-3 space-y-2.5">
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pre-fill</p>
+
+          {/* Demo button */}
+          <button
+            onClick={() => { setState(DEMO_STATE); setSelectedOwner(""); setSelectedAccountId(""); setActiveSection("details"); }}
+            className="flex items-center gap-2 w-full px-2.5 py-2 rounded-lg border border-dashed border-brand-300 text-brand-600 hover:bg-brand-50 text-xs font-semibold transition-all"
+          >
+            <Sparkles size={12} className="flex-shrink-0" />
+            Load Demo
+          </button>
+
+          {/* Divider */}
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-px bg-gray-100" />
+            <span className="text-[9px] text-gray-400 font-medium uppercase tracking-wider">or from account</span>
+            <div className="flex-1 h-px bg-gray-100" />
+          </div>
+
+          {/* Rep dropdown */}
+          <select
+            value={selectedOwner}
+            onChange={(e) => { setSelectedOwner(e.target.value); setSelectedAccountId(""); }}
+            className="w-full border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-brand-400"
+          >
+            <option value="">Select rep…</option>
+            {TEAM.map((m) => (
+              <option key={m.name} value={m.name}>
+                {m.name.split(" ")[0]} {m.name.split(" ")[1]?.[0]}.
+              </option>
+            ))}
+          </select>
+
+          {/* Account dropdown — only after rep is selected */}
+          {selectedOwner && (
+            ownerAccounts.length === 0 ? (
+              <p className="text-[10px] text-gray-400 italic px-1">No accounts for this rep.</p>
+            ) : (
+              <select
+                value={selectedAccountId}
+                onChange={(e) => { if (e.target.value) prefillFromAccount(e.target.value); }}
+                className="w-full border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-brand-400"
+              >
+                <option value="">Select account…</option>
+                {ownerAccounts.map((a) => (
+                  <option key={a.id} value={a.id}>{a.name}</option>
+                ))}
+              </select>
+            )
+          )}
+
+          {/* Selected indicator */}
+          {selectedAccountId && (
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] text-brand-600 font-medium truncate flex-1">
+                ✓ {accountsData.find(a => a.id === selectedAccountId)?.name}
+              </span>
+              <button
+                onClick={() => { setSelectedAccountId(""); setState(INITIAL); setActiveSection("details"); }}
+                className="text-[10px] text-gray-400 hover:text-gray-600 flex-shrink-0 ml-1"
+              >
+                Clear
+              </button>
+            </div>
+          )}
+        </div>
+
         <div className="flex-1 space-y-1">
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-2 mb-2">Sections</p>
           {SECTIONS.map(sec => {
@@ -661,7 +911,7 @@ export function WorkshopBuilder() {
           <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-bold text-gray-900">Workshop Attendees</h2>
-              <p className="text-xs text-gray-400 mt-0.5">Who will be in the room. Leave blank rows — they'll be excluded from the document.</p>
+              <p className="text-xs text-gray-400 mt-0.5">Who will be in the room. Leave blank rows — they&apos;ll be excluded from the document.</p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
@@ -729,6 +979,7 @@ export function WorkshopBuilder() {
                     <thead>
                       <tr className="bg-gray-50 text-gray-400 font-bold uppercase tracking-wider">
                         <th className="px-3 py-2.5 text-left">Use Case Title</th>
+                        <th className="px-3 py-2.5 text-left w-40">VAI Workflow</th>
                         <th className="px-3 py-2.5 text-left w-36">Agent Type</th>
                         <th className="px-3 py-2.5 text-left w-32">Owner / Dept.</th>
                         <th className="px-3 py-2.5 text-left w-28">Status</th>
@@ -744,6 +995,28 @@ export function WorkshopBuilder() {
                               className="w-full text-xs font-semibold text-gray-900 bg-transparent border-b border-gray-200 focus:border-brand-400 focus:outline-none py-1 placeholder-gray-300 mb-1" />
                             <input value={uc.description} onChange={e => upUseCase(uc.id, "description", e.target.value)} placeholder="Brief description…"
                               className="w-full text-xs text-gray-500 bg-transparent border-b border-gray-100 focus:border-brand-400 focus:outline-none py-0.5 placeholder-gray-200" />
+                          </td>
+                          <td className="px-2 py-2">
+                            <select
+                              value={uc.workflowId ?? ""}
+                              onChange={e => upUseCase(uc.id, "workflowId", e.target.value)}
+                              className="text-xs rounded-lg px-2 py-1 border border-gray-200 bg-white focus:outline-none focus:ring-1 focus:ring-brand-400 w-full"
+                            >
+                              <option value="">None</option>
+                              {allWorkflows.map((wf) => (
+                                <option key={wf.id} value={wf.id}>{wf.id} – {wf.name}</option>
+                              ))}
+                            </select>
+                            {uc.workflowId && (
+                              <a
+                                href={`/workflows/${uc.workflowId}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-[10px] text-brand-500 hover:underline mt-0.5 block"
+                              >
+                                View →
+                              </a>
+                            )}
                           </td>
                           <td className="px-2 py-2">
                             <select value={uc.agent} onChange={e => upUseCase(uc.id, "agent", e.target.value)}

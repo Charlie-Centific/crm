@@ -1,43 +1,54 @@
-import Link from "next/link";
-import { ALL_DEMO_SCRIPTS } from "@/lib/demo-scripts";
+export const dynamic = "force-dynamic";
 
-export default function DemoScriptsPage() {
+import { getAllWorkflows } from "@/lib/workflows";
+import { DemoBriefClient } from "./demo-brief-client";
+import { db } from "@/db/client";
+import { accounts, contacts } from "@/db/schema";
+
+export default async function DemoScriptsPage() {
+  const [allWorkflows, rawAccounts, rawContacts] = await Promise.all([
+    getAllWorkflows(),
+    db.select().from(accounts).orderBy(accounts.name),
+    db.select().from(contacts),
+  ]);
+
+  const contactsByAccount = rawContacts.reduce<Record<string, typeof rawContacts>>(
+    (acc, c) => {
+      if (!c.accountId) return acc;
+      acc[c.accountId] = acc[c.accountId] ?? [];
+      acc[c.accountId].push(c);
+      return acc;
+    },
+    {}
+  );
+
+  const accountsData = rawAccounts.map((a) => ({
+    id: a.id,
+    name: a.name,
+    ownerName: a.ownerName ?? null,
+    vertical: a.vertical ?? null,
+    city: a.city ?? null,
+    state: a.state ?? null,
+    contacts: (contactsByAccount[a.id] ?? []).map((c) => ({
+      id: c.id,
+      firstName: c.firstName ?? null,
+      lastName: c.lastName,
+      role: c.role ?? null,
+      email: c.email ?? null,
+      isPrimary: c.isPrimary ?? false,
+    })),
+  }));
+
   return (
-    <div className="max-w-4xl">
+    <div className="max-w-6xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Demo Scripts</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Demo Brief Builder</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Step-by-step scripts for live demos — with talking points, timing, and presenter notes.
-          Steps track during the session and reset on reload.
+          Click your way to a customized demo prompt — select the platform, vertical, and use cases, then copy the brief into the demo platform.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4">
-        {ALL_DEMO_SCRIPTS.map((script) => (
-          <Link
-            key={script.slug}
-            href={`/demo-scripts/${script.slug}`}
-            className="block bg-white border border-gray-200 rounded-xl p-6 hover:border-brand-300 hover:bg-brand-50 transition-all"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <h2 className="text-base font-semibold text-gray-900">{script.name}</h2>
-                <p className="text-xs text-brand-600 font-medium mt-0.5">{script.tagline}</p>
-                <p className="text-sm text-gray-500 mt-2">{script.description}</p>
-                <p className="text-xs text-gray-400 mt-3">
-                  {script.steps.length} steps · ~{script.steps.reduce((sum, s) => {
-                    const m = s.duration?.match(/(\d+)/);
-                    return sum + (m ? parseInt(m[1]) : 0);
-                  }, 0)} min
-                </p>
-              </div>
-              <span className="text-sm font-medium text-brand-600 ml-4 flex-shrink-0">
-                Start →
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <DemoBriefClient allWorkflows={allWorkflows} accountsData={accountsData} />
     </div>
   );
 }

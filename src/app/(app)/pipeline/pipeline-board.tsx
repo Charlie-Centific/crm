@@ -116,11 +116,9 @@ function StageTotal({ opps }: { opps: Opp[] }) {
 export function PipelineBoard({
   grouped,
   stages,
-  filters,
 }: {
   grouped: Record<string, Opp[]>;
   stages: readonly Stage[];
-  filters?: Record<string, string | undefined>;
 }) {
   return (
     <div className="flex gap-3 overflow-x-auto pb-4">

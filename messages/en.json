@@ -1,0 +1,63 @@
+{
+  "nav": {
+    "runDemo": "Run a Demo",
+    "buildWorkshop": "Build a Workshop",
+    "draftRfp": "Draft an RFP",
+    "moreTools": "More Tools",
+    "backHome": "← Back to Home",
+    "pipeline": "Pipeline",
+    "accounts": "Accounts",
+    "playbooks": "Playbooks",
+    "workflows": "Workflows",
+    "pilots": "Pilots",
+    "import": "Import",
+    "appearance": "Appearance",
+    "language": "Language",
+    "seasonal": "Seasonal",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "home": {
+    "tagline": "What are you working on?",
+    "subtitle": "Choose a task to get started",
+    "moreTools": "More Tools",
+    "footer": "Centific Global Services · Internal Tool",
+    "actions": {
+      "demo": {
+        "label": "Run a Demo",
+        "description": "Step-by-step live guide with talking points, presenter notes, and a progress timer.",
+        "cta": "Open Demo Script"
+      },
+      "workshop": {
+        "label": "Build a Workshop",
+        "description": "Capture attendees, prioritize use cases, and export a branded workshop PDF in minutes.",
+        "cta": "Start Workshop"
+      },
+      "rfp": {
+        "label": "Draft an RFP",
+        "description": "Select response blocks, customize content, and publish a Centific-branded RFP response.",
+        "cta": "Build RFP"
+      }
+    },
+    "tools": {
+      "pipeline": "Pipeline",
+      "accounts": "Accounts",
+      "playbooks": "Playbooks",
+      "workflows": "Workflows",
+      "pilots": "Pilots",
+      "import": "Import"
+    }
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "christmas": "Christmas",
+    "valentine": "Valentine's Day",
+    "lunarNewYear": "Lunar New Year",
+    "seasonal": "Seasonal"
+  },
+  "locale": {
+    "en": "English",
+    "es": "Español"
+  }
+}

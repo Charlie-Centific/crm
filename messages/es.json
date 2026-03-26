@@ -1,0 +1,63 @@
+{
+  "nav": {
+    "runDemo": "Ver Demo",
+    "buildWorkshop": "Crear Taller",
+    "draftRfp": "Redactar RFP",
+    "moreTools": "Más Herramientas",
+    "backHome": "← Inicio",
+    "pipeline": "Pipeline",
+    "accounts": "Cuentas",
+    "playbooks": "Playbooks",
+    "workflows": "Flujos",
+    "pilots": "Pilotos",
+    "import": "Importar",
+    "appearance": "Apariencia",
+    "language": "Idioma",
+    "seasonal": "Temporadas",
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "home": {
+    "tagline": "¿En qué estás trabajando?",
+    "subtitle": "Elige una tarea para comenzar",
+    "moreTools": "Más Herramientas",
+    "footer": "Centific Global Services · Herramienta Interna",
+    "actions": {
+      "demo": {
+        "label": "Ver Demo",
+        "description": "Guía en vivo paso a paso con puntos clave, notas para el presentador y temporizador.",
+        "cta": "Abrir Guía de Demo"
+      },
+      "workshop": {
+        "label": "Crear Taller",
+        "description": "Registra asistentes, prioriza casos de uso y exporta un documento de taller en minutos.",
+        "cta": "Iniciar Taller"
+      },
+      "rfp": {
+        "label": "Redactar RFP",
+        "description": "Selecciona bloques de respuesta, personaliza el contenido y publica una propuesta con la marca Centific.",
+        "cta": "Crear RFP"
+      }
+    },
+    "tools": {
+      "pipeline": "Pipeline",
+      "accounts": "Cuentas",
+      "playbooks": "Playbooks",
+      "workflows": "Flujos",
+      "pilots": "Pilotos",
+      "import": "Importar"
+    }
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Oscuro",
+    "christmas": "Navidad",
+    "valentine": "Día de San Valentín",
+    "lunarNewYear": "Año Nuevo Lunar",
+    "seasonal": "Temporadas"
+  },
+  "locale": {
+    "en": "English",
+    "es": "Español"
+  }
+}

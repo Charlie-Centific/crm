@@ -98,7 +98,8 @@ const STAGE_MAP: Record<string, string> = {
 export function inferStage(raw: string | null | undefined): string {
   if (!raw) return "lead";
   const lower = raw.toLowerCase().trim();
-  for (const [key, stage] of Object.entries(STAGE_MAP)) {
+  // Sort longest key first so multi-word entries ("closed won") beat substrings ("close")
+  for (const [key, stage] of Object.entries(STAGE_MAP).sort((a, b) => b[0].length - a[0].length)) {
     if (lower.includes(key)) return stage;
   }
   return "lead";

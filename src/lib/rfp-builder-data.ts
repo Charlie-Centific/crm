@@ -1,6 +1,98 @@
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type SelectionMode = "single" | "multi";
+export type SectionGroup = "understand" | "solution" | "delivery" | "trust";
+
+export interface SectionGroupMeta {
+  id: SectionGroup;
+  label: string;
+  description: string;
+  color: string;   // Tailwind bg/text color stem, e.g. "violet"
+}
+
+export const SECTION_GROUPS: SectionGroupMeta[] = [
+  { id: "understand", label: "Understand", description: "Scope & objectives",       color: "sky"    },
+  { id: "solution",   label: "Solution",   description: "Architecture, AI & workflows", color: "violet" },
+  { id: "delivery",   label: "Delivery",   description: "Security, impl & support", color: "indigo" },
+  { id: "trust",      label: "Trust",      description: "References & proof points", color: "emerald" },
+];
+
+export interface PartnerMeta {
+  id: string;
+  name: string;
+  type: "oem" | "channel";
+  initials: string;
+  rfpCopy: string;
+}
+
+export const PARTNERS: PartnerMeta[] = [
+  // OEM
+  {
+    id: "dell",
+    name: "Dell Technologies",
+    type: "oem",
+    initials: "DT",
+    rfpCopy:
+      "**Dell Technologies** — VAI™ is validated on Dell PowerEdge server infrastructure and Dell Edge Gateways, providing a hardware-optimized deployment path for agencies requiring on-premises or hybrid deployment. Dell's ProSupport services complement Centific's platform SLA with direct hardware lifecycle support.",
+  },
+  {
+    id: "lenovo",
+    name: "Lenovo",
+    type: "oem",
+    initials: "LN",
+    rfpCopy:
+      "**Lenovo** — Centific's partnership with Lenovo provides validated deployment configurations on Lenovo ThinkEdge edge computing platforms and ThinkSystem servers. Lenovo's Premier Support services and global hardware distribution channels support rapid deployment and in-field replacement at agency-required timelines.",
+  },
+  {
+    id: "nvidia",
+    name: "NVIDIA",
+    type: "oem",
+    initials: "NV",
+    rfpCopy:
+      "**NVIDIA** — VAI™'s computer vision and AI inference workloads are optimized for NVIDIA GPU acceleration across both cloud and edge deployments. NVIDIA Jetson platforms enable high-throughput edge inference at traffic infrastructure endpoints, while NVIDIA A-series and H-series GPUs power centralized model training and analytics.",
+  },
+  {
+    id: "hpe",
+    name: "HPE",
+    type: "oem",
+    initials: "HP",
+    rfpCopy:
+      "**HPE (Hewlett Packard Enterprise)** — Centific supports deployment on HPE ProLiant server platforms with HPE GreenLake hybrid cloud configurations available for agencies requiring elastic, consumption-based infrastructure. HPE Pointnext services provide lifecycle hardware management aligned with agency IT operations.",
+  },
+  // Channel / SI
+  {
+    id: "shi",
+    name: "SHI International",
+    type: "channel",
+    initials: "SH",
+    rfpCopy:
+      "**SHI International** — SHI serves as a procurement and lifecycle management partner, providing streamlined hardware and software acquisition under existing government contract vehicles. SHI's public sector practice reduces procurement timelines and simplifies multi-year licensing management for agency customers.",
+  },
+  {
+    id: "insight",
+    name: "Insight Direct",
+    type: "channel",
+    initials: "IN",
+    rfpCopy:
+      "**Insight Direct** — Insight provides procurement, deployment logistics, and IT asset management services that support rapid agency go-live timelines. Insight's government-focused practice includes NASPO ValuePoint and other cooperative purchasing vehicles that simplify acquisition for state and local agencies.",
+  },
+  {
+    id: "wwt",
+    name: "World Wide Technology",
+    type: "channel",
+    initials: "WW",
+    rfpCopy:
+      "**World Wide Technology (WWT)** — WWT delivers systems integration, infrastructure deployment, and advanced technology advisory services that support large-scale VAI™ deployments. WWT's Advanced Technology Center (ATC) provides proof-of-concept environments for agency evaluators, and WWT's public sector team manages multi-site deployment coordination and infrastructure staging.",
+  },
+  {
+    id: "guidehouse",
+    name: "Guidehouse",
+    type: "channel",
+    initials: "GH",
+    rfpCopy:
+      "**Guidehouse** — Guidehouse provides program management, change management, and public sector consulting services that support agency-side implementation readiness and organizational adoption. For transportation agencies navigating federal funding requirements, Guidehouse's transportation and infrastructure practice supports grant compliance, FHWA reporting alignment, and stakeholder engagement.",
+  },
+];
 
 export interface RFPBlock {
   id: string;
@@ -8,6 +100,7 @@ export interface RFPBlock {
   preview: string;         // 1-2 sentences shown on the selection card
   content: string;         // Full paragraph(s) for the assembled response
   tags?: string[];         // e.g. ["transit", "emergency"]
+  workflowId?: string;     // Links to canonical workflow in DB, e.g. "WF-13-WTHR"
 }
 
 export interface RFPSection {
@@ -17,6 +110,7 @@ export interface RFPSection {
   prompt: string;          // The RFP ask this section answers
   mode: SelectionMode;
   required?: boolean;      // Must have ≥1 selection before BUILD is allowed
+  group: SectionGroup;
   blocks: RFPBlock[];
 }
 
@@ -31,6 +125,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     prompt: "Demonstrate that your team understands the agency's goals, current operational gaps, and what a successful outcome looks like.",
     mode: "single",
     required: true,
+    group: "understand",
     blocks: [
       {
         id: "scope-standard",
@@ -57,6 +152,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     prompt: "Describe the technical architecture of the proposed solution, how components interact, and how it scales.",
     mode: "single",
     required: true,
+    group: "solution",
     blocks: [
       {
         id: "arch-overview",
@@ -83,6 +179,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     prompt: "Describe your AI capabilities, how they reduce operator burden, and how explainability and human oversight are maintained.",
     mode: "single",
     required: true,
+    group: "solution",
     blocks: [
       {
         id: "ai-overview",
@@ -108,6 +205,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Innovative Differentiators",
     prompt: "Describe innovative capabilities or approaches that distinguish your solution from conventional alternatives.",
     mode: "multi",
+    group: "solution",
     blocks: [
       {
         id: "innov-rl-sim",
@@ -147,9 +245,11 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Pre-Built Transportation Workflow Suite",
     prompt: "Describe the automated workflows included in the platform and how they address specific operational scenarios.",
     mode: "multi",
+    group: "solution",
     blocks: [
       {
         id: "wf-weather",
+        workflowId: "WF-13-WTHR",
         label: "WF-13 Highway Weather Alert",
         preview: "RWIS sensor threshold → DMS message → 511 advisory → third-party navigation feeds. 7 steps, 70% confidence, end-to-end in under 75 seconds.",
         content:
@@ -157,6 +257,7 @@ export const RFP_SECTIONS: RFPSection[] = [
       },
       {
         id: "wf-queue",
+        workflowId: "WF-14-TRAFQ",
         label: "WF-14 Traffic Queue Detection",
         preview: "Loop-detector threshold → corridor analysis → queue-warning DMS → 511 update. 6 abort-on-fail steps, 70% confidence.",
         content:
@@ -164,6 +265,7 @@ export const RFP_SECTIONS: RFPSection[] = [
       },
       {
         id: "wf-closure",
+        workflowId: "WF-15-PLNCLS",
         label: "WF-15 Planned Closure",
         preview: "Construction / special-event closure → DMS dispatch → 511 → third-party navigation apps. 6 steps, 70% confidence.",
         content:
@@ -171,6 +273,7 @@ export const RFP_SECTIONS: RFPSection[] = [
       },
       {
         id: "wf-critical",
+        workflowId: "WF-16-CRITINC",
         label: "WF-16 Critical Incident Emergency Broadcast",
         preview: "Wrong-way / hazmat / bridge closure → FEMA IPAWS CAP → 511 → social media within 60 seconds of confirmation. 4 steps, 80% confidence.",
         content:
@@ -178,6 +281,7 @@ export const RFP_SECTIONS: RFPSection[] = [
       },
       {
         id: "wf-camera",
+        workflowId: "WF-17-MLTCOM",
         label: "WF-17 Camera Stream Management",
         preview: "Incident trigger → nearest cameras → TMC video wall reconfiguration → access-tier enforcement. 4 steps, automatic.",
         content:
@@ -185,6 +289,7 @@ export const RFP_SECTIONS: RFPSection[] = [
       },
       {
         id: "wf-flood",
+        workflowId: "WF-18-FRRYFLD",
         label: "WF-18 Ferry & Flood Disruption",
         preview: "Flood-sensor threshold + ferry status → traveler advisories → DMS → 511 → third-party navigation. Purpose-built for coastal and river corridor environments.",
         content:
@@ -192,6 +297,7 @@ export const RFP_SECTIONS: RFPSection[] = [
       },
       {
         id: "wf-tim",
+        workflowId: "WF-19-TRAFINC",
         label: "WF-19 TIM Lifecycle (Full FHWA T0–T4)",
         preview: "Complete 11-step TIM workflow from first detection through incident close — structured incident object created and locked at every phase.",
         content:
@@ -199,6 +305,7 @@ export const RFP_SECTIONS: RFPSection[] = [
       },
       {
         id: "wf-compliance",
+        workflowId: "WF-20-CMPRPT",
         label: "WF-20 DOT Compliance Report",
         preview: "Weekly scheduled: RITIS benchmark pull → TIM metrics aggregation → FHWA-ready narrative report → portal submission. 3 steps, 80% confidence, abort-on-fail.",
         content:
@@ -215,6 +322,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     prompt: "Describe your platform's security certifications, architecture, and approach to protecting sensitive agency data.",
     mode: "single",
     required: true,
+    group: "delivery",
     blocks: [
       {
         id: "security-standard",
@@ -241,6 +349,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     prompt: "Describe your phased implementation approach, coordination cadence, and how you manage risk during deployment.",
     mode: "single",
     required: true,
+    group: "delivery",
     blocks: [
       {
         id: "impl-overview",
@@ -266,6 +375,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Training Program",
     prompt: "Describe your training methodology, delivery format, and how you ensure adoption across user roles with different technical backgrounds.",
     mode: "single",
+    group: "delivery",
     blocks: [
       {
         id: "train-summary",
@@ -291,6 +401,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "Support & Maintenance / SLA",
     prompt: "Describe your support model, uptime commitments, and how you sustain and improve the platform over the contract term.",
     mode: "single",
+    group: "delivery",
     blocks: [
       {
         id: "sla-standard",
@@ -316,6 +427,7 @@ export const RFP_SECTIONS: RFPSection[] = [
     title: "References & Proof of Deployment",
     prompt: "Provide evidence of production deployments and real-world validation of the proposed capabilities.",
     mode: "multi",
+    group: "trust",
     blocks: [
       {
         id: "proof-brownsville",

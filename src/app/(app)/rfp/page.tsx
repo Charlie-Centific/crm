@@ -1,8 +1,13 @@
-import { RFPBuilder } from "./rfp-builder";
+export const dynamic = "force-dynamic";
 
-export default function RFPPage() {
+import { RFPBuilder } from "./rfp-builder";
+import { getAllWorkflows } from "@/lib/workflows";
+
+export default async function RFPPage() {
+  const allWorkflows = await getAllWorkflows();
+
   return (
-    <div className="max-w-5xl">
+    <div>
       {/* Header */}
       <div className="mb-7">
         <p className="text-[10px] font-bold text-brand-500 uppercase tracking-widest mb-1">Content Engine</p>
@@ -13,7 +18,7 @@ export default function RFPPage() {
         </p>
       </div>
 
-      <RFPBuilder />
+      <RFPBuilder allWorkflows={allWorkflows} />
     </div>
   );
 }

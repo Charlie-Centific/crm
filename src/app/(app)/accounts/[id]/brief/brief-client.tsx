@@ -119,7 +119,7 @@ export function BriefClient({ accountId, brief, hasBrief, claudePrompt }: BriefC
       {!hasBrief && !loading && (
         <div className="bg-white border border-gray-200 rounded-xl p-10 text-center text-gray-400">
           <p className="text-sm">No brief generated yet.</p>
-          <p className="text-xs mt-1">Click "Generate Brief" to create a structured pre-call brief from this account's CRM data.</p>
+          <p className="text-xs mt-1">Click &quot;Generate Brief&quot; to create a structured pre-call brief from this account&apos;s CRM data.</p>
         </div>
       )}
     </div>

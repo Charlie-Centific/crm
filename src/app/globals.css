@@ -4,10 +4,177 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────────────
+   THEME SYSTEM
+   All brand/accent colors are CSS custom properties so any theme can swap
+   them without touching component code. Define new themes here only.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Light (default) ─── Violet / Pink ──────────────────────────── */
+:root,
+[data-theme="light"] {
+  --brand-50:  245 243 255;
+  --brand-100: 237 233 254;
+  --brand-200: 221 214 254;
+  --brand-300: 196 181 253;
+  --brand-400: 167 139 250;
+  --brand-500: 139 92  246;
+  --brand-600: 124 58  237;
+  --brand-700: 109 40  217;
+  --brand-800: 91  33  182;
+  --brand-900: 76  29  149;
+  --brand-950: 46  16  101;
+
+  --accent-400: 244 114 182;
+  --accent-500: 236 72  153;
+  --accent-600: 219 39  119;
+
+  /* Surface / text tokens used by global styles below */
+  --color-bg:      249 250 251; /* gray-50  */
+  --color-surface: 255 255 255; /* white    */
+  --color-border:  229 231 235; /* gray-200 */
+  --color-text:    17  24  39;  /* gray-900 */
+  --color-muted:   107 114 128; /* gray-500 */
+}
+
+/* ── Dark ─── Shifted for dark surfaces ─────────────────────────── */
+[data-theme="dark"] {
+  --brand-50:  30  27  75;
+  --brand-100: 46  16  101;
+  --brand-200: 76  29  149;
+  --brand-300: 91  33  182;
+  --brand-400: 109 40  217;
+  --brand-500: 139 92  246;
+  --brand-600: 167 139 250;
+  --brand-700: 196 181 253;
+  --brand-800: 221 214 254;
+  --brand-900: 237 233 254;
+  --brand-950: 245 243 255;
+
+  --accent-400: 236 72  153;
+  --accent-500: 244 114 182;
+  --accent-600: 251 182 206;
+
+  --color-bg:      17  24  39;  /* gray-900 */
+  --color-surface: 31  41  55;  /* gray-800 */
+  --color-border:  55  65  81;  /* gray-700 */
+  --color-text:    243 244 246; /* gray-100 */
+  --color-muted:   156 163 175; /* gray-400 */
+
+  color-scheme: dark;
+}
+
+/* ── Christmas ─── Red / Green ───────────────────────────────────── */
+[data-theme="christmas"] {
+  --brand-50:  254 242 242;
+  --brand-100: 254 226 226;
+  --brand-200: 254 202 202;
+  --brand-300: 252 165 165;
+  --brand-400: 248 113 113;
+  --brand-500: 239 68  68;
+  --brand-600: 220 38  38;
+  --brand-700: 185 28  28;
+  --brand-800: 153 27  27;
+  --brand-900: 127 29  29;
+  --brand-950: 69  10  10;
+
+  --accent-400: 74  222 128;
+  --accent-500: 34  197 94;
+  --accent-600: 22  163 74;
+
+  --color-bg:      249 250 251;
+  --color-surface: 255 255 255;
+  --color-border:  229 231 235;
+  --color-text:    17  24  39;
+  --color-muted:   107 114 128;
+}
+
+/* ── Valentine ─── Rose / Crimson ────────────────────────────────── */
+[data-theme="valentine"] {
+  --brand-50:  255 241 245;
+  --brand-100: 255 228 235;
+  --brand-200: 255 205 220;
+  --brand-300: 255 170 199;
+  --brand-400: 255 130 172;
+  --brand-500: 251 79  132;
+  --brand-600: 236 43  110;
+  --brand-700: 199 21  80;
+  --brand-800: 163 24  72;
+  --brand-900: 135 24  67;
+  --brand-950: 76  5   38;
+
+  --accent-400: 248 113 113;
+  --accent-500: 239 68  68;
+  --accent-600: 220 38  38;
+
+  --color-bg:      249 250 251;
+  --color-surface: 255 255 255;
+  --color-border:  229 231 235;
+  --color-text:    17  24  39;
+  --color-muted:   107 114 128;
+}
+
+/* ── Lunar New Year ─── Festive Orange-Red / Gold ─────────────────── */
+[data-theme="lunar-new-year"] {
+  --brand-50:  255 247 237;
+  --brand-100: 255 237 213;
+  --brand-200: 254 215 170;
+  --brand-300: 253 186 116;
+  --brand-400: 251 146 60;
+  --brand-500: 249 115 22;
+  --brand-600: 234 88  12;
+  --brand-700: 194 65  12;
+  --brand-800: 154 52  18;
+  --brand-900: 124 45  18;
+  --brand-950: 67  20  7;
+
+  --accent-400: 251 191 36;
+  --accent-500: 245 158 11;
+  --accent-600: 217 119 6;
+
+  --color-bg:      249 250 251;
+  --color-surface: 255 255 255;
+  --color-border:  229 231 235;
+  --color-text:    17  24  39;
+  --color-muted:   107 114 128;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BASE STYLES
+   ───────────────────────────────────────────────────────────────────────── */
+
 @layer base {
   html {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  body {
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+  }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   DARK MODE OVERRIDES
+   Tailwind's dark: variants handle most things, but these CSS overrides
+   ensure the most common white/gray surface classes respond automatically
+   to [data-theme="dark"] without needing to touch every component file.
+   ───────────────────────────────────────────────────────────────────────── */
+
+[data-theme="dark"] .bg-white              { background-color: rgb(var(--color-surface)); }
+[data-theme="dark"] .bg-gray-50            { background-color: rgb(var(--color-bg)); }
+[data-theme="dark"] .bg-gray-100           { background-color: rgb(38 48 64); }
+[data-theme="dark"] .border-gray-100       { border-color: rgb(var(--color-border)); }
+[data-theme="dark"] .border-gray-200       { border-color: rgb(var(--color-border)); }
+[data-theme="dark"] .text-gray-900         { color: rgb(var(--color-text)); }
+[data-theme="dark"] .text-gray-800         { color: rgb(229 231 235); }
+[data-theme="dark"] .text-gray-700         { color: rgb(209 213 219); }
+[data-theme="dark"] .text-gray-600         { color: rgb(156 163 175); }
+[data-theme="dark"] .text-gray-500         { color: rgb(var(--color-muted)); }
+[data-theme="dark"] .text-gray-400         { color: rgb(107 114 128); }
+[data-theme="dark"] .hover\:bg-gray-50:hover { background-color: rgb(38 48 64); }
+[data-theme="dark"] .hover\:bg-gray-100:hover { background-color: rgb(45 55 72); }
+[data-theme="dark"] .shadow-md             { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3); }
+[data-theme="dark"] .shadow-xl             { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4); }

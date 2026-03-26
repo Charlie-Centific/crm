@@ -1,6 +1,9 @@
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getPlaybook, ALL_PLAYBOOKS } from "@/lib/playbook-data";
+import { getWorkflowsByIds } from "@/lib/workflows";
 import { PlaybookInteractive } from "./playbook-interactive";
 
 const VERTICAL_COLORS: Record<string, { gradient: string; badge: string }> = {
@@ -21,6 +24,11 @@ export default async function PlaybookDetailPage({
   const { vertical } = await params;
   const playbook = getPlaybook(vertical);
   if (!playbook) notFound();
+
+  const [playbookWorkflows, allWorkflows] = await Promise.all([
+    getWorkflowsByIds(playbook.workflowIds ?? []),
+    import("@/lib/workflows").then((m) => m.getAllWorkflows()),
+  ]);
 
   const colors = VERTICAL_COLORS[vertical] ?? VERTICAL_COLORS["smart-city"];
 
@@ -50,7 +58,7 @@ export default async function PlaybookDetailPage({
       </div>
 
       {/* Interactive playbook */}
-      <PlaybookInteractive playbook={playbook} />
+      <PlaybookInteractive playbook={playbook} workflows={playbookWorkflows} allWorkflows={allWorkflows} />
 
       {/* Footer CTA */}
       <div className="mt-6 flex items-center justify-between px-1">

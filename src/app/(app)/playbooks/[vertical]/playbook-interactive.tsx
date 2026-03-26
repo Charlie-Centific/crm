@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { Playbook, DiscoveryQuestion, PainPoint, Objection, Scenario } from "@/lib/playbook-data";
+import type { Workflow } from "@/lib/workflows";
 import { RFPBuilder } from "@/app/(app)/rfp/rfp-builder";
+import { TagIcon } from "@/lib/tag-icons";
 
-type Tab = "discovery" | "pain-points" | "objections" | "scenarios" | "rfp";
+type Tab = "discovery" | "pain-points" | "objections" | "scenarios" | "rfp" | "workflows";
 
 // ─── Branch state for a discovery question ────────────────────────────────────
 type Branch = "hit" | "miss" | null;
 
 // ─── Top-level shell ──────────────────────────────────────────────────────────
-export function PlaybookInteractive({ playbook }: { playbook: Playbook }) {
+export function PlaybookInteractive({ playbook, workflows = [], allWorkflows = [] }: { playbook: Playbook; workflows?: Workflow[]; allWorkflows?: Workflow[] }) {
   const [tab, setTab] = useState<Tab>("discovery");
 
   const tabs: { id: Tab; label: string; count: number }[] = [
@@ -19,6 +22,7 @@ export function PlaybookInteractive({ playbook }: { playbook: Playbook }) {
     { id: "objections",  label: "Objections",   count: playbook.objections.length },
     { id: "scenarios",   label: "Scenarios",    count: playbook.scenarios.length },
     { id: "rfp",         label: "RFP",          count: playbook.rfp.length },
+    { id: "workflows",   label: "Workflows",    count: workflows.length },
   ];
 
   return (
@@ -55,9 +59,10 @@ export function PlaybookInteractive({ playbook }: { playbook: Playbook }) {
           <p className="text-xs text-gray-400 px-1">
             Select response blocks for each section — the document assembles automatically. Copy when ready.
           </p>
-          <RFPBuilder />
+          <RFPBuilder allWorkflows={allWorkflows} />
         </div>
       )}
+      {tab === "workflows" && <WorkflowsTab workflows={workflows} />}
     </div>
   );
 }
@@ -94,7 +99,7 @@ function QuestionCard({ question: q, index }: { question: DiscoveryQuestion; ind
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-[10px] font-semibold text-brand-500 uppercase tracking-widest mb-1">Ask this</p>
-          <p className="text-sm font-medium text-gray-900 leading-snug">"{q.question}"</p>
+          <p className="text-sm font-medium text-gray-900 leading-snug">&quot;{q.question}&quot;</p>
           {!open && (
             <p className="text-xs text-gray-400 mt-1 line-clamp-1">{q.intent}</p>
           )}
@@ -151,7 +156,7 @@ function QuestionCard({ question: q, index }: { question: DiscoveryQuestion; ind
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
                   <span className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px]">✓</span>
-                  Pain confirmed — here's what to say
+                  Pain confirmed — here&apos;s what to say
                 </span>
                 <button onClick={() => setBranch(null)} className="text-xs text-gray-400 hover:text-gray-600">
                   Reset
@@ -184,7 +189,7 @@ function QuestionCard({ question: q, index }: { question: DiscoveryQuestion; ind
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5 text-xs font-semibold text-amber-700">
                   <span className="w-4 h-4 rounded-full bg-amber-400 text-white flex items-center justify-center text-[10px]">→</span>
-                  Pain not there — here's how to pivot
+                  Pain not there — here&apos;s how to pivot
                 </span>
                 <button onClick={() => setBranch(null)} className="text-xs text-gray-400 hover:text-gray-600">
                   Reset
@@ -203,7 +208,7 @@ function QuestionCard({ question: q, index }: { question: DiscoveryQuestion; ind
               />
               <div className="p-3 rounded-lg bg-amber-50 border border-amber-200">
                 <p className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-1.5">Follow-on probe</p>
-                <p className="text-sm text-amber-900 font-medium">"{q.whenMiss.probe}"</p>
+                <p className="text-sm text-amber-900 font-medium">&quot;{q.whenMiss.probe}&quot;</p>
               </div>
             </div>
           )}
@@ -299,7 +304,7 @@ function ObjectionsTab({ objections }: { objections: Objection[] }) {
             onClick={() => setOpen(open === o.id ? null : o.id)}
           >
             <span className="flex-shrink-0 w-5 h-5 rounded-full bg-red-100 text-red-500 text-xs font-bold flex items-center justify-center mt-0.5">!</span>
-            <p className="text-sm font-medium text-gray-800 flex-1">"{o.objection}"</p>
+            <p className="text-sm font-medium text-gray-800 flex-1">&quot;{o.objection}&quot;</p>
             <svg
               viewBox="0 0 20 20"
               className={`w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5 transition-transform ${open === o.id ? "rotate-180" : ""}`}
@@ -401,6 +406,71 @@ function ResponseBlock({
     <div className={`p-3 rounded-lg border ${styles.bg} ${styles.border}`}>
       <p className={`text-[10px] font-bold uppercase tracking-widest mb-1.5 ${styles.label}`}>{label}</p>
       <p className={`leading-relaxed ${styles.text} ${large ? "text-sm" : "text-xs"}`}>{content}</p>
+    </div>
+  );
+}
+
+// ─── Workflows Tab ─────────────────────────────────────────────────────────────
+function WorkflowsTab({ workflows }: { workflows: Workflow[] }) {
+  if (workflows.length === 0) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
+        <p className="text-gray-400 text-sm">No workflows linked yet.</p>
+        <Link href="/workflows" className="mt-2 inline-block text-sm text-brand-600 hover:underline">
+          Browse all workflows →
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <p className="text-xs text-gray-400 px-1">
+        AI/CV workflows relevant to this vertical.{" "}
+        <Link href="/workflows" className="text-brand-500 hover:underline">View all workflows →</Link>
+      </p>
+      <div className="grid grid-cols-1 gap-3">
+        {workflows.map((wf) => (
+          <Link
+            key={wf.id}
+            href={`/workflows/${wf.id}`}
+            className="group block bg-white border border-gray-200 rounded-xl p-4 hover:border-brand-300 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 flex-shrink-0 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center">
+                {(wf.verticalTags[0] ?? wf.threatTags[0]) && (
+                  <TagIcon tag={wf.verticalTags[0] ?? wf.threatTags[0]} size={16} className="text-gray-400" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="text-[10px] font-mono text-gray-400">{wf.id}</span>
+                  {wf.isCustom && (
+                    <span className="text-[10px] bg-brand-50 text-brand-600 font-medium px-1.5 py-0.5 rounded">Custom</span>
+                  )}
+                </div>
+                <p className="text-sm font-semibold text-gray-900 group-hover:text-brand-700 transition-colors">
+                  {wf.name}
+                </p>
+                {wf.description && (
+                  <p className="text-xs text-gray-500 line-clamp-1 leading-relaxed mt-0.5">{wf.description}</p>
+                )}
+              </div>
+              <span className="text-gray-300 group-hover:text-brand-400 text-sm flex-shrink-0 mt-1">→</span>
+            </div>
+            {(wf.verticalTags.length > 0 || wf.threatTags.length > 0) && (
+              <div className="flex flex-wrap gap-1 mt-2.5">
+                {[...wf.verticalTags.slice(0, 3), ...wf.threatTags.slice(0, 2)].map((t) => (
+                  <span key={t} className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500">
+                    <TagIcon tag={t} size={9} className="text-gray-400" />
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

@@ -135,11 +135,30 @@ export const workshopAttendees = sqliteTable("workshop_attendees", {
   isProspect: integer("is_prospect", { mode: "boolean" }).default(true),
 });
 
+// ─── Workflows ────────────────────────────────────────────────────────────────
+// Canonical AI/CV workflow dictionary (seeded from data/raw/workflows.md).
+// IDs use the "WF-##-CODE" format from the markdown (e.g. "WF-13-WTHR").
+
+export const workflows = sqliteTable("workflows", {
+  id: text("id").primaryKey(), // e.g. "WF-13-WTHR"
+  name: text("name").notNull(),
+  description: text("description"),
+  audience: text("audience"),          // free-text audience line from markdown
+  users: text("users"),                // free-text users line from markdown
+  useCasesJson: text("use_cases_json"),// JSON array of use-case strings
+  verticalTags: text("vertical_tags"), // JSON array of vertical tag slugs
+  threatTags: text("threat_tags"),     // JSON array of threat tag slugs
+  isCustom: integer("is_custom", { mode: "boolean" }).default(false),
+  createdAt: text("created_at").default(sql`(datetime('now'))`),
+  updatedAt: text("updated_at").default(sql`(datetime('now'))`),
+});
+
 // ─── Use Cases ────────────────────────────────────────────────────────────────
 
 export const useCases = sqliteTable("use_cases", {
   id: text("id").primaryKey(),
   workshopId: text("workshop_id").references(() => workshops.id, { onDelete: "cascade" }).notNull(),
+  workflowId: text("workflow_id").references(() => workflows.id, { onDelete: "set null" }),
   name: text("name").notNull(),
   description: text("description"),
   agentType: text("agent_type"),
@@ -235,6 +254,50 @@ export const preCallBriefs = sqliteTable("pre_call_briefs", {
   editedAt: text("edited_at"),
 });
 
+// ─── RFP Sources ──────────────────────────────────────────────────────────────
+// Configurable connectors that pull/push RFP opportunities into the platform.
+// Credentials are stored as JSON (encrypt in v2 before production use).
+
+export const rfpSources = sqliteTable("rfp_sources", {
+  id: text("id").primaryKey(),
+  type: text("type").notNull(), // sam_gov|sbir|govwin|email|upload|webhook|rss
+  label: text("label").notNull(),
+  enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
+  credentials: text("credentials").default("{}"), // JSON — type-specific auth fields
+  filters: text("filters").notNull().default("{}"), // JSON — keywords, naics, agencies, etc.
+  schedule: text("schedule").notNull().default("daily"), // realtime|hourly|daily|weekly
+  lastSyncAt: text("last_sync_at"),
+  lastSyncCount: integer("last_sync_count"),
+  status: text("status").notNull().default("active"), // active|paused|error
+  statusMessage: text("status_message"),
+  isMock: integer("is_mock", { mode: "boolean" }).notNull().default(true),
+  createdAt: text("created_at").notNull().default(sql`(datetime('now'))`),
+  updatedAt: text("updated_at").notNull().default(sql`(datetime('now'))`),
+});
+
+// ─── RFP Listings ─────────────────────────────────────────────────────────────
+// Actual RFP/solicitation records fetched from live or mock sources.
+// Unique per (source_id, external_id) so re-syncing is idempotent.
+
+export const rfpListings = sqliteTable("rfp_listings", {
+  id:          text("id").primaryKey(),
+  sourceId:    text("source_id").notNull().references(() => rfpSources.id, { onDelete: "cascade" }),
+  externalId:  text("external_id").notNull(),        // ID from the upstream system
+  title:       text("title").notNull(),
+  description: text("description"),
+  agency:      text("agency"),
+  naicsCode:   text("naics_code"),
+  setAside:    text("set_aside"),
+  postedDate:  text("posted_date"),
+  dueDate:     text("due_date"),
+  valueMin:    real("value_min"),
+  valueMax:    real("value_max"),
+  url:         text("url"),
+  sourceType:  text("source_type").notNull(),        // denormalised for quick queries
+  rawData:     text("raw_data"),                     // full JSON from upstream
+  fetchedAt:   text("fetched_at").notNull().default(sql`(datetime('now'))`),
+});
+
 // ─── Relations ────────────────────────────────────────────────────────────────
 
 export const accountRelations = relations(accounts, ({ many }) => ({
@@ -260,7 +323,12 @@ export const workshopRelations = relations(workshops, ({ one, many }) => ({
   valueReports: many(valueReports),
 }));
 
+export const workflowRelations = relations(workflows, ({ many }) => ({
+  useCases: many(useCases),
+}));
+
 export const useCaseRelations = relations(useCases, ({ one }) => ({
   workshop: one(workshops, { fields: [useCases.workshopId], references: [workshops.id] }),
   roiModel: one(roiModels),
+  workflow: one(workflows, { fields: [useCases.workflowId], references: [workflows.id] }),
 }));

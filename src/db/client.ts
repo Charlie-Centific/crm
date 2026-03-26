@@ -134,9 +134,24 @@ export function initDb() {
       is_prospect INTEGER DEFAULT 1
     );
 
+    CREATE TABLE IF NOT EXISTS workflows (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      description TEXT,
+      audience TEXT,
+      users TEXT,
+      use_cases_json TEXT,
+      vertical_tags TEXT,
+      threat_tags TEXT,
+      is_custom INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    );
+
     CREATE TABLE IF NOT EXISTS use_cases (
       id TEXT PRIMARY KEY,
       workshop_id TEXT NOT NULL REFERENCES workshops(id) ON DELETE CASCADE,
+      workflow_id TEXT REFERENCES workflows(id) ON DELETE SET NULL,
       name TEXT NOT NULL,
       description TEXT,
       agent_type TEXT,
@@ -221,6 +236,80 @@ export function initDb() {
       generated_at TEXT DEFAULT (datetime('now')),
       edited_at TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS rfp_sources (
+      id TEXT PRIMARY KEY,
+      type TEXT NOT NULL,
+      label TEXT NOT NULL,
+      enabled INTEGER NOT NULL DEFAULT 1,
+      credentials TEXT DEFAULT '{}',
+      filters TEXT NOT NULL DEFAULT '{}',
+      schedule TEXT NOT NULL DEFAULT 'daily',
+      last_sync_at TEXT,
+      last_sync_count INTEGER,
+      status TEXT NOT NULL DEFAULT 'active',
+      status_message TEXT,
+      is_mock INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS rfp_listings (
+      id TEXT PRIMARY KEY,
+      source_id TEXT NOT NULL REFERENCES rfp_sources(id) ON DELETE CASCADE,
+      external_id TEXT NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT,
+      agency TEXT,
+      naics_code TEXT,
+      set_aside TEXT,
+      posted_date TEXT,
+      due_date TEXT,
+      value_min REAL,
+      value_max REAL,
+      url TEXT,
+      source_type TEXT NOT NULL,
+      raw_data TEXT,
+      fetched_at TEXT NOT NULL DEFAULT (datetime('now')),
+      UNIQUE(source_id, external_id)
+    );
+  `);
+
+  // ── Seed mock RFP sources (INSERT OR IGNORE — safe to re-run) ─────────────
+  sqlite.exec(`
+    INSERT OR IGNORE INTO rfp_sources
+      (id, type, label, enabled, credentials, filters, schedule, last_sync_at, last_sync_count, status, is_mock, created_at, updated_at)
+    VALUES
+      (
+        'src-001', 'sam_gov', 'SAM.gov — Federal Opportunities', 1,
+        '{"apiKey":"MOCK_KEY_SAMGOV_****"}',
+        '{"keywords":["computer vision","agentic AI","intelligent video","machine learning"],"naicsCodes":["541511","541519","541715"],"agencies":["DoD","DHS","DOT"],"setAsides":[],"valueMin":null,"valueMax":null}',
+        'daily', datetime('now', '-2 hours'), 47, 'active', 1, datetime('now'), datetime('now')
+      ),
+      (
+        'src-002', 'sbir', 'SBIR.gov — R&D Grants', 1,
+        '{}',
+        '{"keywords":["computer vision","autonomous systems","agentic","real-time video analytics"],"naicsCodes":["541715"],"agencies":["NSF","DARPA","NIH","DoD"],"setAsides":[],"valueMin":null,"valueMax":500000}',
+        'weekly', datetime('now', '-3 days'), 12, 'active', 1, datetime('now'), datetime('now')
+      ),
+      (
+        'src-003', 'email', 'Sales Team Email Ingest', 1,
+        '{"emailAddress":"rfp@centific.com"}',
+        '{"keywords":[],"naicsCodes":[],"agencies":[],"setAsides":[],"valueMin":null,"valueMax":null}',
+        'realtime', datetime('now', '-45 minutes'), 3, 'active', 1, datetime('now'), datetime('now')
+      ),
+      (
+        'src-004', 'govwin', 'GovWin IQ', 0,
+        '{}',
+        '{"keywords":["computer vision","AI","surveillance","smart city"],"naicsCodes":["541511","541519"],"agencies":[],"setAsides":["8a","WOSB"],"valueMin":100000,"valueMax":null}',
+        'daily', null, null, 'paused', 1, datetime('now'), datetime('now')
+      ),
+      (
+        'src-005', 'rss', 'California CALOPPS Feed', 1,
+        '{"feedUrl":"https://www.calopps.org/feeds/rss.xml"}',
+        '{"keywords":["technology","AI","computer vision","surveillance"],"naicsCodes":[],"agencies":[],"setAsides":[],"valueMin":null,"valueMax":null}',
+        'daily', datetime('now', '-6 hours'), 5, 'active', 1, datetime('now'), datetime('now')
+      );
   `);
 }
 

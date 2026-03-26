@@ -119,17 +119,6 @@ export default async function PipelinePage({ searchParams }: { searchParams: Pro
   );
 }
 
-function buildHref(
-  current: SearchParams,
-  param: string,
-  value: string | undefined
-): string {
-  const next = { ...current, [param]: value };
-  if (!value) delete next[param as keyof SearchParams];
-  const qs = new URLSearchParams(next as Record<string, string>).toString();
-  return `/pipeline${qs ? `?${qs}` : ""}`;
-}
-
 function FilterChip({
   label,
   title,

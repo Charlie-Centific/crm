@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db/client";
-import { accounts, opportunities } from "@/db/schema";
-import { eq, ilike, or } from "drizzle-orm";
+import { accounts } from "@/db/schema";
+import { ilike, or } from "drizzle-orm";
 
 /**
  * GET /api/accounts
@@ -11,7 +11,6 @@ import { eq, ilike, or } from "drizzle-orm";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get("q");
-  const vertical = searchParams.get("vertical");
 
   try {
     const rows = await db

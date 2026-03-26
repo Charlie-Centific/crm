@@ -8,7 +8,6 @@ import Link from "next/link";
 import {
   VERTICAL_LABELS,
   STAGE_LABELS,
-  SOURCE_LABELS,
   formatCurrency,
   relativeTime,
   daysInStage,

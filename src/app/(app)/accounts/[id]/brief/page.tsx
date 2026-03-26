@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/db/client";
-import { accounts, contacts, opportunities, activities, preCallBriefs } from "@/db/schema";
+import { accounts, preCallBriefs } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -18,12 +18,12 @@ export default async function BriefPage({
   const [account] = await db.select().from(accounts).where(eq(accounts.id, id)).limit(1);
   if (!account) notFound();
 
-  const [recentBriefs, accountContacts, accountOpps, recentActivities] = await Promise.all([
-    db.select().from(preCallBriefs).where(eq(preCallBriefs.accountId, id)).orderBy(desc(preCallBriefs.generatedAt)).limit(5),
-    db.select().from(contacts).where(eq(contacts.accountId, id)).orderBy(contacts.isPrimary),
-    db.select().from(opportunities).where(eq(opportunities.accountId, id)).orderBy(desc(opportunities.updatedAt)),
-    db.select().from(activities).where(eq(activities.accountId, id)).orderBy(desc(activities.occurredAt)).limit(10),
-  ]);
+  const recentBriefs = await db
+    .select()
+    .from(preCallBriefs)
+    .where(eq(preCallBriefs.accountId, id))
+    .orderBy(desc(preCallBriefs.generatedAt))
+    .limit(5);
 
   const latestBrief = recentBriefs[0] ?? null;
   const claudePrompt = latestBrief

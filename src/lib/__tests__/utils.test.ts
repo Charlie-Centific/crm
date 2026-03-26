@@ -1,5 +1,32 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { formatCurrency, daysInStage, relativeTime, VERTICAL_LABELS, STAGE_LABELS, SOURCE_LABELS } from "../utils";
+import { cn, formatCurrency, daysInStage, relativeTime, VERTICAL_LABELS, STAGE_LABELS, SOURCE_LABELS } from "../utils";
+
+describe("cn", () => {
+  it("returns a string", () => {
+    expect(typeof cn("foo", "bar")).toBe("string");
+  });
+
+  it("joins multiple class strings", () => {
+    expect(cn("px-4", "py-2")).toBe("px-4 py-2");
+  });
+
+  it("omits falsy values", () => {
+    expect(cn("base", false && "hidden", undefined, null as unknown as string, "visible")).toBe("base visible");
+  });
+
+  it("resolves tailwind conflicts (last wins)", () => {
+    // twMerge: later p-4 overrides p-2
+    expect(cn("p-2", "p-4")).toBe("p-4");
+  });
+
+  it("supports conditional classes via object syntax", () => {
+    expect(cn({ "font-bold": true, "font-normal": false })).toBe("font-bold");
+  });
+
+  it("returns empty string for no args", () => {
+    expect(cn()).toBe("");
+  });
+});
 
 describe("formatCurrency", () => {
   it("formats a number correctly", () => {
@@ -60,6 +87,15 @@ describe("daysInStage", () => {
   it("accepts string ISO date", () => {
     expect(daysInStage("2026-03-15")).toBeGreaterThanOrEqual(9);
   });
+
+  it("returns a negative or 0 for a future date", () => {
+    // stage_changed_at in the future means just entered (shouldn't happen in prod, but guard)
+    expect(daysInStage("2026-03-26T12:00:00Z")).toBeLessThanOrEqual(0);
+  });
+
+  it("returns a large number for dates far in the past", () => {
+    expect(daysInStage("2025-01-01T00:00:00Z")).toBeGreaterThan(80);
+  });
 });
 
 describe("relativeTime", () => {
@@ -85,6 +121,17 @@ describe("relativeTime", () => {
   it("mentions days ago for a date in the past", () => {
     const result = relativeTime("2026-03-20T12:00:00Z");
     expect(result).toMatch(/ago/);
+  });
+
+  it("returns 'in ...' for a future date", () => {
+    const result = relativeTime("2026-04-10T12:00:00Z");
+    expect(result).toMatch(/^in /);
+  });
+
+  it("returns a non-empty string for a Date object", () => {
+    const result = relativeTime(new Date("2026-03-24T12:00:00Z"));
+    expect(typeof result).toBe("string");
+    expect(result.length).toBeGreaterThan(0);
   });
 });
 
