@@ -1,4 +1,4 @@
-name: Trigger deploy on ai-verity/vaisalesUI
+name: Mirror → ai-verity/vaisalesUI
 
 on:
   push:
@@ -6,17 +6,19 @@ on:
       - charlie
 
 jobs:
-  trigger-deploy:
-    name: Dispatch deploy-charlie.yml
+  mirror:
+    name: Push code + DB to ai-verity/vaisalesUI:charlie
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger workflow_dispatch on ai-verity/vaisalesUI
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to ai-verity/vaisalesUI:charlie
         run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.AIVERITY_PAT }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/ai-verity/vaisalesUI/actions/workflows/deploy-charlie.yml/dispatches \
-            -d '{"ref":"main"}' \
-            --fail-with-body
+          git remote add mirror https://x-access-token:${{ secrets.AIVERITY_PAT }}@github.com/ai-verity/vaisalesUI.git
+          git push mirror HEAD:charlie --force
+        env:
+          GIT_TERMINAL_PROMPT: "0"
