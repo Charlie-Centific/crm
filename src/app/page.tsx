@@ -17,8 +17,17 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour >= 5  && hour < 12) return "Good morning";
+  if (hour >= 12 && hour < 17) return "Good afternoon";
+  if (hour >= 17 && hour < 21) return "Good evening";
+  return "Working late";
+}
+
 export default async function Home() {
   const t = await getTranslations("home");
+  const greeting = getGreeting();
 
   const PRIMARY_ACTIONS = [
     {
@@ -97,8 +106,8 @@ export default async function Home() {
 
         {/* Tagline */}
         <div className="text-center mb-10 sm:mb-14">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3">
-            Centific · VisionAI Sales Platform
+          <p className="text-base sm:text-lg font-semibold text-gray-500 mb-1">
+            {greeting} —
           </p>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight mb-3">
             {t("tagline")}
