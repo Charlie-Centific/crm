@@ -87,7 +87,7 @@ export default async function Home() {
     <div
       className="min-h-screen flex flex-col bg-white"
       style={{
-        backgroundImage: "radial-gradient(circle, #d1d5db 1px, transparent 1px)",
+        backgroundImage: "radial-gradient(circle, rgba(156,163,175,0.25) 1px, transparent 1px)",
         backgroundSize: "22px 22px",
       }}
     >
@@ -106,31 +106,33 @@ export default async function Home() {
           <p className="text-sm sm:text-base text-gray-400">{t("subtitle")}</p>
         </div>
 
-        {/* Primary action cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 w-full max-w-6xl mb-10">
-          {PRIMARY_ACTIONS.map(({ href, label, tagline, Icon, border, glow, iconColor, arrowColor }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`group flex flex-col bg-slate-700 border-2 ${border} rounded-2xl p-7 hover:shadow-2xl ${glow} hover:-translate-y-1 transition-all duration-200`}
-            >
-              <Icon size={36} className={`${iconColor} mb-6 flex-shrink-0`} />
+        {/* Primary action cards — grouped panel */}
+        <div className="w-full max-w-6xl mb-10 bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-3xl p-3 shadow-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+            {PRIMARY_ACTIONS.map(({ href, label, tagline, Icon, border, glow, iconColor, arrowColor }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`group flex flex-col bg-slate-700 border-2 ${border} rounded-2xl p-6 hover:shadow-2xl ${glow} hover:-translate-y-0.5 hover:bg-slate-650 transition-all duration-200`}
+              >
+                <Icon size={34} className={`${iconColor} mb-5 flex-shrink-0`} />
 
-              <p className="text-base font-bold text-white leading-tight mb-2">
-                {label}
-              </p>
-              <p className="text-xs text-slate-300 leading-relaxed flex-1">
-                {tagline}
-              </p>
+                <p className="text-base font-bold text-white leading-tight mb-2">
+                  {label}
+                </p>
+                <p className="text-xs text-slate-400 leading-relaxed flex-1">
+                  {tagline}
+                </p>
 
-              <div className="flex justify-end mt-6">
-                <ArrowRight
-                  size={16}
-                  className={`text-slate-500 ${arrowColor} group-hover:translate-x-1 transition-all duration-150`}
-                />
-              </div>
-            </Link>
-          ))}
+                <div className="flex justify-end mt-5">
+                  <ArrowRight
+                    size={15}
+                    className={`text-slate-500 ${arrowColor} group-hover:translate-x-1 transition-all duration-150`}
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
 
         {/* Secondary tools */}
